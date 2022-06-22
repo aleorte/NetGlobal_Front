@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControlLabel,Checkbox } from '../../../styles/material';
+import { FormControlLabel,Checkbox } from '../../styles/material';
 
 const CheckBoxStyled = () => {
     return ( 

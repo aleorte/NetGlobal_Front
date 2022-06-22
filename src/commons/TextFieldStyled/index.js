@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, InputAdornment } from "../../../styles/material";
+import { TextField,InputAdornment } from "../../styles/material";
 
 const TextFieldStyled = ({ adornment, ...props }) => {
   return (

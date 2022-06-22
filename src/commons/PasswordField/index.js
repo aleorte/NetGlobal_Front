@@ -1,5 +1,14 @@
 import React,{useState} from "react";
-import {TextField,InputAdornment,IconButton,VisibilityOff,Visibility,LockIcon} from '../../../styles/material'
+import {
+  TextField,
+  InputAdornment,
+} from '../../styles/material'
+import {
+  IconButton,
+  VisibilityOff,
+  Visibility,
+  LockIcon
+} from '../../styles/materialIcons'
 
 const PasswordField = () => {
 

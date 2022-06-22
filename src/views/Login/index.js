@@ -1,16 +1,10 @@
 import React from "react";
 import {
-  Avatar,
-  Button,
   Paper,
-  Box,
-  Grid,
-  LockOutlinedIcon,
-  Typography,
-  EmailIcon,
+  Grid
 } from "../../styles/material";
 import { LoginImage } from "./loginStyles";
-import LoginForm from "../../components/organism/LoginForm";
+import LoginForm from "../../components/LoginForm";
 
 export default function Login() {
   
