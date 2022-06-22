@@ -37,22 +37,19 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-const StepperBody = ({activeStep,steps,isStepSkipped}) => {
+const StepperBody = ({activeStep,steps}) => {
     return ( 
         <Stepper activeStep={activeStep} connector={<StepConnectorStyled />}>
-            {steps.map((label, index) => {
+            {steps.map((e, index) => {
               const stepProps = {};
               const labelProps = {};
-              if (isStepSkipped(index)) {
-                stepProps.completed = false;
-              }
               return (
-                <Step key={label} {...stepProps}>
+                <Step key={e.label} {...stepProps}>
                   <StepLabel
                     StepIconComponent={ColorlibStepIcon}
                     {...labelProps}
                   >
-                    {label}
+                    {e.label}
                   </StepLabel>
                 </Step>
               );
