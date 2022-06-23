@@ -5,26 +5,12 @@ import { Box,Grid, Typography } from '../../styles/material'
 import TextFieldStyled from "../../commons/TextFieldStyled";
 import PasswordField from '../../commons/PasswordField'
 import { PinInput } from 'react-input-pin-code';
-import { motion } from 'framer-motion'
 
 const Stepper = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [pinValues, setPinValues] = React.useState(['', '', '','']);
   const [isCorrect,setIsCorrect] = React.useState("")
-
-  const pathVariants = {
-    hidden:{
-      height:0,
-    },
-    visible:{
-      height:80,
-      transition:{
-        duration:2,
-        ease: "easeInOut"
-      }
-    }
-  }
 
   const verifyCode = ()=>{
     console.log(pinValues.join(""))
@@ -47,14 +33,6 @@ const Stepper = () => {
     return(
       <>
         <TextFieldStyled label="Email Address" name="email"/>
-        <motion.svg height="200" width="200" initial="hidden" animate="visible">
-          <motion.rect variants={{hidden:{height:0,},visible:{height:80,transition:{duration:2,ease: "easeInOut"}}}} x="0" y="100"  width="30" stroke="black" transform="rotate(180 15,140)"/>
-          <motion.rect variants={{hidden:{height:0,},visible:{height:100,transition:{duration:2,ease: "easeInOut"}}}} x="35" y="80" width="30" height="90" stroke="black" transform="rotate(180 50,130)"/>
-          <motion.rect variants={{hidden:{height:0,},visible:{height:120,transition:{duration:2,ease: "easeInOut"}}}} x="70" y="60" width="30" height="90" stroke="black" transform="rotate(180 85,120)"/>
-          <motion.rect variants={{hidden:{height:0,},visible:{height:140,transition:{duration:2,ease: "easeInOut"}}}} x="105" y="40" width="30" height="90" stroke="black" transform="rotate(180 120,110)"/>
-          <polygon points="0,150 70,183 0,183" fill="white"/>
-          <polygon points="65,183 145,155 145,183" fill="white"/>
-        </motion.svg>
       </>
     )
   }

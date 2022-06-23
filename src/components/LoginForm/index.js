@@ -2,7 +2,6 @@ import React from "react";
 import{
   Grid,
   Box,
-  Avatar,
   Button,
   Link,
   Typography
@@ -11,6 +10,8 @@ import { EmailIcon,LockOutlinedIcon } from '../../styles/materialIcons'
 import TextFieldStyled from "../../commons/TextFieldStyled";
 import PasswordField from "../../commons/PasswordField";
 import CheckBoxStyled from "../../commons/CheckBoxStyled";
+import Logo from "../../assets/logo";
+import { motion } from 'framer-motion'
 
 const LoginOptions = () => {
     return (
@@ -18,11 +19,6 @@ const LoginOptions = () => {
         <Grid item xs>
           <Link href="#" variant="body2">
             Forgot password?
-          </Link>
-        </Grid>
-        <Grid item md={12} xl={5}>
-          <Link href="#" variant="body2">
-            {"Don't have an account? Sign Up"}
           </Link>
         </Grid>
       </Grid>
@@ -45,7 +41,17 @@ const Copyright = () => {
         {"."}
       </Typography>
     );
-  };
+};
+
+const loginVariants = {
+  hidden:{
+    opacity:0
+  },
+  visible:{
+    opacity:1,
+    transition:{duration:3,ease: "easeInOut"}
+  }
+}
 
 
 const LoginForm = () => {
@@ -59,7 +65,6 @@ const LoginForm = () => {
   };
 
   return (
-    <Grid item xs={12} sm={8} md={6} square>
       <Box
         sx={{
           my: 8,
@@ -69,9 +74,8 @@ const LoginForm = () => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
+          <Logo/>
+        <motion.div variants={loginVariants} initial="hidden" animate="visible">
         <Box component="form" noValidate onSubmit={handleSubmit}>
           <TextFieldStyled
             name="email"
@@ -89,8 +93,8 @@ const LoginForm = () => {
           <LoginOptions />
           <Copyright />
         </Box>
+        </motion.div>
       </Box>
-    </Grid>
   );
 };
 
