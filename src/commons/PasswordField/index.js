@@ -10,19 +10,16 @@ import {
   LockIcon
 } from '../../styles/materialIcons'
 
-const PasswordField = () => {
+const PasswordField = (props) => {
 
   const [textVisibility,settextVisibility] = useState(false)
 
   return (
     <TextField
+      {...props}
       margin="normal"
-      required
       fullWidth
-      name="password"
-      label="Password"
       type={textVisibility ? 'text' : 'password'}
-      id="password"
       autoComplete="current-password"
       InputProps={{
         startAdornment: (

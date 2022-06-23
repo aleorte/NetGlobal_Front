@@ -6,7 +6,6 @@ const TextFieldStyled = ({ adornment, ...props }) => {
     <TextField
       {...props}
       margin="normal"
-      required
       fullWidth
       autoComplete="off"
       autoFocus

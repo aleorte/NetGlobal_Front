@@ -3,6 +3,7 @@ import StepperBody from "./StepperBody";
 import StepperActions from "./StepperActions";
 import { Box,Grid, Typography } from '../../styles/material'
 import TextFieldStyled from "../../commons/TextFieldStyled";
+import PasswordField from '../../commons/PasswordField'
 import { PinInput } from 'react-input-pin-code';
 import { motion } from 'framer-motion'
 
@@ -47,8 +48,6 @@ const Stepper = () => {
       <>
         <TextFieldStyled label="Email Address" name="email"/>
         <motion.svg height="200" width="200" initial="hidden" animate="visible">
-          {/* <motion.polygon variants={pathVariants} points="15,40 15,120 35,130 35,40" stroke="black"/>
-          <motion.polygon variants={pathVariants} points="40,15 40,134 60,144 60,15" stroke="black"/> */}
           <motion.rect variants={{hidden:{height:0,},visible:{height:80,transition:{duration:2,ease: "easeInOut"}}}} x="0" y="100"  width="30" stroke="black" transform="rotate(180 15,140)"/>
           <motion.rect variants={{hidden:{height:0,},visible:{height:100,transition:{duration:2,ease: "easeInOut"}}}} x="35" y="80" width="30" height="90" stroke="black" transform="rotate(180 50,130)"/>
           <motion.rect variants={{hidden:{height:0,},visible:{height:120,transition:{duration:2,ease: "easeInOut"}}}} x="70" y="60" width="30" height="90" stroke="black" transform="rotate(180 85,120)"/>
@@ -62,7 +61,7 @@ const Stepper = () => {
 
   const StepTwo = ()=>{
     return(
-        <PinInput
+      <PinInput
         values={pinValues}
         size="lg"
         onChange={(value, index, values) => setPinValues(values)}
@@ -70,18 +69,29 @@ const Stepper = () => {
         inputClassName="correct"
         showState={false}
         onComplete = {()=>{verifyCode()}}
-        />
+      />
     )
   }
 
   const StepThree = ()=>{
-
+    return(
+      <>
+        <PasswordField 
+          name="password"
+          label="Password"
+        />
+        <PasswordField
+          name="confirm_password"
+          label="Confirm Password"
+        />
+      </>
+    )
   }
 
   const steps = [
     {label:"Insert email account",element:<StepOne/>,msg:"Please, enter your email and a notification will be sent to you"},
     {label:"Copy email code",element:<StepTwo/>,msg:"Insert the code"},
-    {label:"Create new password",element:<StepOne/>,msg:"Confirm new password"},
+    {label:"Create new password",element:<StepThree/>,msg:"Confirm new password"},
   ];
 
     return ( 

@@ -78,7 +78,10 @@ const LoginForm = () => {
             label="Email Address"
             adornment={<EmailIcon color="primary" />}
           />
-          <PasswordField />
+          <PasswordField 
+            name="password"
+            label="Password"
+          />
           <CheckBoxStyled />
           <Button type="submit" fullWidth variant="contained" sx={{ my: 3 }}>
             Sign In
