@@ -17,7 +17,6 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
         </Routes>
-    
       </ThemeProvider>
     </Provider>
   );

@@ -10,6 +10,7 @@ export default function RecoverPassword() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid
+        elevation={6}
         item
         height="700px"
         mx="auto"
@@ -18,7 +19,6 @@ export default function RecoverPassword() {
         xs={12}
         md={7}
         component={Paper}
-        elevation={6}
       >
         <Stepper/>
       </Grid>
