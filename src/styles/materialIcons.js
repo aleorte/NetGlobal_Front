@@ -5,3 +5,5 @@ export { default as IconButton } from "@mui/material/IconButton";
 export { default as Visibility } from "@mui/icons-material/Visibility";
 export { default as VisibilityOff } from "@mui/icons-material/VisibilityOff";
 export { default as FiberPinIcon } from "@mui/icons-material/FiberPin";
+export { default as KeyboardArrowRight } from "@mui/icons-material/KeyboardArrowRight";
+export { default as KeyboardArrowLeft } from "@mui/icons-material/KeyboardArrowLeft";

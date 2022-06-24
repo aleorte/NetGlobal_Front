@@ -1,8 +1,8 @@
-import {configStore} from "@reduxjs/toolkit"
+import {configureStore} from "@reduxjs/toolkit"
 import logger from "redux-logger"
 import userReducer from "./user"
 
-const store=configStore({
+const store=configureStore({
     midelware:(getDefaultMiddleware)=>{getDefaultMiddleware().concat(logger)},
     reducer:{
         user: userReducer

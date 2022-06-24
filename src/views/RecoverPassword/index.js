@@ -17,7 +17,7 @@ export default function RecoverPassword() {
         xs={12}
         md={7}
         component={Paper}
-        elevation={2}
+        elevation={6}
       >
         <Stepper/>
       </Grid>

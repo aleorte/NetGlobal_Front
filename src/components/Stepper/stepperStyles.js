@@ -2,19 +2,27 @@ import { styled } from "@mui/system";
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 export const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
+  "@keyframes activeConnector": {
+    "0%": {
+      width:0
+    },
+    "100%": {
+      width:'100%'
+    }
+  },
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
       top: 22,
     },
     [`&.${stepConnectorClasses.active}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        backgroundImage:
-          'linear-gradient( 95deg,purple 0%,blue 100%)',
+        backgroundImage: 'linear-gradient( 95deg,purple 0%,blue 100%)',
+        animation: "activeConnector 0.5s linear"
       },
-    },
+    }, 
     [`&.${stepConnectorClasses.completed}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        backgroundImage:
-          'linear-gradient( 95deg,purple 0%,blue 100%)',
+        backgroundImage: 'linear-gradient( 95deg,purple 0%,blue 100%)',
+        animation: "activeConnector 0.5s linear"
       },
     },
     [`& .${stepConnectorClasses.line}`]: {
@@ -36,13 +44,19 @@ export const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
     borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'center',
+    "@keyframes activeIcon": {
+      "100%": {
+        background:'linear-gradient( 136deg, purple 0%, blue 100%)'
+      }
+    },
     ...(ownerState.active && {
-      backgroundImage:
-        'linear-gradient( 136deg, purple 0%, blue 100%)',
+      transition:"background 0.4s linear 0.5s",
+      background:'blue',
       boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     }),
     ...(ownerState.completed && {
-      backgroundImage:
-        'linear-gradient( 136deg, purple 0%, blue 100%)',
+      transition:"background 0.4s linear 0.5s",
+      background:'blue',
+      backgroundImage: 'linear-gradient( 136deg, purple 0%, blue 100%)',
     }),
   }));
