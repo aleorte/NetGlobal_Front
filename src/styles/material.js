@@ -13,4 +13,5 @@ export { default as Step } from "@mui/material/Step";
 export { default as StepLabel } from "@mui/material/StepLabel";
 export { default as Typography } from "@mui/material/Typography";
 export { default as InputAdornment } from "@mui/material/InputAdornment";
+export { default as MobileStepper} from '@mui/material/MobileStepper'
 
