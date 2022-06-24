@@ -3,7 +3,7 @@ import { Box,Button } from '../../styles/material'
 const StepperActions = ({handleNext,handleBack,activeStep,steps}) => {
     return ( 
         <>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ display:{xs:"none",sm:"flex"}, flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
                 disabled={activeStep === 0}

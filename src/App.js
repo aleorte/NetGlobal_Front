@@ -5,6 +5,7 @@ import { CssBaseline } from '@mui/material';
 import { Routes,Route } from 'react-router'
 import Login from './views/Login'  
 import Home from './views/Home';
+
 import RecoverPassword from './views/RecoverPassword'
 import { Provider } from "react-redux"
 import store from './state/store';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
         </Routes>
+
       </ThemeProvider>
     </Provider>
   );

@@ -39,7 +39,7 @@ ColorlibStepIcon.propTypes = {
 
 const StepperBody = ({activeStep,steps}) => {
     return ( 
-        <Stepper activeStep={activeStep} connector={<StepConnectorStyled />}>
+        <Stepper sx={{display:{xs:'none',sm:'flex'}}} activeStep={activeStep} alternativeLabel connector={<StepConnectorStyled />}>
             {steps.map((e, index) => {
               const stepProps = {};
               const labelProps = {};
