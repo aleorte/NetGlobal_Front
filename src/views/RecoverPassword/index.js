@@ -10,6 +10,7 @@ export default function RecoverPassword() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid
+        item
         height="700px"
         mx="auto"
         my="auto"

@@ -1,20 +1,28 @@
 import React from "react";
-import { TextField,InputAdornment } from "../../styles/material";
+import { TextField,InputAdornment,Box } from "../../styles/material";
 
 const TextFieldStyled = ({ adornment, ...props }) => {
+
+  const msgError = props.errors ? props.errors.message : ""
+
   return (
-    <TextField
-      {...props}
-      margin="normal"
-      fullWidth
-      autoComplete="off"
-      autoFocus
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{adornment}</InputAdornment>
-        ),
-      }}
-    />
+    <Box sx={{height:'95px'}}>
+      <TextField
+        {...props}
+        error={props.errors ? true : false}
+        helperText={msgError}
+        margin="normal"
+        fullWidth
+        autoComplete="off"
+        autoFocus
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">{adornment}</InputAdornment>
+          ),
+        }}
+        {...props.register}
+      />
+    </Box>
   );
 };
 
