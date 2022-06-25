@@ -6,17 +6,18 @@ import{
   Typography
 } from '../../styles/material'
 import { Link } from 'react-router-dom'
-import {Link as MuiLink} from "../../styles/material";
 import { EmailIcon } from '../../styles/materialIcons'
 import TextFieldStyled from "../../commons/TextFieldStyled";
 import PasswordField from "../../commons/PasswordField";
 import CheckBoxStyled from "../../commons/CheckBoxStyled";
+import { loginVariants } from "./loginFormStyles";
 import Logo from "../../assets/logo";
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationLogin } from "../../utils/validations";
-
+import { useDispatch,useSelector } from "react-redux";
+import { sendLoginRequest } from "../../state/user";
 
 const LoginOptions = () => {
     return (
@@ -49,23 +50,14 @@ const Copyright = () => {
     );
 };
 
-const loginVariants = {
-  hidden:{
-    opacity:0
-  },
-  visible:{
-    opacity:1,
-    transition:{duration:1.5,ease: "easeInOut"}
-  }
-}
-
-
 const LoginForm = () => {
 
   const {register,handleSubmit,formState:{errors}} = useForm({resolver:yupResolver(validationLogin)})
+  const dispatch = useDispatch()
+  const user = useSelector(state=>state.user)
 
   const onSubmit = (data)=>{
-    console.log(data)
+    dispatch(sendLoginRequest(data))
   }
 
   return (

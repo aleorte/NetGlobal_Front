@@ -17,12 +17,13 @@ export const sendPasswordRecover = createAsyncThunk("SEND_PASSWORD_RECOVER", asy
 });
 
 const recoverReducer = createReducer(
-  { loading: false, data: {email:null,code:null} , error:null,success:null},
+  { loading: false, data: {email:null,code:null,user:null} , error:null,success:null},
   {
     [sendMailRecover.fulfilled]: (state, action) =>{
-        state.data.email = action.payload.data
+        state.data.email = action.payload.data.email
         state.loading = false
         state.error = null
+        state.data.user = action.payload.data.user
     },
     [sendMailRecover.pending]: (state) => {
         state.loading = true;
@@ -32,7 +33,7 @@ const recoverReducer = createReducer(
         state.error = action.error.message
     },
     [sendCodeRecover.fulfilled]: (state, action) =>{
-        state.data.code = action.payload
+        state.data.code = action.payload.data.code
         state.loading = false
         state.error = null
     },
