@@ -60,3 +60,17 @@ export const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
       backgroundImage: 'linear-gradient( 136deg, purple 0%, blue 100%)',
     }),
   }));
+
+  export const stepVariants = {
+    hidden:{
+      x:"30vw",
+      opacity:0
+    },
+    visible:{
+      opacity:1,
+      x:"0",
+      transition:{duration:0.7}
+    },
+  }
+
+

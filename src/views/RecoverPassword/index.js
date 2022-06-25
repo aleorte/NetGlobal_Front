@@ -12,7 +12,7 @@ export default function RecoverPassword() {
       <Grid
         elevation={6}
         item
-        height="700px"
+        height="400px"
         mx="auto"
         my="auto"
         container

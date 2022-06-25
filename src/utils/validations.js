@@ -6,6 +6,8 @@ const validationLogin = Yup.object().shape({
       .email('Email is invalid')
     ,password: Yup.string()
       .required('Password is required')
+    ,confirmpassword: Yup.string()
+    .required('Password confirm is required')
 }); 
 
 export { validationLogin }
