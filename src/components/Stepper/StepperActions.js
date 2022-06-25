@@ -3,7 +3,7 @@ import { KeyboardArrowRight,KeyboardArrowLeft} from '../../styles/materialIcons'
 
 const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
   return (
-    <>
+    <Box width="100%">
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },
@@ -26,7 +26,7 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
       </Box>
       <MobileStepper
         variant="text"
-        steps={steps.length}
+        steps={steps}
         position="static"
         activeStep={activeStep}
         sx={{ display: { sm: "none" } }}
@@ -47,7 +47,7 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
           </Button>
         }
       />
-    </>
+    </Box>
   );
 };
 

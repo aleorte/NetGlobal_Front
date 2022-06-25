@@ -11,7 +11,7 @@ import { sendPasswordRecover } from "../../../state/recoverpassword";
 import { useSelector,useDispatch } from "react-redux";
 
 
-const StepThree = ({handleNext,handleBack,activeStep,steps}) => {
+const StepThree = ({handleNext,handleBack,activeStep,steps,label}) => {
 
   const {register,watch,formState:{errors}} = useForm({resolver:yupResolver(validationLogin),mode:"onChange"})
   const [password,confirmpassword] = watch(['password','confirmpassword'])
@@ -30,9 +30,9 @@ const StepThree = ({handleNext,handleBack,activeStep,steps}) => {
 
   return (
     <>
-    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" >
+    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" style={{height:"250px"}} >
       <Typography mb={2}>
-        Confirm new password
+        {label}
       </Typography>
       <PasswordField 
           name="password"

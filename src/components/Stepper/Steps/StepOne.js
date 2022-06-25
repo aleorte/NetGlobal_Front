@@ -11,9 +11,9 @@ import { sendMailRecover } from "../../../state/recoverpassword";
 import { useSelector,useDispatch } from "react-redux";
 
 
-const StepOne = ({handleNext,handleBack,activeStep,steps}) => {
+const StepOne = ({handleNext,handleBack,activeStep,steps,label}) => {
 
-  const {register,watch,formState:{errors}} = useForm({resolver:yupResolver(validationLogin),mode:"onChange"})
+  const {register,watch,formState:{errors}} = useForm({resolver:yupResolver(validationLogin),mode:"onBlur"})
   const recover = useSelector(state=>state.recover)
   const dispatch = useDispatch()
   const email = watch('email')
@@ -31,9 +31,9 @@ const StepOne = ({handleNext,handleBack,activeStep,steps}) => {
 
   return (
   <>
-    <motion.div variants={stepVariants} initial="hidden" animate="visible">
+    <motion.div variants={stepVariants} initial="hidden" animate="visible" style={{height:"250px"}}>
       <Typography mb={2}>
-        Please, enter your email and a notification will be sent to you
+        {label}
       </Typography>
       <TextFieldStyled
         label="Email Address"

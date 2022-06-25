@@ -1,17 +1,14 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import StepperBody from "./StepperBody";
-import { Box,Grid } from '../../styles/material'
+import { Box, Grid } from "../../styles/material";
 import StepOne from "./Steps/StepOne";
-import StepTwo from "./Steps/StepTwo"
+import StepTwo from "./Steps/StepTwo";
 import StepThree from "./Steps/StepThree";
 
 const Stepper = () => {
-
   const [activeStep, setActiveStep] = useState(0);
-  
-  const verifyCode = ()=>{
-    
-  }
+
+  const verifyCode = () => {};
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -21,29 +18,43 @@ const Stepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const stepsProps = {
+    handleNext:handleNext,
+    handleBack:handleBack,
+    activeStep:activeStep,
+    steps:3
+  }
 
   const steps = [
-    {label:"Insert email account",element:<StepOne handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} steps={3}/>},
-    {label:"Copy email code",element:<StepTwo handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} steps={3}/>},
-    {label:"Create new password",element:<StepThree handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} steps={3}/>},
+    {
+      element: <StepOne {...stepsProps} label="Ingrese el email de la cuenta a recuperar"/>,
+      label: "Ingresar email"
+    },
+    {
+      element: <StepTwo {...stepsProps} label="Copie el codigo enviado al email asociado"/>,
+      label: "Confirmar codigo"
+    },
+    {
+      element: <StepThree {...stepsProps} label="Confirme su nueva contraseña"/>,
+      label: "Crear contraseña"
+    }
   ];
 
-    return ( 
-        <Box display="flex" flexDirection="column" justifyContent={{md:"space-between",xs:"center"}} gap={8} sx={{ width: "100%",p:5 }}>
-          
-          <StepperBody
-            activeStep={activeStep}
-            steps={steps}
-          /> 
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent={{ md: "space-around", xs: "center" }}
+      gap={10}
+      sx={{ width: "100%", p: 5 }}
+    >
+      <StepperBody activeStep={activeStep} steps={steps} />
 
-          <Grid container display="flex" justifyContent="center" height="250px"> 
-            <Grid item xs={7} display="flex" alignItems="center" flexDirection="column">                   
-                {steps[activeStep].element}     
-            </Grid>
-          </Grid>
+      <Grid container display="flex" justifyContent="center">
+        {steps[activeStep].element}
+      </Grid>
+    </Box>
+  );
+};
 
-        </Box>
-     );
-}
- 
 export default Stepper;

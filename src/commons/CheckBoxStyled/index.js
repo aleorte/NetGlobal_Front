@@ -5,7 +5,7 @@ const CheckBoxStyled = () => {
     return ( 
         <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="Recordar contraseña"
         />
      );
 }

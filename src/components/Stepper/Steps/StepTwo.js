@@ -8,7 +8,7 @@ import { sendCodeRecover } from "../../../state/recoverpassword";
 import { useSelector,useDispatch } from "react-redux";
 
 
-const StepTwo = ({handleNext,handleBack,activeStep,steps}) => {
+const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
 
   const [pinValues, setPinValues] = useState(['', '', '', '']);
   const recover = useSelector(state=>state.recover)
@@ -27,9 +27,9 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps}) => {
 
   return (
     <>
-    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" >
+    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" style={{height:"250px"}} >
       <Typography mb={2}>
-        Insert the code
+        {label}
       </Typography>
         <PinInput
           values={pinValues}

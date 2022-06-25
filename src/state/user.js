@@ -1,15 +1,15 @@
 import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import userServices from '../services/userServices'
 
 export const sendLoginRequest = createAsyncThunk("Login", async ({email,password}) => {
-    return axios.post("api/login",{email,password});
+    return userServices.logIn(email,password);
 });
 
 const userReducer = createReducer(
   { loading: false, userInfo: {} , err:null},
   {
     [sendLoginRequest.fulfilled]: (state, action) =>{
-      state.userInfo = action.payload.user
+      state.userInfo = action.payload.data
       state.loading = false
     },
     [sendLoginRequest.pending]: (state) => {
@@ -17,7 +17,7 @@ const userReducer = createReducer(
     },
     [sendLoginRequest.rejected]: (state, action) => {
       state.loading = false;
-      state.err=action.error.message
+      state.err = action.error.message
     },
   }
 );

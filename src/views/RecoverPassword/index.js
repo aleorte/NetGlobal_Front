@@ -4,15 +4,18 @@ import {
   Grid,
   Paper,
 } from '../../styles/material'
+import theme from '../../styles/theme'
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function RecoverPassword() {
+
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
   
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid
-        elevation={6}
+        elevation={matches ? 6 : 0 }
         item
-        height="400px"
         mx="auto"
         my="auto"
         container
