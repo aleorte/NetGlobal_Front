@@ -10,6 +10,7 @@ const UserCard = ({ user }) => {
       gap={2}
       width="100%"
       alignItems="center"
+      my={3}
     >
       <Avatar
         sx={{ width: "100px", height: "100px", bgcolor: getRandomColor() }}
