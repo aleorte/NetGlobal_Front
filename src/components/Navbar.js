@@ -30,7 +30,7 @@ export default function MenuAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1}}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"65px" }}>
         <Toolbar>
           <IconButton
             size="large"

@@ -9,20 +9,18 @@ import {
   ListItemText,
   Typography,
 } from "../../../styles/material";
-import { EmailIcon, LockIcon} from "../../../styles/materialIcons"
 import UserCard from "./UserCard";
-import { Apartment,AssignmentInd,QueryStats,SupervisedUserCircle } from '../../../styles/materialIcons'
+import { ListItemStyled } from "./sideBarStyles";
 
 const user = {name:"Travis Howard",image:"https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg"}
 
-const options = [
-  {label:"Companias",icon:<Apartment/>},
-  {label:"Vigiladores",icon:<AssignmentInd/>},
-  {label:"Usuarios",icon:<SupervisedUserCircle/>},
-  {label:"Reportes",icon:<QueryStats/>}
-]
+const SideBarContent = ({options}) => {
 
-const SideBarContent = () => {
+  const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const handleListItemClick = (index) => {
+    setSelectedIndex(index);
+  };
+
   return (
     <div>
       <Toolbar />
@@ -35,14 +33,14 @@ const SideBarContent = () => {
           <Typography variant="body2" fontWeight="400" mb={2} mt={2}> GENERAL </Typography>
         </Divider>
         {options.map((option, index) => (
-          <ListItem key={option.label} disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
+          <ListItemStyled key={option.label} selected={selectedIndex === index} disablePadding >
+            <ListItemButton onClick={() => handleListItemClick(index)}>
+              <ListItemIcon sx={{"&.MuiListItemIcon-root":{color:selectedIndex === index && "#9D77E2"},pl:2}}>
                 {option.icon}
               </ListItemIcon>
-              <ListItemText primary={<Typography >{option.label}</Typography>} />
+              <ListItemText primary={<Typography>{option.label}</Typography>} />
             </ListItemButton>
-          </ListItem>
+          </ListItemStyled>
         ))}
       </List>
       

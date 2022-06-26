@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import SideBarContent from "./SideBarContent";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
-function ResponsiveDrawer(props) {
+function ResponsiveDrawer({options,...props}) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -28,14 +28,14 @@ function ResponsiveDrawer(props) {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         }}
       >
-        <SideBarContent />
+        <SideBarContent options={options} />
       </Drawer>
       <Drawer
         variant="permanent"
@@ -45,7 +45,7 @@ function ResponsiveDrawer(props) {
         }}
         open
       >
-        <SideBarContent />
+        <SideBarContent options={options}/>
       </Drawer>
     </Box>
   );

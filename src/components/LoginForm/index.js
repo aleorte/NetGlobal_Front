@@ -18,6 +18,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { validationLogin } from "../../utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import { sendLoginRequest } from "../../state/user";
+import { useNavigate } from 'react-router'
+import { setAlert } from "../../state/alert";
 
 const LoginOptions = () => {
   return (
@@ -42,7 +44,8 @@ const Copyright = () => {
       {"Copyright © "}
       <a style={{ color: "inherit" }} href="https://netglobal.tech/">
         NetGlobal
-      </a>{" "}
+      </a>
+      {" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -59,11 +62,13 @@ const LoginForm = () => {
   const [email,password] = watch(["email","password"])
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
   const onSubmit = () => {
     if (errors.email || errors.password) return
     console.log(email,password)
     dispatch(sendLoginRequest({email,password}))
+    dispatch(setAlert({severity:"success",message:"LOGUEADO!"})) 
   };
 
   return (

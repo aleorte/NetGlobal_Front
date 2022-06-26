@@ -1,18 +1,26 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
 import { Box,Typography,Toolbar } from "../../styles/material"
-import theme from "../../styles/theme";
+import { Apartment,AssignmentInd,QueryStats,SupervisedUserCircle } from '../../styles/materialIcons'
+
+const options = [
+  {label:"Companias",icon:<Apartment/>},
+  {label:"Vigiladores",icon:<AssignmentInd/>},
+  {label:"Usuarios",icon:<SupervisedUserCircle/>},
+  {label:"Reportes",icon:<QueryStats/>}
+]
 
 const Home = () => {
   return (
     <Box sx={{ display: "flex" }}>
-      <SideBar/>
+      <SideBar options={options}/>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - 240px)` },
+          minHeight:"calc(100vh - 64px)",
           backgroundColor:"#F4F6F8"
         }}
       >
