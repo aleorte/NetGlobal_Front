@@ -5,7 +5,7 @@ import SideBarContent from "./SideBarContent";
 
 const drawerWidth = 280;
 
-function ResponsiveDrawer({options,...props}) {
+function ResponsiveDrawer({adminOptions,options,...props}) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -33,19 +33,20 @@ function ResponsiveDrawer({options,...props}) {
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+        
         }}
       >
-        <SideBarContent options={options} />
+        <SideBarContent options={options} adminOptions={adminOptions} />
       </Drawer>
       <Drawer
         variant="permanent"
         sx={{
           display: { xs: "none", sm: "block" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth,borderRight:"none" },
         }}
         open
       >
-        <SideBarContent options={options}/>
+        <SideBarContent options={options} adminOptions={adminOptions}/>
       </Drawer>
     </Box>
   );

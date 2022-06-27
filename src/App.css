@@ -1,7 +1,18 @@
+@import url("~leaflet/dist/leaflet.css");
+
 .correct{
     border: solid 2px green;
 }
 
 .incorrect{
     border: solid 2px red;
+}
+
+.leaflet-container{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.leaflet-control-attribution{
+    display:none;
 }
