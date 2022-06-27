@@ -3,7 +3,7 @@ import { TextField,InputAdornment,Box } from "../../styles/material";
 
 const TextFieldStyled = ({ adornment, ...props }) => {
 
-  const msgError = props.errors ? props.errors.message : ""
+  const msgError = props.errors ? props.errors.message : " "
 
   return (
     <Box sx={{height:'95px'}}>
@@ -14,10 +14,11 @@ const TextFieldStyled = ({ adornment, ...props }) => {
         margin="normal"
         fullWidth
         autoComplete="off"
+        variant="outlined"
         autoFocus
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start">{adornment}</InputAdornment>
+             <InputAdornment position="start">{adornment}</InputAdornment>
           ),
         }}
         {...props.register}
