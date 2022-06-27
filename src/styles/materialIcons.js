@@ -15,3 +15,5 @@ export { default as SupervisedUserCircle } from '@mui/icons-material/SupervisedU
 export { default as MenuIcon } from '@mui/icons-material/Menu';
 export { default as NotificationsIcon } from '@mui/icons-material/Notifications';
 export { default as MoreIcon } from '@mui/icons-material/MoreVert';
+export { default as KeyboardArrowUpIcon } from '@mui/icons-material/KeyboardArrowUp'
+export { default as KeyboardArrowDownIcon } from '@mui/icons-material/KeyboardArrowDown'
