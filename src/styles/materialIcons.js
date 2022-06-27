@@ -12,3 +12,6 @@ export { default as Business } from "@mui/icons-material/Business";
 export { default as AssignmentInd } from '@mui/icons-material/AssignmentIndOutlined';
 export { default as QueryStats } from '@mui/icons-material/QueryStats';
 export { default as SupervisedUserCircle } from '@mui/icons-material/SupervisedUserCircleOutlined';
+export { default as MenuIcon } from '@mui/icons-material/Menu';
+export { default as NotificationsIcon } from '@mui/icons-material/Notifications';
+export { default as MoreIcon } from '@mui/icons-material/MoreVert';
