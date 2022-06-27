@@ -13,7 +13,7 @@ import UserCard from "./UserCard";
 import { ListItemStyled } from "./sideBarStyles";
 
 const user = {
-  name: "Travis Howard",
+  name: "Alguna fulana",
   image:
     "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg",
 };

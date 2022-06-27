@@ -17,8 +17,6 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <Navbar/>
-        <Alert/>
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>

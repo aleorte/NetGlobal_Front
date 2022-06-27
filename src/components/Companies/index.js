@@ -1,6 +1,7 @@
 import { Grid, Typography, Divider, Paper } from '../../styles/material';
 import React from 'react';
 import MapView from '../MapView';
+import CompanyCard from './CompanyCard';
 
 const Companies = () => {
     return ( 
@@ -11,8 +12,8 @@ const Companies = () => {
                 <Grid xs={12} component={Paper} height="400px" borderRadius={3} md={6} sx={{backgroundColor:"white"}}>
                     <MapView/>
                 </Grid>
-                <Grid xs={12} height="200px" borderRadius={3} md={4} sx={{backgroundColor:"white"}}>
-
+                <Grid xs={12} component={Paper} borderRadius={3} md={4} sx={{backgroundColor:"white"}}>
+                    <CompanyCard/>
                 </Grid>
             </Grid>
         </Grid>
