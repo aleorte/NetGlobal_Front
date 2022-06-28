@@ -11,7 +11,7 @@ const MapView = ({places}) => {
             <TileLayer
                 url="https://api.maptiler.com/maps/voyager/{z}/{x}/{y}.png?key=zOsCRqkcw3fXtUb1lzmZ"
             />
-            {places.map((location)=> <MarkerStyled position={location} icon="https://cdn-icons-png.flaticon.com/512/993/993854.png"/>)}
+            {places.map((location,i)=> <MarkerStyled key={i} position={location} icon="https://cdn-icons-png.flaticon.com/512/993/993854.png"/>)}
         </MapContainer>
      );
 }

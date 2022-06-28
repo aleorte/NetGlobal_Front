@@ -6,30 +6,17 @@ import { useSelector } from "react-redux";
 import CompanyCard from "../../components/Companies/CompanyCard";
 import CompanyCells from "../../components/Companies/CompanyCells";
 import companyHeaders from "../../components/Companies/CompanyHeaders"
-import GuardCard from "../../components/Guards/GuardCard";
-import GuardCells from "../../components/Guards/GuardCells";
-import guardHeaders from "../../components/Guards/guardHeaders";
-import { Routes,Route } from "react-router";
 
-const Home = () => {
+const Company = () => {
 
   const { companies } = useSelector(state=>state.company)
-  const { guards } = useSelector(state=>state.guard)
-
+  
   const companyElements = {
     data:companies,
     headers:companyHeaders, 
     card:<CompanyCard/>, 
     Cells:CompanyCells,
-    label:"Company",
-  }
-
-  const guardElements = {
-    data:guards,
-    headers:guardHeaders, 
-    card:<GuardCard/>, 
-    Cells:GuardCells,
-    label:"Vigiladores",
+    label:"Compañias",
   }
 
   return (
@@ -46,11 +33,10 @@ const Home = () => {
         }}
       >
         <Toolbar/>
-        <Dashboard {...guardElements}/>
+        <Dashboard {...companyElements}/>
       </Box>
     </Box>
   );
 };
 
-export default Home;
-
+export default Company;

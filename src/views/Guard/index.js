@@ -3,26 +3,13 @@ import SideBar from "../../components/SideBar";
 import { Box,Toolbar } from "../../styles/material"
 import Dashboard from "../../commons/Dashboard";
 import { useSelector } from "react-redux";
-import CompanyCard from "../../components/Companies/CompanyCard";
-import CompanyCells from "../../components/Companies/CompanyCells";
-import companyHeaders from "../../components/Companies/CompanyHeaders"
 import GuardCard from "../../components/Guards/GuardCard";
 import GuardCells from "../../components/Guards/GuardCells";
 import guardHeaders from "../../components/Guards/guardHeaders";
-import { Routes,Route } from "react-router";
 
-const Home = () => {
+const Guard = () => {
 
-  const { companies } = useSelector(state=>state.company)
   const { guards } = useSelector(state=>state.guard)
-
-  const companyElements = {
-    data:companies,
-    headers:companyHeaders, 
-    card:<CompanyCard/>, 
-    Cells:CompanyCells,
-    label:"Company",
-  }
 
   const guardElements = {
     data:guards,
@@ -52,5 +39,4 @@ const Home = () => {
   );
 };
 
-export default Home;
-
+export default Guard;

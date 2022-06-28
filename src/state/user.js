@@ -6,7 +6,12 @@ export const sendLoginRequest = createAsyncThunk("Login", async ({email,password
 });
 
 const userReducer = createReducer(
-  { loading: false, userInfo: {} , err:null},
+  { loading: false, userInfo: {
+    name: "Alguna fulana",
+    image:
+      "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg",
+    role: "Administrador",
+  } , err:null},
   {
     [sendLoginRequest.fulfilled]: (state, action) =>{
       state.userInfo = action.payload.data

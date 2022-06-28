@@ -18,3 +18,5 @@ export { default as NotificationsIcon } from '@mui/icons-material/Notifications'
 export { default as MoreIcon } from '@mui/icons-material/MoreVert';
 export { default as KeyboardArrowUpIcon } from '@mui/icons-material/KeyboardArrowUp'
 export { default as KeyboardArrowDownIcon } from '@mui/icons-material/KeyboardArrowDown'
+export { default as EditIcon } from '@mui/icons-material/Edit'
+export { default as DeleteIcon } from '@mui/icons-material/Delete'

@@ -3,13 +3,17 @@ import logger from "redux-logger"
 import userReducer from "./user"
 import recoverReducer from "./recoverpassword"
 import alertReducer from "./alert"
+import companyReducer from "./company"
+import guardsReducer from "./guards"
 
 const store=configureStore({
     midelware:(getDefaultMiddleware)=>{getDefaultMiddleware().concat(logger)},
     reducer:{
         user: userReducer,
         recover : recoverReducer,
-        alert : alertReducer
+        alert : alertReducer,
+        company: companyReducer,
+        guard: guardsReducer
     }
 })
 

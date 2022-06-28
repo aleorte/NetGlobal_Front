@@ -6,7 +6,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TableHead from "./TableHead";
@@ -14,6 +13,8 @@ import { descendingComparator, stableSort } from "../../utils/functions";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -21,9 +22,9 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function EnhancedTable({ headers, data }) {
+export default function EnhancedTable({ headers, data, Cells }) {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("cuit");
   const [selected, setSelected] = React.useState({});
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -60,7 +61,7 @@ export default function EnhancedTable({ headers, data }) {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2, marginTop: "4rem" }}>
-        <Grid container>
+        <Grid container justifyContent="space-between" alignItems="center">
           <Grid item xs={10} sm={7} pl={5} mt={2}>
             <TextField
               sx={{ my: 3 }}
@@ -70,9 +71,14 @@ export default function EnhancedTable({ headers, data }) {
                   <InputAdornment position="start">
                     <SearchIcon />
                   </InputAdornment>
-                )
+                ),
               }}
             />
+          </Grid>
+          <Grid item xs={2} textAlign="right" mr={2}>
+            <IconButton aria-label="add">
+              <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
+            </IconButton>
           </Grid>
         </Grid>
         <TableContainer>
@@ -92,55 +98,11 @@ export default function EnhancedTable({ headers, data }) {
                   const isItemSelected = isSelected(row.id);
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell
-                        sx={{
-                          fontSize: "15px",
-                          width: "100px",
-                          color: "#545252",
-                        }}
-                      >
-                        <Typography sx={{ width: "100px" }}>
-                          {row.cuit}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{ fontSize: "15px", width: "300px" }}
-                      >
-                        <Typography sx={{ width: "100px", fontWeight: 600 }}>
-                          {row.name}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{ fontSize: "15px", color: "#545252" }}
-                      >
-                        <Typography sx={{ width: "100px" }}>
-                          {row.status}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{ fontSize: "15px", color: "#545252" }}
-                      >
-                        {row.inicio}
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{ fontSize: "15px", color: "#545252" }}
-                      >
-                        {row.final}
-                      </TableCell>
-                    </TableRow>
+                    <Cells
+                      data={row}
+                      handleClick={handleClick}
+                      isItemSelected={isItemSelected}
+                    />
                   );
                 })}
               {emptyRows > 0 && (
@@ -159,6 +121,7 @@ export default function EnhancedTable({ headers, data }) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina"
         />
       </Paper>
     </Box>
