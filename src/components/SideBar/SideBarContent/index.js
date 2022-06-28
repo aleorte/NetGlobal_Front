@@ -64,18 +64,18 @@ const SideBarContent = ({ options,adminOptions }) => {
             GENERAL
           </Typography>
         </Divider>
-        {options.map((option) => { 
+        {options.map((option,i) => { 
           indexOption++
-          return <Item option={option} index= {indexOption}/>
+          return <Item key={i} option={option} index= {indexOption}/>
         })}
         <Divider textAlign="left">
           <Typography variant="body2" fontWeight="400" mb={2} mt={2}>
             ADMIN
           </Typography>
         </Divider>
-        {adminOptions.map((option) => {
+        {adminOptions.map((option,i) => {
           indexOption++
-          return <Item option={option} index= {indexOption}/>
+          return <Item key={i} option={option} index={indexOption}/>
         })}
       </List>
     </div>

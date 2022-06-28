@@ -1,9 +1,9 @@
 import React from 'react';
-import { MuiRow,MuiTableHead,MuiCell,Checkbox,TableSortLabel,Box} from '../../styles/material'
+import { MuiRow,MuiTableHead,MuiCell,TableSortLabel,Box} from '../../styles/material'
 import { visuallyHidden } from '@mui/utils';
 
 const TableHead = (props) => {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -17,6 +17,7 @@ const TableHead = (props) => {
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={{ fontWeight:"600"}}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
