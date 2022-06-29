@@ -1,12 +1,12 @@
 import React from "react";
-import { TextField,InputAdornment,Box } from "../../styles/material";
+import { TextField,Box } from "../../styles/material";
 
-const TextFieldStyled = ({ adornment, ...props }) => {
+const TextFieldModals = ({ ...props }) => {
 
   const msgError = props.errors ? props.errors.message : " "
 
   return (
-    <Box sx={{height:'95px'}}>
+    <Box sx={{height:'50px'}}>
       <TextField
         {...props}
         error={props.errors ? true : false}
@@ -16,15 +16,10 @@ const TextFieldStyled = ({ adornment, ...props }) => {
         autoComplete="off"
         variant="outlined"
         autoFocus
-        InputProps={{
-          startAdornment: (
-             <InputAdornment position="start">{adornment}</InputAdornment>
-          ),
-        }}
         {...props.register}
       />
     </Box>
   );
 };
 
-export default TextFieldStyled;
+export default TextFieldModals;

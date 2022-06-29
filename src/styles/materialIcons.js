@@ -7,8 +7,11 @@ export { default as VisibilityOff } from "@mui/icons-material/VisibilityOff";
 export { default as FiberPinIcon } from "@mui/icons-material/FiberPin";
 export { default as KeyboardArrowRight } from "@mui/icons-material/KeyboardArrowRight";
 export { default as KeyboardArrowLeft } from "@mui/icons-material/KeyboardArrowLeft";
+export { default as Apartment } from "@mui/icons-material/Apartment";
+export { default as Business } from "@mui/icons-material/Business";
+export { default as AssignmentInd } from '@mui/icons-material/AssignmentIndOutlined';
+export { default as QueryStats } from '@mui/icons-material/QueryStats';
+export { default as SupervisedUserCircle } from '@mui/icons-material/SupervisedUserCircleOutlined';
 export { default as MenuIcon } from '@mui/icons-material/Menu';
 export { default as NotificationsIcon } from '@mui/icons-material/Notifications';
 export { default as MoreIcon } from '@mui/icons-material/MoreVert';
-
-

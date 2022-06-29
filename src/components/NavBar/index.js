@@ -12,6 +12,10 @@ import {
   Toolbar,
   AppBar,
 } from "../../styles/material";
+import { AddCompany } from "../Modals/company/AddCompany";
+import { AddBranch } from "../Modals/branch/AddBranch";
+import { Link } from "react-router-dom";
+import { AddGuard } from "../Modals/guard/AddGuard";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -85,14 +89,14 @@ export default function PrimarySearchAppBar() {
         <p>Notifications</p>
       </MenuItem>
       <MenuItem>
-        <Button color="inherit">Cerrar sesión</Button>
+        <Button  color="inherit">Cerrar sesión</Button>
       </MenuItem>
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -115,6 +119,11 @@ export default function PrimarySearchAppBar() {
             />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <AddCompany/>
+            <AddBranch/>
+            <AddGuard/>
+          </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"

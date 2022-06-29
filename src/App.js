@@ -8,17 +8,21 @@ import Home from './views/Home';
 import RecoverPassword from './views/RecoverPassword'
 import { Provider } from "react-redux"
 import store from './state/store';
+import NavBar from './components/NavBar'
 
 
 function App() {
+  
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
+        <NavBar/>
         <Routes>
-        <Route path="/home" element={<Home/>}/>
+          <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
+          <Route path="/" element={<Home/>}/>
         </Routes>
       </ThemeProvider>
     </Provider>
