@@ -12,6 +12,9 @@ import {
   Toolbar,
   AppBar,
 } from "../../styles/material";
+import { AddCompany } from "../Modals/company/AddCompany";
+import { AddGuard } from "../Modals/guard/AddGuard";
+import { AddBranch } from "../Modals/branch/AddBranch";
 
 import { useSelector } from "react-redux";
 

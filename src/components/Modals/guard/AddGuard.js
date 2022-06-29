@@ -17,8 +17,10 @@ export const AddGuard = () => {
   const street = useChange("");
   const number = useChange("");
   const location = useChange("");
+  const province = useChange("");
   const coordinateLatitude = useChange("");
   const coordinateLength = useChange("");
+  const licenses=useChange("")
 
   const openCloseModal = () => {
     setStateModal(!stateModal);
@@ -28,7 +30,7 @@ export const AddGuard = () => {
     e.preventDefault();
     try {
       setSuccess(false);
-      const newCompany = await axios.post("http://localhost:3001/employees", {
+      const newGuard = await axios.post("http://localhost:3001/employees", {
         name: name.state,
         lastName: lastName.state,
         cuil: cuil.state,
@@ -36,11 +38,13 @@ export const AddGuard = () => {
         street: street.state,
         number: number.state,
         location: location.state,
+        province:province.state,
         coordinateLatitude: coordinateLatitude.state,
         coordinateLength: coordinateLength.state,
+        licenses: licenses.state,
       });
       setSuccess(true);
-      return newCompany;
+      return newGuard;
     } catch (err) {
       console.log(err);
     }
@@ -54,13 +58,19 @@ export const AddGuard = () => {
           <div>
             <h2>Agregar Vigilante</h2>
           </div>
-          <Stack spacing={2}>
-            <Stack direction="row" spacing={2}>
+          <Stack spacing={4}>
+          <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr 1fr" },
+                gap: 4,
+              }}
+            >
               <TextFieldModals label="Nombre" {...name} />
               <TextFieldModals label="Apellido" {...lastName} />
-
-              <TextFieldModals label="Cuil" {...cuil} />
-            </Stack>
+            <TextFieldModals label="Cuil" {...cuil} />
+            
+            </Box>
             <Stack>
               <TextFieldModals
                 fullWidth
@@ -68,24 +78,32 @@ export const AddGuard = () => {
                 {...email}
               />
             </Stack>
-            <Box sx={{
-        display: 'grid',
-        gridTemplateColumns: { sm: '1fr 1fr' },
-        gap: 2,
-      }}>
-            <Stack  spacing={2}>
-              <TextFieldModals label="Provincia" {...coordinateLength} />
-              <TextFieldModals label="Localidad" {...location} />
-            </Stack>
-            <Stack spacing={2}>
-              <TextFieldModals label="Calle" {...street} />
-              <TextFieldModals label="Número" {...number} />
-            </Stack>
-            <Stack  spacing={2}>
-              <TextFieldModals label="Latitud" {...coordinateLatitude} />
-              <TextFieldModals label="Longitud" {...coordinateLength} />
-            </Stack>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              
+                <TextFieldModals label="Provincia" {...province} />
+                <TextFieldModals label="Localidad" {...location} />
+                <TextFieldModals label="Calle" {...street} />
+                <TextFieldModals label="Número" {...number} />
+              
             </Box>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              
+                <TextFieldModals label="Licencias" {...licenses} />
+                <TextFieldModals label="Latitud" {...coordinateLatitude} />
+                <TextFieldModals label="Longitud" {...coordinateLength} />
+                </Box>
           </Stack>
           <br />
           <div>
@@ -93,6 +111,7 @@ export const AddGuard = () => {
             <Button onClick={() => openCloseModal()}>Cerrar</Button>
           </div>
           {success ? <AlertModals /> : ""}
+          
         </Box>
       </Modal>
     </>
