@@ -1,3 +1,4 @@
+import React from "react";
 import {
     Grid,
     Typography,
@@ -7,17 +8,10 @@ import {
     Breadcrumbs,
     Link,
   } from "../../styles/material";
-  import React, { useEffect } from "react";
   import MapView from "../../commons/MapView";
   import EnhancedTable from "../../commons/MuiTable";
-  import { Routes,Route } from "react-router";
-  import { useParams,useLocation } from "react-router";
-  import CompanyCard from "../../components/Companies/CompanyCard";
-  import { useRoutes } from "react-router-dom";
   
-  const Dashboard = ({headers,data,card,Cells,label}) => {
-
-    const {entity} = useParams()
+  const Dashboard = ({headers,data,card,Cells,label,handleSelect}) => {
 
     return (
       <Box>
@@ -50,7 +44,7 @@ import {
               md={7}
               sx={{ backgroundColor: "white" }}
             >
-              <MapView places={data.map((element)=>element.direccion)} />
+              <MapView places={data.map((element)=>[element.coordinateLatitude,element.coordinateLength])} />
             </Grid>
             <Grid
               item
@@ -65,7 +59,7 @@ import {
           </Grid>
         </Grid>
         <Box>
-          <EnhancedTable headers={headers} data={data} Cells={Cells} />
+          <EnhancedTable handleSelect={handleSelect} headers={headers} data={data} Cells={Cells} />
         </Box>
       </Box>
     );

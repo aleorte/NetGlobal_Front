@@ -15,14 +15,14 @@ const CompanyCard = () => {
         <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
             <CardActions/>
             <Box textAlign="center">
-                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src="https://logodownload.org/wp-content/uploads/2014/04/McDonalds-logo-1.png">
-                    {selectedCompany.name[0]}
+                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src={selectedCompany.logo}>
+                    {selectedCompany.legalName[0]}
                 </Avatar>
-                <Typography mt={1} fontWeight={400} fontSize={25}> {selectedCompany.name} </Typography>
+                <Typography mt={1} fontWeight={400} fontSize={25}> {selectedCompany.legalName} </Typography>
             </Box>
             <Grid container display="flex" justifyContent="center" gap={5}>
                 <Grid item xs={4}>
-                    <StatsCard icon={<AssignmentInd sx={{ fontSize: 30,color:"#8757DF" }}/>} value={selectedCompany.count} description="Vigiladores" />
+                    <StatsCard icon={<AssignmentInd sx={{ fontSize: 30,color:"#8757DF" }}/>} value={17} description="Vigiladores" />
                 </Grid>
                 <Grid item xs={4}>
                     <StatsCard icon={<Business sx={{ fontSize: 30,color:"#8757DF"  }}/>} value={selectedCompany.branches.length} description="Sucursales" />

@@ -15,6 +15,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import { useSelector } from 'react-redux'
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -22,21 +23,19 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function EnhancedTable({ headers, data, Cells }) {
+export default function EnhancedTable({ headers, data, Cells,handleSelect }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("cuit");
   const [selected, setSelected] = React.useState({});
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  React.useEffect(() => {
-    console.log(selected);
-  }, [selected]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+    console.log(property)
   };
 
   const handleClick = (event, id) => {
@@ -101,6 +100,7 @@ export default function EnhancedTable({ headers, data, Cells }) {
                       data={row}
                       handleClick={handleClick}
                       isItemSelected={isItemSelected}
+                      handleSelect={handleSelect}
                     />
                   );
                 })}

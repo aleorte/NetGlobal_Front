@@ -2,6 +2,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import SideBarContent from "./SideBarContent";
+import { IconButton } from "../../styles/material";
+import { MenuIcon } from "../../styles/materialIcons";
+
 
 const drawerWidth = 280;
 
@@ -22,6 +25,9 @@ function ResponsiveDrawer({...props}) {
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
+      <IconButton sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,top:{sm:"15px",xs:"10px"},left:"5px",position:"fixed",display:{xs:"block",sm:"none"} }}>
+        <MenuIcon fontSize="medium" sx={{color:"white"}} onClick={handleDrawerToggle}/>
+      </IconButton>
       <Drawer
         container={container}
         variant="temporary"
