@@ -1,4 +1,4 @@
-import { Modal, Button, Box } from "../../../styles/material";
+import { Modal, Button, Box, Stack } from "../../../styles/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ export const AddBranch = () => {
   const coordinateLatitude=useChange("")
   const coordinateLength=useChange("")
   const active=useChange("")
+  
 
   const openCloseModal = () => {
     setStateModal(!stateModal);
@@ -50,27 +51,34 @@ export const AddBranch = () => {
           <div>
             <h2>Agregar sucursal</h2>
           </div>
+          <Stack spacing={4}>
           <TextFieldModals
             label="Nombre"
             {...name}
           />
-          <br />
-          <TextFieldModals label="Número"{...number} />
-          <br />
+          <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr 1fr" },
+                gap: 4,
+              }}
+            >
+          <TextFieldModals label="Localidad"{...location} />
+      
           <TextFieldModals
             label="Calle"
-            height="70px"
             {...street}
           />
-          <br />
-          <TextFieldModals label="Localidad"{...location} />
-          <br />
+          <TextFieldModals label="Número"{...number} />
+          
+          </Box>
+          
           <TextFieldModals label="Latitud"{...coordinateLatitude}/>
-          <br />
+        
           <TextFieldModals label="Longitud"{...coordinateLength} />
-          <br />
+         
           <TextFieldModals label="Estado del contrato"{...active} />
-          <br />
+          </Stack>
           <br />
           <div>
             <Button type="submit">Agregar sucursal</Button>

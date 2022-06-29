@@ -1,4 +1,4 @@
-import { Modal, Button, Box } from "../../../styles/material";
+import { Modal, Button, Box, Stack } from "../../../styles/material";
 import axios from "axios";
 import React, { useState } from "react";
 import useChange from "../../../utils/useChange";
@@ -15,6 +15,7 @@ export const AddCompany = () => {
   const legalAdress = useChange("");
   const contractStartDate = useChange("");
   const contractEndDate = useChange("");
+  const logo = useChange("");
 
   const openCloseModal = () => {
     setStateModal(!stateModal);
@@ -23,19 +24,18 @@ export const AddCompany = () => {
   const handleModel = async (e) => {
     e.preventDefault();
     try {
-      setSuccess(false)
       const newCompany = await axios.post("http://localhost:3001/company", {
         cuit: cuit.state,
         legalName: legalName.state,
         legalAdress: legalAdress.state,
         contractStartDate: contractStartDate.state,
         contractEndDate: contractEndDate.state,
+        logo:logo.state
       });
       setSuccess(true);
-     return newCompany;
+      return newCompany;
     } catch (err) {
       console.log(err);
-
     }
   };
 
@@ -47,29 +47,40 @@ export const AddCompany = () => {
           <div>
             <h2>Agregar compañía</h2>
           </div>
-
-          <TextFieldModals label="CUIT" {...cuit} />
-          <br />
+          <Stack spacing={4}>
+          <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 4,
+              }}
+            >
           <TextFieldModals label="Nombre legal" {...legalName} />
-          <br />
-          <TextFieldModals label="Dirección legal" {...legalAdress} />
-          <br />
+          <TextFieldModals label="CUIT" {...cuit} />
           <TextFieldModals
             label="Fecha de inicio de contrato"
             {...contractStartDate}
           />
-          <br />
           <TextFieldModals
             label="Fecha de fin del contrato"
             {...contractEndDate}
           />
+          </Box>
+          <TextFieldModals label="Dirección legal" {...legalAdress} />
+          
+          <TextFieldModals
+            label="Logo"
+            {...logo}
+          />
+          </Stack>
+          <br />
           <br />
           <br />
           <div>
             <Button type="submit">Agregar compañía</Button>
             <Button onClick={() => openCloseModal()}>Cerrar</Button>
           </div>
-          {success ? <AlertModals />: ""}
+          {success ? <AlertModals /> : ""}
         </Box>
       </Modal>
     </>
