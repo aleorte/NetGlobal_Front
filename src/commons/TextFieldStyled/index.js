@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useState} from "react";
 import { TextField,InputAdornment,Box } from "../../styles/material";
 
-const TextFieldStyled = ({ adornment, ...props }) => {
+const TextFieldStyled = ({ colorClick,adornment, ...props }) => {
 
   const msgError = props.errors ? props.errors.message : " "
+  const [selected,setSelected] = useState(false)
 
   return (
     <Box sx={{height:'95px'}}>
@@ -15,7 +16,10 @@ const TextFieldStyled = ({ adornment, ...props }) => {
         fullWidth
         autoComplete="off"
         variant="outlined"
+        sx={{"&.Mui-root":{borderColor: selected ? colorClick : ""} }}
         autoFocus
+        onSelect = {()=>{setSelected(true)}}
+        onBlur = {()=>{setSelected(false)}}
         InputProps={{
           startAdornment: (
              <InputAdornment position="start">{adornment}</InputAdornment>

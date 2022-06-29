@@ -33,6 +33,16 @@ export { default as Modal} from '@mui/material/Modal'
 export { default as Alert} from '@mui/material/Alert'
 export { default as AlertTitle} from '@mui/material/AlertTitle'
 export { default as Stack} from '@mui/material/Stack'
+export { default as MuiTable } from '@mui/material/Table'
+export { default as MuiRow } from '@mui/material/TableRow'
+export { default as MuiCell } from '@mui/material/TableCell'
+export { default as MuiTableContainer } from '@mui/material/TableContainer'
+export { default as MuiTableHead } from '@mui/material/TableHead'
+export { default as MuiTableBody } from '@mui/material/TableBody'
+export { default as Collapse } from '@mui/material/Collapse'
+export { default as TableSortLabel} from '@mui/material/TableSortLabel'
+export { default as Breadcrumbs} from '@mui/material/Breadcrumbs'
+
 
 
 

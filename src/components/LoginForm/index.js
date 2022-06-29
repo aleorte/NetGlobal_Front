@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Box,
@@ -56,19 +56,29 @@ const LoginForm = () => {
   const {
     register,
     watch,
+    setError,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationLogin), mode: "onBlur" });
+  } = useForm({ resolver: yupResolver(validationLogin), mode:"all" });
 
   const [email,password] = watch(["email","password"])
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate()
 
+  useEffect(()=>{
+    if (user.userInfo.id) dispatch(setAlert({severity:"success",message:"LOGUEADO!"})) 
+    if (user.err){
+      if (user.err.code==="ERR_BAD_REQUEST"){
+        setError('email', { type: 'custom', message: 'La cuenta no se encuentra registrada' })
+      }else{
+        setError('password', { type: 'custom', message: 'La contraseña es incorrecta' })
+      }
+    }
+  },[user,dispatch,setError])
+
   const onSubmit = () => {
     if (errors.email || errors.password) return
-    console.log(email,password)
-    dispatch(sendLoginRequest({email,password}))
-    dispatch(setAlert({severity:"success",message:"LOGUEADO!"})) 
+    dispatch(sendLoginRequest({email,password})) 
   };
 
   return (
