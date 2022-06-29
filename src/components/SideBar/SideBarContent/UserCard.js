@@ -1,8 +1,13 @@
 import React from "react";
 import { Grid, Avatar, Typography, Box } from "../../../styles/material";
 import { getRandomColor } from "../../../utils/functions";
+import { useSelector } from "react-redux";
 
-const UserCard = ({ user }) => {
+const UserCard = () => {
+
+  const { userInfo } = useSelector(state=>state.user)
+
+  if (!userInfo.name) return
   return (
     <Grid
       display="flex"
@@ -14,14 +19,14 @@ const UserCard = ({ user }) => {
     >
       <Avatar
         sx={{ width: "100px", height: "100px", bgcolor: getRandomColor() }}
-        alt={user.name}
-        src={user.image}
+        alt={userInfo.name}
+        src={userInfo.image}
       >
-        <Typography fontSize={33}> {user.name[0]} </Typography>
+        <Typography fontSize={33}> {userInfo.name[0]} </Typography>
       </Avatar>
       <Box textAlign="center">
-        <Typography variant="h6"> {user.name} </Typography>
-        <Typography color="lightgray"> Administrador </Typography>
+        <Typography variant="h6"> {userInfo.name} </Typography>
+        <Typography color="lightgray"> {userInfo.role} </Typography>
       </Box>
     </Grid>
   );

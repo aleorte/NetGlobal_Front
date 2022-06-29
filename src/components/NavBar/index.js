@@ -12,10 +12,12 @@ import {
   Toolbar,
   AppBar,
 } from "../../styles/material";
+import { useSelector } from "react-redux";
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const user = useSelector(state=>state.user)
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -82,7 +84,6 @@ export default function PrimarySearchAppBar() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
       </MenuItem>
       <MenuItem>
         <Button color="inherit">Cerrar sesión</Button>
@@ -132,6 +133,7 @@ export default function PrimarySearchAppBar() {
             </Badge>
           </Box>
 
+          { user.userInfo.id &&
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -144,6 +146,7 @@ export default function PrimarySearchAppBar() {
               <MoreIcon />
             </IconButton>
           </Box>
+          }
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

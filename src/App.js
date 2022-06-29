@@ -19,10 +19,9 @@ function App() {
         <CssBaseline/>
         <NavBar/>
         <Routes>
-        <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
-          <Route path="/" element={<Home/>}/>
+          <Route path="/home/:entity/*" element={<Home/>}/>
         </Routes>
       </ThemeProvider>
     </Provider>
