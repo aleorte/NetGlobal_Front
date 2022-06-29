@@ -12,6 +12,7 @@ import {
   Toolbar,
   AppBar,
 } from "../../styles/material";
+
 import { useSelector } from "react-redux";
 
 export default function PrimarySearchAppBar() {
@@ -86,7 +87,7 @@ export default function PrimarySearchAppBar() {
         </IconButton>
       </MenuItem>
       <MenuItem>
-        <Button color="inherit">Cerrar sesión</Button>
+        <Button  color="inherit">Cerrar sesión</Button>
       </MenuItem>
     </Menu>
   );
@@ -116,6 +117,11 @@ export default function PrimarySearchAppBar() {
             />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <AddCompany/>
+            <AddBranch/>
+            <AddGuard/>
+          </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"

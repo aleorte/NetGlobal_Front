@@ -12,13 +12,14 @@ import NavBar from './components/NavBar'
 
 
 function App() {
-
+  
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <NavBar/>
         <Routes>
+          <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
           <Route path="/home/:entity/*" element={<Home/>}/>
