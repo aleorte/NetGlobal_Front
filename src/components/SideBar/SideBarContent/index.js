@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Toolbar,
   Divider,
@@ -18,9 +18,10 @@ import {
   SupervisedUserCircle,
 } from "../../../styles/materialIcons";
 import { Link } from 'react-router-dom'
+import { useLocation } from "react-router";
 
 const options = [
-  { label: "Compañias", icon: <Apartment />,url:"/companias"},
+  { label: "Companias", icon: <Apartment />,url:"/companias"},
   { label: "Vigiladores", icon: <AssignmentInd />,url:"/vigiladores" },
   { label: "Reportes", icon: <QueryStats />,url:"/reportes" },
 ];
@@ -31,6 +32,12 @@ const SideBarContent = () => {
 
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   let indexOption = 0;
+  const location = useLocation()
+
+  useEffect(()=>{
+    const actualIndex = options.map(element=>element.label.toLowerCase()).indexOf(location.pathname.slice(1))
+    setSelectedIndex(Number(actualIndex)+1)
+  },[location])
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);

@@ -13,9 +13,7 @@ const CompanyCard = () => {
     if (!selectedCompany.id) return 
     return ( 
         <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
-            <Box position="absolute" top="5px" right="13px" >
-                <CardActions/>
-            </Box>
+            <CardActions/>
             <Box textAlign="center">
                 <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src="https://logodownload.org/wp-content/uploads/2014/04/McDonalds-logo-1.png">
                     {selectedCompany.name[0]}

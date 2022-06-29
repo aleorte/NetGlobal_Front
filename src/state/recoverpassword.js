@@ -2,18 +2,18 @@ import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const sendMailRecover = createAsyncThunk("SEND_MAIL_RECOVER", async (email) => {
-    return axios.post("api/login",{email});
+    return axios.post("/forgot-password",{email});
 });
 
 export const sendCodeRecover = createAsyncThunk("SEND_CODE_RECOVER", async (code,thunkAPI) => {
     const email = thunkAPI.getState().recover.data.email
-    return axios.post("api/login",{email,code}); 
+    return axios.post("/token",{email,code}); 
 });
 
 export const sendPasswordRecover = createAsyncThunk("SEND_PASSWORD_RECOVER", async (password,thunkAPI) => {
     const email = thunkAPI.getState().recover.data.email
     const code = thunkAPI.getState().recover.data.code
-    return axios.post("api/login",{email,code,password});  
+    return axios.post("/new-password",{email,code,password});  
 });
 
 const recoverReducer = createReducer(

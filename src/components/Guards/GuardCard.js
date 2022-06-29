@@ -3,15 +3,16 @@ import { Avatar, Grid, Typography,Button,Box } from '../../styles/material'
 import StatsCard from '../../commons/StatsCard'
 import { AssignmentInd,Business,VisibilityOutlined } from '../../styles/materialIcons';
 import { useSelector } from 'react-redux';
+import CardActions from '../../commons/CardActions';
 
 const GuardCard = () => {
 
     const {selectedGuard} = useSelector(state=>state.guard)
     
-
     if (!selectedGuard.id) return 
     return ( 
-        <Grid display="flex" justifyContent="space-around"  flexDirection="column" width="100%" height="100%" alignItems="center">
+        <Grid display="flex" justifyContent="space-around"  flexDirection="column" width="100%" height="100%" alignItems="center" position="relative">
+            <CardActions/>
             <Box textAlign="center">
                 <Avatar sx={{height:"120px",width:'120px'}} src="https://logodownload.org/wp-content/uploads/2014/04/McDonalds-logo-1.png">
                     {selectedGuard.name[0]}

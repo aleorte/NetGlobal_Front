@@ -9,8 +9,6 @@ import RecoverPassword from './views/RecoverPassword'
 import { Provider } from "react-redux"
 import store from './state/store';
 import NavBar from './components/NavBar'
-import Company from './views/Company';
-import Guard from './views/Guard';
 
 
 function App() {
@@ -23,8 +21,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover" element={<RecoverPassword/>}/>
-          <Route path="/vigiladores" element={<Guard/>}/>
-          <Route path="/companias" element={<Company/>}/>
+          <Route path="/home/:entity/*" element={<Home/>}/>
         </Routes>
       </ThemeProvider>
     </Provider>

@@ -6,23 +6,19 @@ export const sendLoginRequest = createAsyncThunk("Login", async ({email,password
 });
 
 const userReducer = createReducer(
-  { loading: false, userInfo: {
-    name: "Alguna fulana",
-    image:
-      "https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos.jpg",
-    role: "Administrador",
-  } , err:null},
+  { loading: false, userInfo: {name:"Elon Musk",image:"https://www.cronista.com/files/image/335/335890/60ca12f9265e1.jpg",role:"Administrador"} , err: null},
   {
     [sendLoginRequest.fulfilled]: (state, action) =>{
       state.userInfo = action.payload.data
       state.loading = false
+      state.error = null
     },
     [sendLoginRequest.pending]: (state) => {
       state.loading = true;
     },
     [sendLoginRequest.rejected]: (state, action) => {
       state.loading = false;
-      state.err = action.error.message
+      state.err = action.error
     },
   }
 );

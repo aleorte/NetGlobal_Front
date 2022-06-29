@@ -52,8 +52,7 @@ export default function EnhancedTable({ headers, data, Cells }) {
     setPage(0);
   };
 
-  const isSelected = (id) =>
-    selected === data.find((element) => element.id === id);
+  const isSelected = (id) => selected === data.find((element) => element.id === id);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;

@@ -9,12 +9,15 @@ import companyHeaders from "../../components/Companies/CompanyHeaders"
 import GuardCard from "../../components/Guards/GuardCard";
 import GuardCells from "../../components/Guards/GuardCells";
 import guardHeaders from "../../components/Guards/guardHeaders";
-import { Routes,Route } from "react-router";
+import { useParams } from "react-router";
 
 const Home = () => {
 
   const { companies } = useSelector(state=>state.company)
   const { guards } = useSelector(state=>state.guard)
+  const { entity } = useParams()
+
+  console.log(entity)
 
   const companyElements = {
     data:companies,
@@ -46,7 +49,8 @@ const Home = () => {
         }}
       >
         <Toolbar/>
-        <Dashboard {...guardElements}/>
+        {entity==="vigiladores" && <Dashboard {...guardElements}/>}
+        {entity==="companias" && <Dashboard {...companyElements}/>}
       </Box>
     </Box>
   );
