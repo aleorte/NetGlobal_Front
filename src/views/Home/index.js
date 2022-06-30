@@ -7,7 +7,6 @@ import { useSelector,useDispatch } from "react-redux";
 import CompanyCard from "../../components/Companies/CompanyCard";
 import CompanyCells from "../../components/Companies/CompanyCells";
 import companyHeaders from "../../components/Companies/CompanyHeaders"
-import { selectCompany } from "../../state/company";
 import GuardCard from "../../components/Guards/GuardCard";
 import GuardCells from "../../components/Guards/GuardCells";
 import guardHeaders from "../../components/Guards/guardHeaders";
@@ -29,10 +28,9 @@ const Home = () => {
   const companyElements = {
     data:companies,
     headers:companyHeaders, 
-    card:<CompanyCard/>, 
+    Card:CompanyCard, 
     Cells:CompanyCells,
     label:"Company",
-    handleSelect: selectCompany
   }
 
   const guardElements = {

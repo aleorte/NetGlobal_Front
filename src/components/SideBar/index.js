@@ -22,11 +22,11 @@ function ResponsiveDrawer({...props}) {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { md: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
-      <IconButton sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,top:{sm:"15px",xs:"10px"},left:"5px",position:"fixed",display:{xs:"block",sm:"none"} }}>
-        <MenuIcon fontSize="medium" sx={{color:"white"}} onClick={handleDrawerToggle}/>
+      <IconButton onClick={handleDrawerToggle} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,top:{md:"15px",xs:"10px"},left:"5px",position:"fixed",display:{xs:"block",md:"none"} }}>
+        <MenuIcon fontSize="medium" sx={{color:"white"}}/>
       </IconButton>
       <Drawer
         container={container}
@@ -37,7 +37,7 @@ function ResponsiveDrawer({...props}) {
           keepMounted: true,
         }}
         sx={{
-          display: { xs: "block", sm: "none" },
+          display: { xs: "block", md: "none" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         
         }}
@@ -47,7 +47,7 @@ function ResponsiveDrawer({...props}) {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: "none", sm: "block" },
+          display: { xs: "none", md: "block" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth,borderRight:"none" },
         }}
         open

@@ -12,7 +12,7 @@ const companyHeaders = [
       label: "NOMBRE",
     },
     {
-      id: "contractEndDate",
+      id: "state",
       numeric: false,
       disablePadding: false,
       label: "ESTADO",

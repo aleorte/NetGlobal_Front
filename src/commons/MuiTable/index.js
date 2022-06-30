@@ -23,10 +23,9 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
+export default function EnhancedTable({ headers, data, Cells,handleClick,isSelected }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("cuit");
-  const [selected, setSelected] = useState({});
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search,setSearch] = useState("")
@@ -35,10 +34,6 @@ export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleClick = (event, id) => {
-    setSelected(data.find((element) => element.id === id));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -54,9 +49,6 @@ export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
     return array.filter((element)=> element["legalName"].toLowerCase().includes(value.toLowerCase()))
   }
 
-  const isSelected = (id) =>
-    selected === data.find((element) => element.id === id);
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
@@ -69,6 +61,7 @@ export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
               sx={{ my: 3 }}
               onChange = {(e)=>{setSearch(e.target.value)}}
               value = {search}
+              placeholder="Buscar"
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -88,7 +81,6 @@ export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
         <MuiTableContainer>
           <MuiTable sx={{ minWidth: 75 }} aria-labelledby="tableTitle">
             <TableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
@@ -103,10 +95,10 @@ export default function EnhancedTable({ headers, data, Cells, handleSelect }) {
 
                   return (
                     <Cells
+                      key={row.id}
                       data={row}
                       handleClick={handleClick}
                       isItemSelected={isItemSelected}
-                      handleSelect={handleSelect}
                     />
                   );
                 })}

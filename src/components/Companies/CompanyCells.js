@@ -3,7 +3,7 @@ import { MuiCell, Typography, MuiRow, Avatar,Box } from "../../styles/material";
 import Status from '../../commons/Status'
 import { useDispatch } from "react-redux";
 
-const CompanyCells = ({ data, handleClick, isItemSelected,handleSelect }) => {
+const CompanyCells = ({ data, handleClick, isItemSelected }) => {
 
   const dispatch = useDispatch()
 
@@ -12,7 +12,6 @@ const CompanyCells = ({ data, handleClick, isItemSelected,handleSelect }) => {
       hover
       onClick={(event) => {
         handleClick(event, data.id)
-        dispatch(handleSelect(data))
       }}
       role="checkbox"
       aria-checked={isItemSelected}
@@ -23,16 +22,16 @@ const CompanyCells = ({ data, handleClick, isItemSelected,handleSelect }) => {
       <MuiCell
         sx={{
           fontSize: "15px",
-          width: "100px",
+          width: "80px",
           color: "#545252",
         }}
       >
         <Typography sx={{ width: "100px" }}>{data.cuit}</Typography>
       </MuiCell>
-      <MuiCell align="left" sx={{ fontSize: "15px", width: "300px" }}>
+      <MuiCell align="left" sx={{ fontSize: "15px", width: "150px" }}>
         <Box display="flex" alignItems="center" gap="6px">
           <Avatar src={data.logo}>{data.legalName[0]}</Avatar>
-          <Typography sx={{ width: "100px", fontWeight: 600 }}>
+          <Typography sx={{ width: "150px", fontWeight: 600 }}>
             {data.legalName}
           </Typography>
         </Box>
