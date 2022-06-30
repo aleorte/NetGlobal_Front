@@ -58,7 +58,7 @@ const LoginForm = () => {
     watch,
     setError,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationLogin), mode:"onTouched" });
+  } = useForm({ resolver: yupResolver(validationLogin), mode: "onTouched" });
 
   const [email,password] = watch(["email","password"])
   const dispatch = useDispatch();
@@ -66,9 +66,9 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    if (user.userInfo.id) dispatch(setAlert({severity:"success",message:"LOGUEADO!"})) 
+    if (user?.userInfo?.id) navigate("/home/companias") 
     if (user.err){
-      if (user.err.code==="ERR_BAD_REQUEST"){
+      if (user.err.message==="Request failed with status code 404"){
         setError('email', { type: 'custom', message: 'La cuenta no se encuentra registrada' })
       }else{
         setError('password', { type: 'custom', message: 'La contraseña es incorrecta' })
@@ -78,7 +78,7 @@ const LoginForm = () => {
 
   const onSubmit = () => {
     if (errors.email || errors.password) return
-    dispatch(sendLoginRequest({email,password})) 
+    dispatch(sendLoginRequest({email,password}))
   };
 
   return (

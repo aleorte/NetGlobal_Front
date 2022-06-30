@@ -43,6 +43,7 @@ export { default as MuiTablePagination } from '@mui/material/TablePagination'
 export { default as Collapse } from '@mui/material/Collapse'
 export { default as TableSortLabel} from '@mui/material/TableSortLabel'
 export { default as Breadcrumbs} from '@mui/material/Breadcrumbs'
+export { default as Tooltip} from '@mui/material/Tooltip'
 
 
 
