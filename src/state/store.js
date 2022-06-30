@@ -7,7 +7,9 @@ import companyReducer from "./company"
 import guardsReducer from "./guards"
 
 const store=configureStore({
-    midelware:(getDefaultMiddleware)=>{getDefaultMiddleware().concat(logger)},
+    midelware:(getDefaultMiddleware)=>{getDefaultMiddleware({
+        serializableCheck: false
+    }).concat(logger)},
     reducer:{
         user: userReducer,
         recover : recoverReducer,

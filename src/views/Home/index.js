@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "../../components/SideBar";
 import { Box,Toolbar } from "../../styles/material"
 import Dashboard from "../../commons/Dashboard";
-import { useSelector } from "react-redux";
+import { getCompanies } from "../../state/company";
+import { useSelector,useDispatch } from "react-redux";
 import CompanyCard from "../../components/Companies/CompanyCard";
 import CompanyCells from "../../components/Companies/CompanyCells";
 import companyHeaders from "../../components/Companies/CompanyHeaders"
@@ -13,16 +14,21 @@ import { useParams } from "react-router";
 
 const Home = () => {
 
+  const dispatch = useDispatch()
   const { companies } = useSelector(state=>state.company)
   const { guards } = useSelector(state=>state.guard)
   const { entity } = useParams()
 
-  console.log(entity)
+  useEffect(()=>{
+    if (entity === "companias"){
+      dispatch(getCompanies())
+    }
+  },[entity,dispatch])
 
   const companyElements = {
     data:companies,
     headers:companyHeaders, 
-    card:<CompanyCard/>, 
+    Card:CompanyCard, 
     Cells:CompanyCells,
     label:"Company",
   }

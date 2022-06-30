@@ -1,20 +1,21 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import React,{ useState } from "react";
+import {
+  Grid,
+  IconButton,
+  Paper,
+  MuiRow,
+  MuiTablePagination,
+  MuiTableContainer,
+  MuiCell,
+  MuiTableBody,
+  MuiTable,
+  Box,
+  InputAdornment,
+  TextField,
+} from "../../styles/material";
 import TableHead from "./TableHead";
 import { descendingComparator, stableSort } from "../../utils/functions";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import { SearchIcon, AddBoxOutlinedIcon } from "../../styles/materialIcons";
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -22,25 +23,17 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function EnhancedTable({ headers, data, Cells }) {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("cuit");
-  const [selected, setSelected] = React.useState({});
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  React.useEffect(() => {
-    console.log(selected);
-  }, [selected]);
+export default function EnhancedTable({ headers, data, Cells,handleClick,isSelected }) {
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("cuit");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [search,setSearch] = useState("")
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleClick = (event, id) => {
-    setSelected(data.find((element) => element.id === id));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -52,7 +45,9 @@ export default function EnhancedTable({ headers, data, Cells }) {
     setPage(0);
   };
 
-  const isSelected = (id) => selected === data.find((element) => element.id === id);
+  const filter = (array,value) =>{
+    return array.filter((element)=> element["legalName"].toLowerCase().includes(value.toLowerCase()))
+  }
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -64,6 +59,9 @@ export default function EnhancedTable({ headers, data, Cells }) {
           <Grid item xs={10} sm={7} pl={5} mt={2}>
             <TextField
               sx={{ my: 3 }}
+              onChange = {(e)=>{setSearch(e.target.value)}}
+              value = {search}
+              placeholder="Buscar"
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -80,24 +78,24 @@ export default function EnhancedTable({ headers, data, Cells }) {
             </IconButton>
           </Grid>
         </Grid>
-        <TableContainer>
-          <Table sx={{ minWidth: 75 }} aria-labelledby="tableTitle">
+        <MuiTableContainer>
+          <MuiTable sx={{ minWidth: 75 }} aria-labelledby="tableTitle">
             <TableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               rowCount={headers.length}
               headCells={headers}
             />
-            <TableBody>
-              {stableSort(data, getComparator(order, orderBy))
+            <MuiTableBody>
+              {stableSort(filter(data,search), getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
 
                   return (
                     <Cells
+                      key={row.id}
                       data={row}
                       handleClick={handleClick}
                       isItemSelected={isItemSelected}
@@ -105,14 +103,14 @@ export default function EnhancedTable({ headers, data, Cells }) {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} />
-                </TableRow>
+                <MuiRow>
+                  <MuiCell colSpan={6} />
+                </MuiRow>
               )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
+            </MuiTableBody>
+          </MuiTable>
+        </MuiTableContainer>
+        <MuiTablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={data.length}

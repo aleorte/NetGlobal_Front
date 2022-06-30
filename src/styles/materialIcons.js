@@ -20,3 +20,6 @@ export { default as KeyboardArrowUpIcon } from '@mui/icons-material/KeyboardArro
 export { default as KeyboardArrowDownIcon } from '@mui/icons-material/KeyboardArrowDown'
 export { default as EditIcon } from '@mui/icons-material/Edit'
 export { default as DeleteIcon } from '@mui/icons-material/Delete'
+export { default as AddBoxOutlinedIcon } from '@mui/icons-material/AddBoxOutlined'
+export { default as SearchIcon } from '@mui/icons-material/Search'
+

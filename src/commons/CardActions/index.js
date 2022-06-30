@@ -6,14 +6,9 @@ import { DeleteIcon,EditIcon } from '../../styles/materialIcons'
 const CardActions = ({handleDelete,handleEdit}) => {
     return ( 
         <Box position="absolute" top="5px" right="13px" >
-            <Tooltip title="Edit">
+            <Tooltip title="Editar">
                 <IconButton color="secondary" onClick={handleEdit} aria-label="edit">
                     <EditIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-                <IconButton color="error" onClick={handleDelete} aria-label="delete">
-                    <DeleteIcon/>
                 </IconButton>
             </Tooltip>
         </Box>

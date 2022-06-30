@@ -1,12 +1,18 @@
 import React from "react";
-import { MuiCell, Typography, MuiRow } from "../../styles/material";
+import { MuiCell, Typography, MuiRow, Avatar,Box } from "../../styles/material";
 import Status from '../../commons/Status'
+import { useDispatch } from "react-redux";
 
 const CompanyCells = ({ data, handleClick, isItemSelected }) => {
+
+  const dispatch = useDispatch()
+
   return (
     <MuiRow
       hover
-      onClick={(event) => handleClick(event, data.id)}
+      onClick={(event) => {
+        handleClick(event, data.id)
+      }}
       role="checkbox"
       aria-checked={isItemSelected}
       tabIndex={-1}
@@ -16,25 +22,28 @@ const CompanyCells = ({ data, handleClick, isItemSelected }) => {
       <MuiCell
         sx={{
           fontSize: "15px",
-          width: "100px",
+          width: "80px",
           color: "#545252",
         }}
       >
         <Typography sx={{ width: "100px" }}>{data.cuit}</Typography>
       </MuiCell>
-      <MuiCell align="left" sx={{ fontSize: "15px", width: "300px" }}>
-        <Typography sx={{ width: "100px", fontWeight: 600 }}>
-          {data.name}
-        </Typography>
+      <MuiCell align="left" sx={{ fontSize: "15px", width: "150px" }}>
+        <Box display="flex" alignItems="center" gap="6px">
+          <Avatar src={data.logo}>{data.legalName[0]}</Avatar>
+          <Typography sx={{ width: "150px", fontWeight: 600 }}>
+            {data.legalName}
+          </Typography>
+        </Box>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        <Status status={data.status}/>
+        <Status date={data.contractEndDate}/>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        {data.inicio}
+        {data.contractStartDate}
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        {data.final}
+        {data.contractEndDate}
       </MuiCell>
     </MuiRow>
   );
