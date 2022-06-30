@@ -5,7 +5,6 @@ export const styleModal={
     top:"50%",
     left:"50%",
     width:600,
-    height:550,
     maxWidth:"100%",
     bgcolor:"white",
     boxShadow:24,
