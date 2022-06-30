@@ -29,6 +29,10 @@ export { default as IconButton} from '@mui/material/IconButton'
 export { default as Badge} from '@mui/material/Badge'
 export { default as MenuItem} from '@mui/material/MenuItem'
 export { default as Menu} from '@mui/material/Menu'
+export { default as Modal} from '@mui/material/Modal'
+export { default as Alert} from '@mui/material/Alert'
+export { default as AlertTitle} from '@mui/material/AlertTitle'
+export { default as Stack} from '@mui/material/Stack'
 export { default as MuiTable } from '@mui/material/Table'
 export { default as MuiRow } from '@mui/material/TableRow'
 export { default as MuiCell } from '@mui/material/TableCell'
@@ -39,6 +43,7 @@ export { default as MuiTablePagination } from '@mui/material/TablePagination'
 export { default as Collapse } from '@mui/material/Collapse'
 export { default as TableSortLabel} from '@mui/material/TableSortLabel'
 export { default as Breadcrumbs} from '@mui/material/Breadcrumbs'
+
 
 
 
