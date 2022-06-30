@@ -9,14 +9,12 @@ import {
 } from "../../styles/material";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { AddGuard } from "../Modals/guard/AddGuard";
 
 export default function Navbar() {
   const user = useSelector((state) => state.user);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"58px" }}
@@ -52,3 +50,4 @@ export default function Navbar() {
     </Box>
   );
 }
+

@@ -58,7 +58,7 @@ const LoginForm = () => {
     watch,
     setError,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationLogin), mode:"all" });
+  } = useForm({ resolver: yupResolver(validationLogin), mode:"onTouched" });
 
   const [email,password] = watch(["email","password"])
   const dispatch = useDispatch();
