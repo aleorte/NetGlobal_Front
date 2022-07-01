@@ -9,6 +9,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationLogin } from "../../../utils/validations";
 import { sendPasswordRecover } from "../../../state/recoverpassword";
 import { useSelector,useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { restart } from "../../../state/recoverpassword";
 
 
 const StepThree = ({handleNext,handleBack,activeStep,steps,label}) => {
@@ -17,11 +19,13 @@ const StepThree = ({handleNext,handleBack,activeStep,steps,label}) => {
   const [password,confirmpassword] = watch(['password','confirmpassword'])
   const recover = useSelector(state=>state.recover)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(()=>{
     if (recover.error || !recover.success) return
-    handleNext()
-  },[recover,handleNext])
+    dispatch(restart())
+    navigate("/login")
+  },[recover,navigate,dispatch])
 
   const Next = ()=>{
     if (password!==confirmpassword) return

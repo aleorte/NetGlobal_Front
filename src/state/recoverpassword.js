@@ -1,39 +1,41 @@
-import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createReducer, createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import userServices from "../services/userServices";
 
 export const sendMailRecover = createAsyncThunk("SEND_MAIL_RECOVER", async (email) => {
-    return axios.post("/forgot-password",{email});
+    return userServices.sendMailRecover(email)
 });
 
 export const sendCodeRecover = createAsyncThunk("SEND_CODE_RECOVER", async (code,thunkAPI) => {
     const email = thunkAPI.getState().recover.data.email
-    return axios.post("/token",{email,code}); 
+    return userServices.sendCodeRecover(email,code) 
 });
 
 export const sendPasswordRecover = createAsyncThunk("SEND_PASSWORD_RECOVER", async (password,thunkAPI) => {
     const email = thunkAPI.getState().recover.data.email
     const code = thunkAPI.getState().recover.data.code
-    return axios.post("/new-password",{email,code,password});  
+    return userServices.sendPasswordRecover(email,code,password)  
 });
+
+export const restart = createAction("RESTART")
 
 const recoverReducer = createReducer(
   { loading: false, data: {email:null,code:null,user:null} , error:null,success:null},
   {
     [sendMailRecover.fulfilled]: (state, action) =>{
-        state.data.email = action.payload.data.email
+        state.data.email = action.meta.arg
         state.loading = false
         state.error = null
-        state.data.user = action.payload.data.user
+        state.data.user = action.payload.data
     },
     [sendMailRecover.pending]: (state) => {
         state.loading = true;
     },
     [sendMailRecover.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.error.message
+        state.error = action.error
     },
     [sendCodeRecover.fulfilled]: (state, action) =>{
-        state.data.code = action.payload.data.code
+        state.data.code = action.meta.arg
         state.loading = false
         state.error = null
     },
@@ -42,10 +44,9 @@ const recoverReducer = createReducer(
     },
     [sendCodeRecover.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload
+        state.error = action.error
     },
     [sendPasswordRecover.fulfilled]: (state) =>{
-        state.data.success = true
         state.loading = false
         state.error = null
         state.success = true
@@ -55,7 +56,10 @@ const recoverReducer = createReducer(
     },
     [sendPasswordRecover.rejected]: (state, action) => {
       state.loading = false;
-      state.error = action.payload
+      state.error = action.error
+    },
+    [restart] : () => {
+        return { loading: false, data: {email:null,code:null,user:null} , error:null,success:null}
     }
 
   }
