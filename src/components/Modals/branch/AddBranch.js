@@ -9,19 +9,16 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useChange from "../../../utils/useChange";
+import useChange from "../../../hooks/useChange";
 import { styleModal } from "../../../utils/modelUtils";
-import AlertModals from "../../../commons/Alert/AlertModals";
 import TextFieldModals from "../../../commons/TextFieldStyled/TextFieldModal";
 import { provinciesArg } from "../../../utils/provincies";
+import swal from "sweetalert";
 
-export const AddBranch = () => {
+export const AddBranch = ({ selected }) => {
   const [stateModal, setStateModal] = useState(false);
   const navigate = useNavigate();
-  const [success, setSuccess] = useState(false);
-  const [mesagge, setMesagge] = useState("");
   const [currency, setCurrency] = useState("Buenos Aires");
-  const [provinceId,setProvinceId]=useState("")
   const name = useChange("");
   const street = useChange("");
   const number = useChange("");
@@ -31,7 +28,6 @@ export const AddBranch = () => {
 
   const handleProvince = (e) => {
     setCurrency(e.target.value);
-    setProvinceId(e.target.value)
   };
 
   const openCloseModal = () => {
@@ -40,14 +36,33 @@ export const AddBranch = () => {
 
   const handleModel = async (e) => {
     e.preventDefault();
-    try {
-      setSuccess(false);
-      const newCompany = await axios.post("http://localhost:3001/branch", {});
-      setSuccess(true);
-      return newCompany;
-    } catch (err) {
-      console.log(err);
-    }
+    const branch = {
+      name: name.state,
+      street: street.state,
+      number: number.state,
+      location: location.state,
+      provinceName: currency,
+      coordinateLatitude: coordinateLatitude.state,
+      coordinateLength: coordinateLength.state,
+    };
+    console.log(branch.provinceName);
+    console.log(selected.id);
+    axios
+      .post(`http://localhost:3001/company/${selected.id}`, branch)
+      .then((res) => res.data)
+      .then(() => {
+        swal({ tittle: "Creada", text: "Compañía agregada", icon: "success" });
+        navigate("/home/companias");
+        openCloseModal();
+      })
+      .catch((err) => {
+        swal({
+          tittle: "Algo salió mal",
+          text: "Algo salió mal",
+          icon: "error",
+        });
+        console.log(err);
+      });
   };
 
   return (
@@ -88,7 +103,6 @@ export const AddBranch = () => {
               onChange={handleProvince}
               label="Provincia"
               margin="normal"
-              {...provinceId}
             >
               {provinciesArg.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -102,7 +116,6 @@ export const AddBranch = () => {
             <Button type="submit">Agregar sucursal</Button>
             <Button onClick={() => openCloseModal()}>Cerrar</Button>
           </div>
-          {success ? <AlertModals /> : ""}
         </Box>
       </Modal>
     </>

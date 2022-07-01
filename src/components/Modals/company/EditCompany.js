@@ -1,69 +1,191 @@
-import { Modal, TextField, Button, Box } from "../../../styles/material";
+import {
+  Modal,
+  TextField,
+  Button,
+  Box,
+  IconButton,
+  Stack,
+} from "../../../styles/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useChange from "../../../utils/useChange";
-import TextFieldStyled from "../../../commons/TextFieldStyled";
-import {styleModal } from "../../../utils/modelUtils";
+import useChange from "../../../hooks/useChange";
+import { styleModal } from "../../../utils/modelUtils";
+import { EditIcon } from "../../../styles/materialIcons";
+import TextFieldModals from "../../../commons/TextFieldStyled/TextFieldModal";
+import swal from "sweetalert";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { useDispatch } from "react-redux";
+import { getCompanies } from "../../../state/company";
 
-export const EditCompany = ({idCompany}) => {
+export const EditCompany = ({ selected }) => {
   const [stateModal, setStateModal] = useState(false);
+  const [contractStartDate, setContractStartDate] = useState(
+    new Date("07/01/2022")
+  );
+  const [contractEndDate, setContractEndDate] = useState(
+    new Date("07/01/2022")
+  );
   const navigate = useNavigate();
-  const [success, setSuccess] = useState(false);
-  const [mesagge, setMesagge] = useState("");
   const cuit = useChange("");
   const legalName = useChange("");
-  const legalAdress = useChange("");
-  const contractStartDate = useChange("");
-  const contractEndDate = useChange("");
+  const coordinateLatitude = useChange("");
+  const coordinateLength = useChange("");
+  const street = useChange("");
+  const number = useChange("");
+  const location = useChange("");
+  const logo=useChange("")
+
+  const dispatch = useDispatch();
 
   const openCloseModal = () => {
     setStateModal(!stateModal);
   };
+  const handleDateChange = (newValue) => {
+    setContractStartDate(newValue);
+  };
+  const handleDate2Change = (newValue) => {
+    setContractEndDate(newValue);
+  };
 
-  const handleModel = async (e) => {
+
+  const handleModel = (e) => {
     e.preventDefault();
-    try {
-      setSuccess(false)
-      const editCompany = await axios.put(`http://localhost:3001/company/${idCompany}`, {
-        cuit: cuit.state,
-        legalName: legalName.state,
-        legalAdress: legalAdress.state,
-        contractStartDate: contractStartDate.state,
-        contractEndDate: contractEndDate.state,
+    console.log(cuit)
+    console.log(legalName)
+    const company = {
+      cuit: cuit.state,
+      legalName: legalName.state,
+      contractStartDate: contractStartDate,
+      contractEndDate: contractEndDate,
+      street: street.state,
+      number: Number(number.state),
+      coordinateLatitude: Number(coordinateLatitude.state),
+      coordinateLength: Number(coordinateLength.state),
+      location: location.state,
+      logo: logo.state,
+    };
+    console.log(company)
+    axios
+      .put(`http://localhost:3001/company/${selected.id}`, company)
+      .then((res) => res.data)
+      .then(() => {
+        swal({ tittle: "Edit", text: "Compañía editada", icon: "success" });
+        dispatch(getCompanies());
+        navigate("/home/companias");
+        openCloseModal();
+      })
+      .catch((err) => {
+        swal({
+          tittle: "Algo salió mal",
+          text: "Algo salió mal",
+          icon: "error",
+        });
+        console.log(err);
       });
-      setSuccess(true);
-     return editCompany;
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
     <>
-      <button onClick={() => openCloseModal()}>
-        Editar compañía
-      </button>
+      <IconButton
+        color="secondary"
+        aria-label="edit"
+        onClick={() => openCloseModal()}
+      >
+        <EditIcon />
+      </IconButton>
       <Modal open={stateModal} onClose={openCloseModal}>
         <Box component="form" sx={styleModal} onSubmit={handleModel}>
           <div>
             <h2>Editar compañía</h2>
           </div>
-          <TextFieldStyled label="CUIT" {...cuit} />
+          <Stack spacing={4}>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              <TextFieldModals
+                label="Nombre Legal"
+                name="name"
+                defaultValue={selected.legalName}
+                {...legalName}
+              />
+              <TextFieldModals
+                label="CUIT"
+                defaultValue={selected.cuit}
+                {...cuit}
+              />
+              <DesktopDatePicker
+                label="Fecha de inicio de contrato"
+                inputFormat="MM/dd/yyyy"
+                margin="normal"
+                value={contractStartDate}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              <DesktopDatePicker
+                label="Fecha de fin del contrato"
+                inputFormat="MM/dd/yyyy"
+                margin="normal"
+                value={contractEndDate}
+                onChange={handleDate2Change}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Box>
+
+            <TextFieldModals
+              label="Logo"
+              defaultValue={selected.logo}
+              {...logo}
+            />
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              <TextFieldModals
+                label="Localidad"
+                defaultValue={selected.location}
+                {...location}
+              />
+
+              <TextFieldModals
+                defaultValue={selected.street}
+                label="Calle"
+                {...street}
+                
+              />
+              <TextFieldModals
+                label="Número"
+                defaultValue={selected.number}
+                {...number}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              <TextFieldModals
+                label="Latitud"
+                defaultValue={selected.coordinateLatitude}
+                {...coordinateLatitude}
+              />
+              <TextFieldModals
+                label="Longitud"
+                defaultValue={selected.coordinateLength}
+                {...coordinateLength}
+              />
+            </Box>
+          </Stack>
           <br />
-          <TextFieldStyled label="Nombre legal" height="70px" {...legalName} />
-          <br />
-          <TextFieldStyled label="Dirección legal" {...legalAdress} />
-          <br />
-          <TextFieldStyled
-            label="Fecha de inicio de contrato"
-            {...contractStartDate}
-          />
-          <br />
-          <TextFieldStyled
-            label="Fecha de fin del contrato"
-            {...contractEndDate}
-          />
           <br />
           <br />
           <div>

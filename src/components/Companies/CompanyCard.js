@@ -1,14 +1,28 @@
 import React from 'react';
-import { Avatar, Grid, Typography,Button,Box } from '../../styles/material'
+import { Avatar, Grid, Typography,Button,Box, Tooltip,IconButton } from '../../styles/material'
 import StatsCard from '../../commons/StatsCard'
-import CardActions from '../../commons/CardActions';
-import { AssignmentInd,Business,VisibilityOutlined } from '../../styles/materialIcons';
+import { AssignmentInd,Business,VisibilityOutlined, EditIcon } from '../../styles/materialIcons';
+import {EditCompany} from "../../components/Modals/company/EditCompany"
+import { AddBranch } from '../Modals/branch/AddBranch';
+import { EditBranch } from '../Modals/branch/EditBranch';
+import { AddGuard } from '../Modals/guard/AddGuard';
+import { EditGuard } from '../Modals/guard/EditGuard';
+import { AddAdmin } from '../Modals/admin/AddAdmin';
 
 const CompanyCard = ({selected}) => {
     if (!selected.id) return 
     return ( 
         <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
-            <CardActions/>
+                <Box position="absolute" top="5px" right="13px" >
+                <AddAdmin/>
+                <EditBranch/>
+                <AddBranch selected={selected}/>
+                <AddGuard/>
+                <EditGuard/>
+            <Tooltip title="Editar">
+                <EditCompany selected={selected}/>
+            </Tooltip>
+        </Box>
             <Box textAlign="center">
                 <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src={selected.logo}>
                     {selected.legalName[0]}
