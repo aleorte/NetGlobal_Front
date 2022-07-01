@@ -10,6 +10,8 @@ export const addCompany = createAsyncThunk("ADD_COMPANY", async (company) => {
   return companyServices.addCompany(company);
 })
 
+export const agregarCompany= createAction("Agregar_Company")
+
 const companyReducer = createReducer({loading:false,companies:[],error:null},{
     [getCompanies.fulfilled]: (state,action)=>{
       const companies = action.payload.companies
@@ -31,6 +33,9 @@ const companyReducer = createReducer({loading:false,companies:[],error:null},{
     [getCompanies.rejected] : (state,action) => {
       state.error = action.error
       state.loading = false
+    },
+    [agregarCompany]:(state,action) => {
+      state.companies.push(action.payload)
     },
 }
   

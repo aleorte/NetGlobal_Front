@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
+
 export default function Navbar() {
   const user = useSelector((state) => state.user);
 

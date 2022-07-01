@@ -1,7 +1,7 @@
 import { Modal, Button, Box, Stack,TextField} from "../../../styles/material";
 import axios from "axios";
 import React, { useState } from "react";
-import useChange from "../../../utils/useChange";
+import useChange from "../../../hooks/useChange";
 import { styleModal } from "../../../utils/modelUtils";
 import TextFieldModals from "../../../commons/TextFieldStyled/TextFieldModal";
 import swal from "sweetalert";
@@ -9,7 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 export const AddAdmin = () => {
   const [stateModal, setStateModal] = useState(false);
+  const name = useChange("");
+  const lastName = useChange("");
   const email = useChange("");
+  const image=useChange("")
   const navigate=useNavigate()
 
   const openCloseModal = () => {
@@ -19,7 +22,10 @@ export const AddAdmin = () => {
   const handleModel = async (e) => {
     e.preventDefault();
       axios.post("http://localhost:3001/register/admin", {
-       email:email.state
+      name: name.state,
+      lastName: lastName.state,
+      email:email.state,
+      image:image.state
       })
       .then(res=>res.data)
       .then(()=>{
@@ -49,7 +55,14 @@ export const AddAdmin = () => {
                 label="Correo electrónico"
                 {...email}
               />
-          </Stack>
+          
+          <TextFieldModals label="Nombre" {...name} />
+          <TextFieldModals label="Apellido" {...lastName} />
+          <TextFieldModals
+                label="Foto de perfil url"
+                {...image}
+              />
+              </Stack>
           <br />
           <div>
             <Button type="submit">Agregar Administrador</Button>

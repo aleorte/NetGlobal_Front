@@ -1,60 +1,108 @@
-import { Modal,TextField, Button, Box } from "../../../styles/material";
+import { Modal,TextField, Button, Box , MenuItem, Stack} from "../../../styles/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useChange from "../../../utils/useChange";
-import TextFieldStyled from "../../../commons/TextFieldStyled";
-import {handleModel,styleModal} from "../../../utils/modelUtils";
+import useChange from "../../../hooks/useChange";
+import {styleModal} from "../../../utils/modelUtils";
+import swal from "sweetalert";
+import TextFieldModals from "../../../commons/TextFieldStyled/TextFieldModal";
+import { provinciesArg } from "../../../utils/provincies";
 
 
 export const EditBranch = () => {
   const [stateModal, setStateModal] = useState(false);
   const navigate = useNavigate();
-  const name=useChange("")
-  const street=useChange("")
-  const number=useChange("")
-  const location=useChange("")
-  const coordinateLatitude=useChange("")
-  const coordinateLength=useChange("")
-  const active=useChange("")
+  const [currency, setCurrency] = useState("Buenos Aires");
+  const name = useChange("");
+  const street = useChange("");
+  const number = useChange("");
+  const location = useChange("");
+  const coordinateLatitude = useChange("");
+  const coordinateLength = useChange("");
+
+  const handleProvince = (e) => {
+    setCurrency(e.target.value);
+  };
 
   const openCloseModal = () => {
     setStateModal(!stateModal);
   };
- 
+
+  const handleModel = async (e) => {
+    e.preventDefault();
+    const branch = {
+      name: name.state,
+      street: street.state,
+      number: number.state,
+      location: location.state,
+      provinceName: currency,
+      coordinateLatitude: coordinateLatitude.state,
+      coordinateLength: coordinateLength.state,
+    };
+    axios
+      .put(`http://localhost:3001/branch/${1}`, branch)
+      .then((res) => res.data)
+      .then(() => {
+        swal({ tittle: "Editada", text: "Sucursal Editada", icon: "success" });
+        navigate("/home/companias");
+        openCloseModal();
+      })
+      .catch((err) => {
+        swal({
+          tittle: "Algo salió mal",
+          text: "Algo salió mal",
+          icon: "error",
+        });
+        console.log(err);
+      });
+  };
 
   return (
     <>
-      <button onClick={() => openCloseModal()}>
-      Editar sucursal
-      </button>
+      <button onClick={() => openCloseModal()}>Editar sucursal</button>
       <Modal open={stateModal} onClose={openCloseModal}>
-        <Box component="form" 
-        sx={styleModal} onSubmit={handleModel}>
+        <Box
+          component="form"
+          autoComplete="off"
+          sx={styleModal}
+          onSubmit={handleModel}
+        >
           <div>
             <h2>Editar sucursal</h2>
           </div>
-          <TextFieldStyled
-            label="Nombre"
-            {...name}
-          />
-          <br />
-          <TextFieldStyled label="Número"{...number} />
-          <br />
-          <TextFieldStyled
-            label="Calle"
-            height="70px"
-            {...street}
-          />
-          <br />
-          <TextFieldStyled label="Localidad"{...location} />
-          <br />
-          <TextFieldStyled label="Latitud"{...coordinateLatitude}/>
-          <br />
-          <TextFieldStyled label="Longitud"{...coordinateLength} />
-          <br />
-          <TextFieldStyled label="Estado del contrato"{...active} />
-          <br />
+          <Stack spacing={4}>
+            <TextFieldModals label="Nombre" {...name} />
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr 1fr" },
+                gap: 4,
+              }}
+            >
+              <TextFieldModals label="Localidad" {...location} />
+
+              <TextFieldModals label="Calle" {...street} />
+              <TextFieldModals label="Número" {...number} />
+            </Box>
+
+            <TextFieldModals label="Latitud" {...coordinateLatitude} />
+
+            <TextFieldModals label="Longitud" {...coordinateLength} />
+
+            <TextField
+              select
+              value={currency}
+              onChange={handleProvince}
+              label="Provincia"
+              margin="normal"
+            >
+              {provinciesArg.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
           <br />
           <div>
             <Button type="submit">Editar sucursal</Button>
