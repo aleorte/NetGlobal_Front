@@ -1,15 +1,18 @@
-import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
+import { createReducer, createAsyncThunk,createAction } from "@reduxjs/toolkit";
 import userServices from '../services/userServices'
 
 export const sendLoginRequest = createAsyncThunk("Login", async ({email,password}) => {
-    return userServices.logIn(email,password);
+  return userServices.logIn(email,password)  
 });
 
+export const logout = createAction("LOGOUT")
+
 const userReducer = createReducer(
-  { loading: false, userInfo: {name:"Elon Musk",image:"https://www.cronista.com/files/image/335/335890/60ca12f9265e1.jpg",role:"Administrador"} , err: null},
+  { loading: false, userInfo: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {} , err: null},
   {
     [sendLoginRequest.fulfilled]: (state, action) =>{
-      state.userInfo = action.payload.data
+      localStorage.setItem("user",JSON.stringify(action.payload.data))
+      state.userInfo = action?.payload?.data
       state.loading = false
       state.error = null
     },
@@ -20,6 +23,10 @@ const userReducer = createReducer(
       state.loading = false;
       state.err = action.error
     },
+    [logout]: (state,action) =>{
+      localStorage.removeItem("user")
+      state.userInfo = {}
+    }
   }
 );
 

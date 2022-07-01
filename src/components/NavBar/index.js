@@ -7,21 +7,34 @@ import {
   Toolbar,
   AppBar,
 } from "../../styles/material";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { motion } from "framer-motion";
+import { logout } from '../../state/user'
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Navbar() {
+
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+ 
+
+  const handleLogout = ()=>{
+    dispatch(logout())
+    navigate("/login")
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
+        color={user?.userInfo?.name ? "secondary" : "primary"}
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"58px" }}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"58px",transition:"background-color 2s" }}
       >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1,cursor:"pointer" }} onClick={()=>{navigate("/login")}}>
             <motion.div
               variants={{
                 hidden: {
@@ -30,7 +43,7 @@ export default function Navbar() {
                 visible: {
                   opacity: 1,
                   transition: { duration: 1.5, ease: "easeInOut" },
-                  x: user.userInfo.name ? 30 : 0,
+                  x: user?.userInfo?.name ? 30 : 0,
                 },
               }}
               initial="hidden"
@@ -45,7 +58,7 @@ export default function Navbar() {
               />
             </motion.div>
           </Typography>
-          {user.userInfo.name && <Button color="inherit">Cerrar Sesion</Button>}
+          {user?.userInfo?.name && <Button onClick={handleLogout} color="inherit">Cerrar Sesion</Button>}
         </Toolbar>
       </AppBar>
     </Box>

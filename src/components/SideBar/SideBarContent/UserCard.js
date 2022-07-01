@@ -7,7 +7,7 @@ const UserCard = () => {
 
   const { userInfo } = useSelector(state=>state.user)
 
-  if (!userInfo.name) return
+  if (!userInfo.id) return
   return (
     <Grid
       display="flex"
@@ -22,11 +22,11 @@ const UserCard = () => {
         alt={userInfo.name}
         src={userInfo.image}
       >
-        <Typography fontSize={33}> {userInfo.name[0]} </Typography>
+        <Typography fontSize={33}> {userInfo?.name?.slice(0,1)} </Typography>
       </Avatar>
       <Box textAlign="center">
-        <Typography variant="h6"> {userInfo.name} </Typography>
-        <Typography color="lightgray"> {userInfo.role} </Typography>
+        <Typography variant="h6"> {userInfo.name + " " + userInfo.lastName} </Typography>
+        <Typography color="lightgray"> {userInfo.superAdmin ? 'SuperAdmin' : 'Administrador'} </Typography>
       </Box>
     </Grid>
   );

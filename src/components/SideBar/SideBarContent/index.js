@@ -21,9 +21,9 @@ import { Link } from 'react-router-dom'
 import { useLocation } from "react-router";
 
 const options = [
-  { label: "Companias", icon: <Apartment />,url:"/companias"},
-  { label: "Vigiladores", icon: <AssignmentInd />,url:"/vigiladores" },
-  { label: "Reportes", icon: <QueryStats />,url:"/reportes" },
+  { label: "Companias", icon: <Apartment />,url:"/home/companias"},
+  { label: "Vigiladores", icon: <AssignmentInd />,url:"/home/vigiladores" },
+  { label: "Reportes", icon: <QueryStats />,url:"/home/reportes" },
 ];
 
 const adminOptions = [{ label: "Usuarios", icon: <SupervisedUserCircle />,url:"/usuarios" }];

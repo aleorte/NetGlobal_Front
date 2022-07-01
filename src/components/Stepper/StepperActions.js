@@ -1,7 +1,16 @@
+import React,{ useEffect } from 'react';
 import { Box, Button,MobileStepper } from "../../styles/material";
 import { KeyboardArrowRight,KeyboardArrowLeft} from '../../styles/materialIcons'
 
 const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
+  console.log(activeStep)
+  console.log(steps)
+  console.log((activeStep === 0) || (activeStep === (steps - 1)))
+
+  useEffect(()=>{
+    console.log("renderizo")
+  },[])
+
   return (
     <Box width="100%">
       <Box
@@ -13,7 +22,7 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
       >
         <Button
           color="inherit"
-          disabled={activeStep === 0}
+          disabled={(activeStep === 0) || (activeStep === (steps - 1))}
           onClick={handleBack}
           sx={{ mr: 1 }}
         >
@@ -21,7 +30,7 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
         </Button>
         <Box sx={{ flex: "1 1 auto" }} />
         <Button onClick={handleNext}>
-          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          {(activeStep === steps - 1) ? "Finish" : "Next"}
         </Button>
       </Box>
       <MobileStepper
@@ -34,14 +43,14 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
           <Button
             size="small"
             onClick={handleNext}
-            disabled={activeStep === steps.length - 1}
+            disabled={activeStep === 2}
           >
             Next
             <KeyboardArrowRight />
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button size="small" onClick={handleBack} disabled={(activeStep === 0) || (activeStep === (steps - 1)) }>
             <KeyboardArrowLeft />
             Back
           </Button>
