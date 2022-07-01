@@ -25,8 +25,6 @@ const StepOne = ({handleNext,handleBack,activeStep,steps,label}) => {
 
   const Next = ()=>{
     handleNext()
-    if (errors.email) return
-    dispatch(sendMailRecover(email))
   }
 
   return (

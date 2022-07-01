@@ -16,13 +16,13 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
 
   useEffect(()=>{
     if (recover.error || !recover.code) return
-    handleNext()
   },[recover,handleNext])
 
   const Next = ()=>{
-    if (pinValues.some((value)=>value==="")) return
+    /* if (pinValues.some((value)=>value==="")) return
     const stringCode = pinValues.join("")
-    dispatch(sendCodeRecover(stringCode))
+    dispatch(sendCodeRecover(stringCode)) */
+    handleNext()
   }
 
   return (
