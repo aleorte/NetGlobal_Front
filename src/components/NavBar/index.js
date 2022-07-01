@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { logout } from '../../state/user'
 import { useNavigate } from "react-router-dom";
 
+
 export default function Navbar() {
 
   const user = useSelector((state) => state.user);
