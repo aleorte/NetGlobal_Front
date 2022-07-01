@@ -2,29 +2,29 @@ import './App.css';
 import theme from './styles/theme'
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { Routes,Route } from 'react-router'
-import Login from './views/Login'  
-import Home from './views/Home';
-import RecoverPassword from './views/RecoverPassword'
 import { Provider } from "react-redux"
 import store from './state/store';
-import NavBar from './components/NavBar'
-import HomeCompany from './views/Company/HomeCompany';
-
+import { Routes,Route,Navigate } from 'react-router-dom'
+import NavBar from './components/NavBar';
+import Login from './views/Login';
+import RecoverPassword from './views/RecoverPassword';
+import Home from './views/Home';
+import PrivateRoute from './routes/PrivateAdminRoute';
 
 function App() {
-  
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <NavBar/>
-        <Routes>
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
+        <NavBar/> 
+        <Routes>      
+          <Route exact path='/home' element={<PrivateRoute/>}>
+            <Route exact path='/home/:entity/*' element={<Home/>}/>
+          </Route>
+          <Route path="/" element={<Navigate to="/login"/>}/>,
+          <Route path="/login" element={<Login/>}/>,
           <Route path="/recover" element={<RecoverPassword/>}/>
-          <Route path="/home/:entity/*" element={<Home/>}/>
-          <Route path="/companies" element={<HomeCompany/>}/>
         </Routes>
       </ThemeProvider>
     </Provider>

@@ -17,7 +17,7 @@ const CompanyCard = ({selected}) => {
             </Box>
             <Grid container display="flex" justifyContent="center" gap={5}>
                 <Grid item xs={4}>
-                    <StatsCard icon={<AssignmentInd sx={{ fontSize: 30,color:"#8757DF" }}/>} value={17} description="Vigiladores" />
+                    <StatsCard icon={<AssignmentInd sx={{ fontSize: 30,color:"#8757DF" }}/>} value={selected.guards} description="Vigiladores" />
                 </Grid>
                 <Grid item xs={4}>
                     <StatsCard icon={<Business sx={{ fontSize: 30,color:"#8757DF"  }}/>} value={selected.branches.length} description="Sucursales" />

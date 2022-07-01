@@ -12,6 +12,7 @@ import {
   Box,
   InputAdornment,
   TextField,
+  Tooltip
 } from "../../styles/material";
 import TableHead from "./TableHead";
 import { descendingComparator, stableSort } from "../../utils/functions";
@@ -73,9 +74,11 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
             />
           </Grid>
           <Grid item xs={2} textAlign="right" mr={2}>
-            <IconButton aria-label="add">
-              <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
-            </IconButton>
+            <Tooltip title="Agregar">
+              <IconButton aria-label="add">
+                <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
         <MuiTableContainer>
