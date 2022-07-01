@@ -27,8 +27,9 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
+        color={user?.userInfo?.name ? "secondary" : "primary"}
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"58px" }}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,height:"58px",transition:"background-color 2s" }}
       >
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1,cursor:"pointer" }} onClick={()=>{navigate("/login")}}>

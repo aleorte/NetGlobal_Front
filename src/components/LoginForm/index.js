@@ -19,7 +19,6 @@ import { validationLogin } from "../../utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import { sendLoginRequest } from "../../state/user";
 import { useNavigate } from 'react-router'
-import { setAlert } from "../../state/alert";
 
 const LoginOptions = () => {
   return (
@@ -74,7 +73,7 @@ const LoginForm = () => {
         setError('password', { type: 'custom', message: 'La contraseña es incorrecta' })
       }
     }
-  },[user,dispatch,setError])
+  },[user])
 
   const onSubmit = () => {
     if (errors.email || errors.password) return

@@ -4,12 +4,10 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Provider } from "react-redux"
 import store from './state/store';
-import { Routes,Route,Navigate } from 'react-router-dom'
+import { Routes,Route } from 'react-router-dom'
 import NavBar from './components/NavBar';
-import Login from './views/Login';
-import RecoverPassword from './views/RecoverPassword';
-import Home from './views/Home';
-import PrivateRoute from './routes/PrivateAdminRoute';
+import publicRoutes from './routes/publicRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 function App() {
 
@@ -19,12 +17,8 @@ function App() {
         <CssBaseline/>
         <NavBar/> 
         <Routes>      
-          <Route exact path='/home' element={<PrivateRoute/>}>
-            <Route exact path='/home/:entity/*' element={<Home/>}/>
-          </Route>
-          <Route path="/" element={<Navigate to="/login"/>}/>,
-          <Route path="/login" element={<Login/>}/>,
-          <Route path="/recover" element={<RecoverPassword/>}/>
+          {adminRoutes}
+          {publicRoutes}
         </Routes>
       </ThemeProvider>
     </Provider>
