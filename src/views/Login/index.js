@@ -13,7 +13,7 @@ export default function Login() {
     <Grid
       container
       component="main"
-      sx={{ height: "100vh" }}
+      sx={{ height: 'calc(100vh - 58px)' }}
       display="flex"
       alignContent="center"
     >

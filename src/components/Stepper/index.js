@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import StepperBody from "./StepperBody";
-import { Box, Grid } from "../../styles/material";
+import { Box, Grid, LinearProgress } from "../../styles/material";
 import StepOne from "./Steps/StepOne";
 import StepTwo from "./Steps/StepTwo";
 import StepThree from "./Steps/StepThree";
+import { useSelector } from "react-redux";
 
 const Stepper = () => {
   const [activeStep, setActiveStep] = useState(0);
-
-  const verifyCode = () => {};
+  const recover = useSelector(state=>state.recover)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -27,7 +27,7 @@ const Stepper = () => {
 
   const steps = [
     {
-      element: <StepOne {...stepsProps} label="Ingrese el email de la cuenta a recuperar"/>,
+      element: <StepOne {...stepsProps} label="Ingrese su email"/>,
       label: "Ingresar email"
     },
     {
@@ -44,10 +44,12 @@ const Stepper = () => {
     <Box
       display="flex"
       flexDirection="column"
+      position="relative"
       justifyContent={{ md: "space-around", xs: "center" }}
-      gap={10}
-      sx={{ width: "100%", p: 5 }}
+      gap={4}
+      sx={{ width: "100%", px: 5,pt:5,pb: 3 }}
     >
+      {recover.loading && <LinearProgress sx={{position:"absolute",top:0,left:0,width:"100%",height:"2px"}}/>}
       <StepperBody activeStep={activeStep} steps={steps} />
 
       <Grid container display="flex" justifyContent="center">

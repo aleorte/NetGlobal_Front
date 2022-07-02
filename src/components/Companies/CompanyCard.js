@@ -10,7 +10,7 @@ const CompanyCard = ({selected}) => {
         <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
             <CardActions/>
             <Box textAlign="center">
-                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src={selected.logo}>
+                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain",border:"1px solid black"}} src={selected.logo}>
                     {selected.legalName[0]}
                 </Avatar>
                 <Typography mt={1} fontWeight={400} fontSize={25}> {selected.legalName} </Typography>

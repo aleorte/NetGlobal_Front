@@ -12,7 +12,7 @@ export default function RecoverPassword() {
   const matches = useMediaQuery(theme.breakpoints.up('md'));
   
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: 'calc(100vh - 58px)' }}>
       <Grid
         elevation={matches ? 6 : 0 }
         item
