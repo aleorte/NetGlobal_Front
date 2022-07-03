@@ -64,8 +64,9 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
           values={pinValues}
           size="lg"
           onChange={onChange}
+          onFocus={ ()=>{setErrorPin(false)} }
           autoTab= {true}
-          inputStyle={{borderColor: errorPin ? "red" : "black"}}
+          inputStyle={{borderColor: errorPin ? "red" : "lightgray"}}
           showState={false}
         />
       </Grid>

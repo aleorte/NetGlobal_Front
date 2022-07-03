@@ -5,7 +5,7 @@ import { closeAlert } from "../../state/alert";
 
 const Alert = () => {
 
-  const { open } = useSelector(state=>state.alert)
+  const { open,severity,message } = useSelector(state=>state.alert)
   const dispatch = useDispatch()
 
   const handleClose = (event, reason) => {
@@ -16,9 +16,9 @@ const Alert = () => {
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <MuiAlert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-        This is a success message!
+    <Snackbar anchorOrigin={{ vertical:"top", horizontal:"right" }} open={open} autoHideDuration={6000} onClose={handleClose}>
+      <MuiAlert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+        {message}
       </MuiAlert>
     </Snackbar>
   );

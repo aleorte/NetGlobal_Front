@@ -7,7 +7,7 @@ import { AssignmentInd,Business,VisibilityOutlined } from '../../styles/material
 const CompanyCard = ({selected}) => {
     if (!selected.id) return 
     return ( 
-        <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
+        <Grid display="flex" justifyContent="space-around" position="relative" flexDirection="column" width="100%" height="100%" alignItems="center">
             <CardActions/>
             <Box textAlign="center">
                 <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain",border:"1px solid black"}} src={selected.logo}>

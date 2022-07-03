@@ -35,10 +35,10 @@ const StepperActions = ({ handleNext, handleBack, activeStep, steps, isLoading }
           <Button
             size="small"
             onClick={handleNext}
-            disabled={activeStep === 2 || isLoading}
+            disabled={isLoading}
             sx={{fontSize:"15px"}}
           >
-            Siguiente
+            {(activeStep === steps - 1) ? "Finalizar" : "Siguiente"}
             <KeyboardArrowRight />
           </Button>
         }

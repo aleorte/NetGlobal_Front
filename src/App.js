@@ -8,6 +8,7 @@ import { Routes,Route } from 'react-router-dom'
 import NavBar from './components/NavBar';
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
+import Alert from './commons/Alert';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
+        <Alert/>
         <NavBar/> 
         <Routes>      
           {adminRoutes}
