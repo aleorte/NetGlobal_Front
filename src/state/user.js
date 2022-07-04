@@ -14,7 +14,7 @@ const userReducer = createReducer(
       localStorage.setItem("user",JSON.stringify(action.payload.data))
       state.userInfo = action?.payload?.data
       state.loading = false
-      state.error = null
+      state.err = null
     },
     [sendLoginRequest.pending]: (state) => {
       state.loading = true;

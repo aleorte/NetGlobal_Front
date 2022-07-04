@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { colorClick,TextField,Box } from "../../styles/material";
+import { TextField,Box } from "../../styles/material";
 
 const TextFieldModals = ({ ...props }) => {
 
@@ -17,7 +17,6 @@ const TextFieldModals = ({ ...props }) => {
         autoComplete="off"
         variant="outlined"
         autoFocus
-        sx={{"&.Mui-root":{borderColor: selected ? colorClick : ""} }}
         onSelect = {()=>{setSelected(true)}}
         onBlur = {()=>{setSelected(false)}}
         {...props.register}

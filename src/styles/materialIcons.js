@@ -22,4 +22,6 @@ export { default as EditIcon } from '@mui/icons-material/Edit'
 export { default as DeleteIcon } from '@mui/icons-material/Delete'
 export { default as AddBoxOutlinedIcon } from '@mui/icons-material/AddBoxOutlined'
 export { default as SearchIcon } from '@mui/icons-material/Search'
+export { default as DraftsIcon } from '@mui/icons-material/Drafts';
+export { default as PinIcon } from '@mui/icons-material/Pin';
 

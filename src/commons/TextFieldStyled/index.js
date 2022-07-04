@@ -7,7 +7,7 @@ const TextFieldStyled = ({ colorClick,adornment, ...props }) => {
   const [selected,setSelected] = useState(false)
 
   return (
-    <Box sx={{height:'95px'}}>
+    <Box sx={{height:'95px',width:"100%"}}>
       <TextField
         {...props}
         error={props.errors ? true : false}

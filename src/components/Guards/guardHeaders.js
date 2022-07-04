@@ -1,9 +1,9 @@
 const guardHeaders = [
     {
-      id: "cuit",
+      id: "cuil",
       numeric: false,
       disablePadding: false,
-      label: "CUIT",
+      label: "CUIL",
     },
     {
       id: "name",

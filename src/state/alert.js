@@ -7,7 +7,6 @@ const alertReducer = createReducer(
   { open: false, severity: "" , message:""},
   {
     [setAlert] : (state,action) => {
-        console.log(action.payload)
         state.open = true
         state.severity = action.payload.severity
         state.message = action.payload.message

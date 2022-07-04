@@ -11,7 +11,7 @@ import GuardCard from "../../components/Guards/GuardCard";
 import GuardCells from "../../components/Guards/GuardCells";
 import guardHeaders from "../../components/Guards/guardHeaders";
 import { useParams } from "react-router";
-
+import Footer from '../../components/Footer/Footer'
 const Home = () => {
 
   const dispatch = useDispatch()
@@ -30,18 +30,19 @@ const Home = () => {
     headers:companyHeaders, 
     Card:CompanyCard, 
     Cells:CompanyCells,
-    label:"Company",
+    label:"Compañias",
   }
 
   const guardElements = {
     data:guards,
     headers:guardHeaders, 
-    card:<GuardCard/>, 
+    Card:GuardCard, 
     Cells:GuardCells,
     label:"Vigiladores",
   }
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <SideBar/>
       <Box
@@ -56,8 +57,11 @@ const Home = () => {
       >
         <Toolbar/>
         {entity==="companias" && <Dashboard {...companyElements}/>}
+        {entity==="vigiladores" && <Dashboard {...guardElements}/>}
       </Box>
     </Box>
+    <Footer/>
+    </>
   );
 };
 
