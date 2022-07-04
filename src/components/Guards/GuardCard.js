@@ -2,14 +2,11 @@ import React from 'react';
 import { Avatar, Grid, Typography,Button,Box } from '../../styles/material'
 import StatsCard from '../../commons/StatsCard'
 import { AssignmentInd,Business,VisibilityOutlined } from '../../styles/materialIcons';
-import { useSelector } from 'react-redux';
 import CardActions from '../../commons/CardActions';
 
-const GuardCard = () => {
+const GuardCard = ({selectedGuard}) => {
 
-    const {selectedGuard} = useSelector(state=>state.guard)
-    
-    if (!selectedGuard.id) return 
+    if (!selectedGuard?.id) return 
     return ( 
         <Grid display="flex" justifyContent="space-around"  flexDirection="column" width="100%" height="100%" alignItems="center" position="relative">
             <CardActions/>

@@ -10,17 +10,20 @@ const MapView = ({places,selected}) => {
     const [map,setMap] = useState(null)
 
     useEffect(()=>{
-        if (!map || !selected.coordinateLatitude) return
+        if (!map || !selected?.coordinateLatitude) return
         map.flyTo([selected.coordinateLatitude,selected.coordinateLength],17)
     },[selected,map])
 
-    return ( 
-        <MapContainer attributionControl={false} center={places[0] ? places[0].position : center} zoom={5} ref={setMap} >
-            <TileLayer
-                url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=zOsCRqkcw3fXtUb1lzmZ"
-            />
-            {places.map((location,i)=> <MarkerStyled key={i} position={location.position} icon={location.logo}/>)}
-        </MapContainer>
+    return (
+        
+         selected.id && 
+            <MapContainer attributionControl={false} center={places[0] ? places[0]?.position : center} zoom={5} ref={setMap} >
+                <TileLayer
+                    url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=zOsCRqkcw3fXtUb1lzmZ"
+                />
+                {places.map((location,i)=> <MarkerStyled key={i} position={location?.position} icon={location?.logo}/>)}
+            </MapContainer> 
+        
      );
 }
  

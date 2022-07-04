@@ -7,6 +7,7 @@ import { PinInput } from 'react-input-pin-code';
 import { sendCodeRecover,restart } from "../../../state/recoverpassword";
 import { useSelector,useDispatch } from "react-redux";
 import { PinIcon } from "../../../styles/materialIcons";
+import { useMediaQuery } from "@mui/material";
 
 
 const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
@@ -15,6 +16,7 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
   const [errorPin, setErrorPin] = useState(false)
   const recover = useSelector(state=>state.recover)
   const dispatch = useDispatch()
+  const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
   useEffect(()=>{
     if (recover.error || !recover.data.code){
@@ -42,7 +44,7 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
 
   return (
     <>
-    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" style={{height:"250px",display:"flex",flexDirection:"row",alignItems:"center",gap:"3rem"}} >
+    <motion.div variants={stepVariants} initial="hidden" animate="visible" exit="exit" style={{height:"250px",display:"flex",flexDirection: matches ? "row" : "column",alignItems:"center",gap:"3rem"}} >
       <Grid display="flex" flexDirection="column" alignItems="center" gap={1} >
         <Avatar sx={{width:"100px",height:"100px"}} src={recover.data.user?.image}>
           {recover.data.user?.name[0]}

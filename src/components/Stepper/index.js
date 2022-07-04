@@ -47,7 +47,7 @@ const Stepper = () => {
       position="relative"
       justifyContent={{ md: "space-around", xs: "center" }}
       gap={4}
-      sx={{ width: "100%", px: 5,pt:5,pb: 3 }}
+      sx={{ width: "100%", px: 5,pt:5,pb:2 }}
     >
       {recover.loading && <LinearProgress sx={{position:"absolute",top:0,left:0,width:"100%",height:"2px"}}/>}
       <StepperBody activeStep={activeStep} steps={steps} />
