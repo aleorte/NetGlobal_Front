@@ -12,6 +12,10 @@ import { AddAdmin } from '../Modals/admin/AddAdmin';
 const CompanyCard = ({selected}) => {
     if (!selected.id) return 
     return ( 
+
+        <Grid display="flex" justifyContent="space-around" position="relative" flexDirection="column" width="100%" height="100%" alignItems="center">
+            <CardActions/>
+
         <Grid display="flex" justifyContent="space-around" position="relative"  flexDirection="column" width="100%" height="100%" alignItems="center">
                 <Box position="absolute" top="5px" right="13px" >
                 <AddAdmin/>
@@ -24,7 +28,7 @@ const CompanyCard = ({selected}) => {
             </Tooltip>
         </Box>
             <Box textAlign="center">
-                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain"}} src={selected.logo}>
+                <Avatar sx={{height:"120px",width:'120px',backgroundSize:"contain",border:"1px solid black"}} src={selected.logo}>
                     {selected.legalName[0]}
                 </Avatar>
                 <Typography mt={1} fontWeight={400} fontSize={25}> {selected.legalName} </Typography>

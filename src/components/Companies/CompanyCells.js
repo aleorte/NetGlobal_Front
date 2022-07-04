@@ -1,11 +1,8 @@
 import React from "react";
 import { MuiCell, Typography, MuiRow, Avatar,Box } from "../../styles/material";
 import Status from '../../commons/Status'
-import { useDispatch } from "react-redux";
 
 const CompanyCells = ({ data, handleClick, isItemSelected }) => {
-
-  const dispatch = useDispatch()
 
   return (
     <MuiRow

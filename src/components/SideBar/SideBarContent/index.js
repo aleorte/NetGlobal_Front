@@ -70,7 +70,6 @@ const SideBarContent = () => {
   return (
     <div>
       <Toolbar />
-      <Divider />
       <List>
         <ListItem>
           <UserCard />

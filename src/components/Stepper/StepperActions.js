@@ -1,58 +1,50 @@
-import React,{ useEffect } from 'react';
+import React from 'react';
 import { Box, Button,MobileStepper } from "../../styles/material";
 import { KeyboardArrowRight,KeyboardArrowLeft} from '../../styles/materialIcons'
 
-const StepperActions = ({ handleNext, handleBack, activeStep, steps }) => {
-  console.log(activeStep)
-  console.log(steps)
-  console.log((activeStep === 0) || (activeStep === (steps - 1)))
-
-  useEffect(()=>{
-    console.log("renderizo")
-  },[])
-
+const StepperActions = ({ handleNext, handleBack, activeStep, steps, isLoading }) => {
+  
   return (
-    <Box width="100%">
+    <Box width="100%" mt={10}>
       <Box
         sx={{
           display: { xs: "none", sm: "flex" },
-          flexDirection: "row",
-          pt: 2,
+          flexDirection: "row"
         }}
       >
         <Button
           color="inherit"
-          disabled={(activeStep === 0) || (activeStep === (steps - 1))}
+          disabled={(activeStep === 0) || (activeStep === (steps - 1)) || isLoading}
           onClick={handleBack}
-          sx={{ mr: 1 }}
+          sx={{ mr: 1,fontSize:"15px" }}
         >
-          Back
+          Atras
         </Button>
         <Box sx={{ flex: "1 1 auto" }} />
-        <Button onClick={handleNext}>
-          {(activeStep === steps - 1) ? "Finish" : "Next"}
+        <Button onClick={handleNext} sx={{fontSize:"15px"}} disabled={isLoading}>
+          {(activeStep === steps - 1) ? "Finalizar" : "Siguiente"}
         </Button>
       </Box>
       <MobileStepper
         variant="text"
         steps={steps}
-        position="static"
         activeStep={activeStep}
         sx={{ display: { sm: "none" } }}
         nextButton={
           <Button
             size="small"
             onClick={handleNext}
-            disabled={activeStep === 2}
+            disabled={isLoading}
+            sx={{fontSize:"15px"}}
           >
-            Next
+            {(activeStep === steps - 1) ? "Finalizar" : "Siguiente"}
             <KeyboardArrowRight />
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={(activeStep === 0) || (activeStep === (steps - 1)) }>
+          <Button size="small" onClick={handleBack} disabled={(activeStep === 0) || (activeStep === (steps - 1)) || isLoading }>
             <KeyboardArrowLeft />
-            Back
+            Atras
           </Button>
         }
       />

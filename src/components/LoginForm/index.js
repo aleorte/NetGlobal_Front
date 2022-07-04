@@ -19,6 +19,7 @@ import { validationLogin } from "../../utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import { sendLoginRequest } from "../../state/user";
 import { useNavigate } from 'react-router'
+import { setAlert } from "../../state/alert";
 
 const LoginOptions = () => {
   return (
@@ -65,13 +66,16 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    if (user?.userInfo?.id) navigate("/home/companias") 
     if (user.err){
       if (user.err.message==="Request failed with status code 404"){
         setError('email', { type: 'custom', message: 'La cuenta no se encuentra registrada' })
-      }else{
+      }else if (user.err.message==="Request failed with status code 401"){
         setError('password', { type: 'custom', message: 'La contraseña es incorrecta' })
       }
+    }
+    if (user?.userInfo?.id) {
+      dispatch(setAlert({severity:"success",message: `Bienvenido de nuevo ${user.userInfo.name}!`}))
+      navigate("/home/companias") 
     }
   },[user])
 

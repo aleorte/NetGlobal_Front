@@ -30,13 +30,13 @@ const Home = () => {
     headers:companyHeaders, 
     Card:CompanyCard, 
     Cells:CompanyCells,
-    label:"Company",
+    label:"Compañias",
   }
 
   const guardElements = {
     data:guards,
     headers:guardHeaders, 
-    card:<GuardCard/>, 
+    Card:GuardCard, 
     Cells:GuardCells,
     label:"Vigiladores",
   }
@@ -56,6 +56,7 @@ const Home = () => {
       >
         <Toolbar/>
         {entity==="companias" && <Dashboard {...companyElements}/>}
+        {entity==="vigiladores" && <Dashboard {...guardElements}/>}
       </Box>
     </Box>
   );

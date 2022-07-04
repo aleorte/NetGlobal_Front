@@ -7,21 +7,21 @@ import theme from '../../styles/theme'
 
 export default function Login() {
 
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const matches = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <Grid
       container
       component="main"
-      sx={{ height: "100vh" }}
+      sx={{ height: 'calc(100vh - 58px)' }}
       display="flex"
-      alignContent="center"
+      mt="58px" 
     >
       <Grid
         container
         component={Paper}
         elevation={matches ? 6 : 0 }
-        sx={{ mx: { xs: 0, lg: 12 }, my: { xs: 0, md: "auto" } }}
+        sx={{ mx: { xs: 0, lg: 12 }, my: "auto"}}
       >
         <Grid
           item

@@ -47,7 +47,7 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
   };
 
   const filter = (array,value) =>{
-    return array.filter((element)=> element["legalName"].toLowerCase().includes(value.toLowerCase()))
+    return array.filter((element)=> (element[Object.keys(element)[1]].toString().toLowerCase().includes(value.toLowerCase()) || element[Object.keys(element)[2]].toString().toLowerCase().includes(value.toLowerCase())))
   }
 
   const emptyRows =

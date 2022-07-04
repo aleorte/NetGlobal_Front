@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Routes,Route } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
+import Alert from './commons/Alert';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider theme={theme}>
         <CssBaseline/>
+        <Alert/>
         <NavBar/> 
         <Routes>      
           {adminRoutes}
