@@ -15,7 +15,7 @@ const StepTwo = ({handleNext,handleBack,activeStep,steps,label}) => {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    if (recover.error || !recover.code) return
+    if (recover.error || !recover.data.code) return
     handleNext()
   },[recover,handleNext])
 

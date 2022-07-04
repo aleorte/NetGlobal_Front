@@ -19,12 +19,11 @@ const StepOne = ({handleNext,handleBack,activeStep,steps,label}) => {
   const email = watch('email')
 
   useEffect(()=>{
-    if (recover.error || !recover.email) return
+    if (recover.error || !recover.data.email) return
     handleNext()
   },[recover,handleNext])
 
   const Next = ()=>{
-    handleNext()
     if (errors.email) return
     dispatch(sendMailRecover(email))
   }
