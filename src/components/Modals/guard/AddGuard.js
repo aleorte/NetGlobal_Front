@@ -3,16 +3,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import useChange from "../../../hooks/useChange";
 import { styleModal } from "../../../utils/modelUtils";
-import AlertModals from "../../../commons/Alert/AlertModals";
 import TextFieldModals from "../../../commons/TextFieldStyled/TextFieldModal";
 import { provinciesArg } from "../../../utils/provincies";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 export const AddGuard = () => {
   const [stateModal, setStateModal] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [mesagge, setMesagge] = useState("");
   const [currency, setCurrency] = useState("Buenos Aires");
-  const [provinceId,setProvinceId]=useState("")
+  const navigate=useNavigate()
   const name = useChange("");
   const lastName = useChange("");
   const cuil = useChange("");
@@ -20,14 +19,13 @@ export const AddGuard = () => {
   const street = useChange("");
   const number = useChange("");
   const location = useChange("");
-  const province = useChange("");
   const coordinateLatitude = useChange("");
   const coordinateLength = useChange("");
   const licenses=useChange("")
+  const image=useChange("")
 
   const handleProvince = (e) => {
     setCurrency(e.target.value);
-    setProvinceId(e.target.value)
   };
 
   const openCloseModal = () => {
@@ -36,26 +34,36 @@ export const AddGuard = () => {
 
   const handleModel = async (e) => {
     e.preventDefault();
-    try {
-      setSuccess(false);
-      const newGuard = await axios.post("http://localhost:3001/employees", {
-        name: name.state,
-        lastName: lastName.state,
-        cuil: cuil.state,
-        email: email.state,
-        street: street.state,
-        number: number.state,
-        location: location.state,
-        province:province.state,
-        coordinateLatitude: coordinateLatitude.state,
-        coordinateLength: coordinateLength.state,
-        licenses: licenses.state,
-      });
-      setSuccess(true);
-      return newGuard;
-    } catch (err) {
-      console.log(err);
+    const employee={
+      name: name.state,
+      lastName: lastName.state,
+      cuil: cuil.state,
+      email: email.state,
+      street: street.state,
+      number: number.state,
+      location: location.state,
+      province:currency,
+      coordinateLatitude: coordinateLatitude.state,
+      coordinateLength: coordinateLength.state,
+      licenses: [Number(licenses.state)],
+      image:image.state
     }
+    console.log(employee.licenses)
+      axios.post("http://localhost:3001/employees", employee)
+      .then((res) => res.data)
+      .then(() => {
+        swal({ tittle: "Creada", text: "Compañía agregada", icon: "success" });
+        navigate("/home/companias");
+        openCloseModal();
+      })
+      .catch((err) => {
+        swal({
+          tittle: "Algo salió mal",
+          text: "Algo salió mal",
+          icon: "error",
+        });
+        console.log(err);
+      });
   };
 
   return (
@@ -79,13 +87,21 @@ export const AddGuard = () => {
             <TextFieldModals label="Cuil" {...cuil} />
             
             </Box>
-            <Stack>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 4,
+              }}>
               <TextFieldModals
-                fullWidth
                 label="Correo electrónico"
                 {...email}
               />
-            </Stack>
+              <TextFieldModals
+                label="Foto de perfil url"
+                {...image}
+              />
+            </Box>
             <Box
               sx={{
                 display: "grid",
@@ -99,7 +115,6 @@ export const AddGuard = () => {
               onChange={handleProvince}
               label="Provincia"
               margin="normal"
-              {...provinceId}
             >
               {provinciesArg.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -126,12 +141,11 @@ export const AddGuard = () => {
                 </Box>
           </Stack>
           <br />
+          <br />
           <div>
             <Button type="submit">Agregar Vigilante</Button>
             <Button onClick={() => openCloseModal()}>Cerrar</Button>
           </div>
-          {success ? <AlertModals /> : ""}
-          
         </Box>
       </Modal>
     </>
