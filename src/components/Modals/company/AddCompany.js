@@ -18,6 +18,8 @@ import { AddBoxOutlinedIcon } from "../../../styles/materialIcons";
 import { getCompanies } from "../../../state/company";
 import { useDispatch } from "react-redux";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import {validationAddCompany} from "../../../utils/validationAddCompany"
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const AddCompany = () => {
   const [stateModal, setStateModal] = useState(false);
@@ -29,7 +31,7 @@ export const AddCompany = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(validationAddCompany), mode:"onTouched" });
   const cuit = useChange("");
   const legalName = useChange("");
   const logo = useChange("");
@@ -106,10 +108,13 @@ export const AddCompany = () => {
               <TextFieldModals
                 label="Nombre Legal"
                 name="name"
-                {...register("name", { required: "Required" })}
+                {...register("name")}
                 {...legalName}
               />
-              <TextFieldModals label="CUIT" {...cuit} />
+              <TextFieldModals label="CUIT" 
+              register={{ ...register("cuit") }}
+              errors={errors.cuit}
+              {...cuit} />
 
               <DesktopDatePicker
           label="Fecha de inicio de contrato"
@@ -135,13 +140,25 @@ export const AddCompany = () => {
                 gap: 4,
               }}
             >
-              <TextFieldModals label="Localidad" {...location} />
+              <TextFieldModals label="Localidad" 
+              register={{ ...register("location") }}
+              errors={errors.location}
+              {...location} />
 
-              <TextFieldModals label="Calle" {...street} />
-              <TextFieldModals label="Número" {...number} />
+              <TextFieldModals label="Calle" 
+               register={{ ...register("street") }}
+               errors={errors.street}
+              {...street} />
+              <TextFieldModals label="Número"
+              register={{ ...register("number") }}
+              errors={errors.number}
+              {...number} />
             </Box>
 
-            <TextFieldModals label="Logo" {...logo} />
+            <TextFieldModals label="Logo" 
+            register={{ ...register("logo") }}
+            errors={errors.logo}
+            {...logo} />
             <Box
               sx={{
                 display: "grid",
