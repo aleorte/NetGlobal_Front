@@ -12,6 +12,7 @@ import { Routes,Route } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
+import  {Calendar}  from './commons/Calendar';
 
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Alert/>
-        <NavBar/> 
-        <Routes>      
+        <NavBar/>
+        <Routes>
+        <Route path="/calendar" element={<Calendar/>}/>,
           {adminRoutes}
           {publicRoutes}
         </Routes>
