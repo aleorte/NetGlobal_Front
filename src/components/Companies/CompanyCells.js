@@ -34,7 +34,7 @@ const CompanyCells = ({ data, handleClick, isItemSelected }) => {
         </Box>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        <Status date={data.contractEndDate}/>
+        <Status status={data.contractEndDate > new Date().toISOString().split('T')[0]}/>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
         {data.contractStartDate}

@@ -5,6 +5,7 @@ import recoverReducer from "./recoverpassword"
 import alertReducer from "./alert"
 import companyReducer from "./company"
 import guardsReducer from "./guards"
+import adminReducer from "./admin"
 
 const store=configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
@@ -15,7 +16,8 @@ const store=configureStore({
         recover : recoverReducer,
         alert : alertReducer,
         company: companyReducer,
-        guard: guardsReducer
+        guard: guardsReducer,
+        admin: adminReducer
     }
 })
 

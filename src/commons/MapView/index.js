@@ -21,7 +21,7 @@ const MapView = ({places,selected}) => {
                 <TileLayer
                     url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=zOsCRqkcw3fXtUb1lzmZ"
                 />
-                {places.map((location,i)=> <MarkerStyled key={i} position={location?.position} icon={location?.logo}/>)}
+                {places.map((location,i)=> <MarkerStyled key={i} position={location?.position} icon={location?.logo || location?.image}/>)}
             </MapContainer> 
         
      );
