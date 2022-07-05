@@ -11,12 +11,12 @@ import {
   Box,
   InputAdornment,
   TextField,
-  Tooltip
 } from "../../styles/material";
 import TableHead from "./TableHead";
 import { descendingComparator, stableSort } from "../../utils/functions";
 import { SearchIcon} from "../../styles/materialIcons";
-import {AddCompany} from "../../components/Modals/company/AddCompany"
+import AddCompany from "../../components/Companies/addCompany"
+import { useParams } from 'react-router-dom'
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -30,6 +30,7 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search,setSearch] = useState("")
+  const { entity } = useParams()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -74,7 +75,7 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
             />
           </Grid>
           <Grid item xs={2} textAlign="right" mr={2}>
-            <AddCompany/>
+              { entity === "companias" && <AddCompany/>}
           </Grid>
         </Grid>
         <MuiTableContainer>

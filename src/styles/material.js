@@ -48,6 +48,14 @@ export { default as CircularProgress} from '@mui/material/CircularProgress';
 export { default as LinearProgress} from '@mui/material/LinearProgress';
 export { default as Popover} from '@mui/material/Popover';
 export { default as Container} from '@mui/material/Container'
+export { default as Slide} from '@mui/material/Slide'
+export { default as Dialog} from '@mui/material/Dialog'
+export { default as FormControl} from '@mui/material/FormControl'
+export { default as Select} from '@mui/material/Select'
+export { default as InputLabel} from '@mui/material/InputLabel'
+export { default as FormHelperText } from '@mui/material/FormHelperText'
+
+
 
 
 

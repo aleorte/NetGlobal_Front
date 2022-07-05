@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
   Avatar,
   Grid,
@@ -16,6 +16,7 @@ import {
 import { EditCompany } from "../../components/Modals/company/EditCompany";
 
 const CompanyCard = ({ selected }) => {
+
   if (!selected.id) return;
   return (
     <Grid
@@ -28,9 +29,7 @@ const CompanyCard = ({ selected }) => {
       alignItems="center"
     >
       <Box position="absolute" top="5px" right="13px">
-        <Tooltip title="Editar">
-          <EditCompany selected={selected} />
-        </Tooltip>
+        
       </Box>
       <Box textAlign="center">
         <Avatar
