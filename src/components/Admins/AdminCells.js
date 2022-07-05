@@ -1,8 +1,7 @@
 import React from "react";
 import { MuiCell, Typography, MuiRow } from "../../styles/material";
-import Status from "../../commons/Status";
 
-const GuardCells = ({data,handleClick,isItemSelected}) => {
+const AdminCells = ({data,handleClick,isItemSelected}) => {
 
   return (
     <MuiRow
@@ -11,7 +10,7 @@ const GuardCells = ({data,handleClick,isItemSelected}) => {
       role="checkbox"
       aria-checked={isItemSelected}
       tabIndex={-1}
-      key={data.cuil}
+      key={data.cuit}
       selected={isItemSelected}
     >
       <MuiCell
@@ -24,19 +23,15 @@ const GuardCells = ({data,handleClick,isItemSelected}) => {
         <Typography sx={{ width: "100px" }}>{data.cuil}</Typography>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", width: "300px" }}>
-        <Typography sx={{ width: "150px", fontWeight: 600 }}>
+        <Typography sx={{ width: "100px", fontWeight: 600 }}>
           {data.lastName + " " + data.name}
         </Typography>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        <Status status={data.active}/>
-      </MuiCell>
-      <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
         {data.email}
       </MuiCell>
-      
     </MuiRow>
   );
 };
 
-export default GuardCells;
+export default AdminCells;

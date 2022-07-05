@@ -1,4 +1,4 @@
-const guardHeaders = [
+const adminHeaders = [
     {
       id: "cuil",
       numeric: false,
@@ -12,12 +12,6 @@ const guardHeaders = [
       label: "NOMBRE",
     },
     {
-      id: "status",
-      numeric: false,
-      disablePadding: false,
-      label: "STATUS",
-    },
-    {
       id: "email",
       numeric: false,
       disablePadding: false,
@@ -25,4 +19,4 @@ const guardHeaders = [
     },
   ];
 
-  export default guardHeaders
+  export default adminHeaders

@@ -1,49 +1,22 @@
-import { createReducer, createAction } from "@reduxjs/toolkit";
+import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
+import guardServices from "../services/guardServices";
 
-function createData(id, cuit, name,lastName, email, direccion) {
-    return {
-      id,
-      cuit,
-      name,
-      lastName,
-      email,
-      direccion,
-    };
-  }
-  
-  const data = [
-    createData(
-      "1",
-      "123224124",
-      "Sebastian",
-      "Villa",
-      "sevilla@gmail.com",
-      [-27.450567476301234, -58.98359440378527]
-    ),
-    createData(
-        "2",
-        "123224124",
-        "Dario",
-        "Benedetto",
-        "dbenedetto@gmail.com",
-      [-27.453060696309066, -58.9802662692736]
-    ),
-    createData(
-      "3",
-      "567432456",
-      "Exequiel",
-      "Zeballos",
-      "ezeballos@gmail.com",
-      [-27.45267510935069, -58.98386579347923]
-    ),
-  ];
+export const getGuards = createAsyncThunk("GET_GUARDS", async () => {
+  const guards = await guardServices.getGuards();
+  return guards.data
+})
 
-export const getCompanies = createAction("GET_COMPANIES")
-
-const guardsReducer = createReducer({guards:data,selectedGuard:{...data[0]}},{
-    [getCompanies]: (state,action)=>{
-
-    }
+const guardsReducer = createReducer({loading:false,guards:[],error:null},{
+  [getGuards.fulfilled]: (state,action)=>{
+    const guards = action.payload.guards
+    return {guards,loading:false,error:null}
+  },
+  [getGuards.pending]: (state) => {
+    state.loading = true
+  },
+  [getGuards.rejected] : (state,action) => {
+    return {guards:[],loading:false,error:action.error}
+  },
 }
   
 );

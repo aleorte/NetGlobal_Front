@@ -56,7 +56,7 @@ import {
               md={7}
               sx={{ backgroundColor: "white" }}
             >
-              <MapView selected={selected} places={data.map((element)=>{ return {position:[element.coordinateLatitude,element.coordinateLength],logo:element.logo}})} />
+              <MapView selected={selected} places={data.map((element)=>{ return {position:[element.coordinateLatitude,element.coordinateLength],logo:element.logo || element.image}})} />
             </Grid>
             <Grid
               item

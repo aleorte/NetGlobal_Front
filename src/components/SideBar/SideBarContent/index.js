@@ -26,7 +26,7 @@ const options = [
   { label: "Reportes", icon: <QueryStats />,url:"/home/reportes" },
 ];
 
-const adminOptions = [{ label: "Usuarios", icon: <SupervisedUserCircle />,url:"/usuarios" }];
+const adminOptions = [{ label: "Usuarios", icon: <SupervisedUserCircle />,url:"/home/admins" }];
 
 const SideBarContent = () => {
 
@@ -94,7 +94,11 @@ const SideBarContent = () => {
         </Divider>
         {adminOptions.map((option, i) => {
           indexOption++;
-          return <Item key={i} option={option} index={indexOption} />;
+          return (
+            <Link style={{textDecoration:"none",color:"inherit"}} key={i} to={option.url}>
+              <Item key={i} option={option} index={indexOption} />
+            </Link>
+          )
         })}
       </List>
     </div>

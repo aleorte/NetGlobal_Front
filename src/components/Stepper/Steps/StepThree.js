@@ -52,6 +52,12 @@ const StepThree = ({ handleNext, handleBack, activeStep, steps, label }) => {
   useEffect(() => {
     if (recover.error || !recover.success) return;
     dispatch(restart());
+    dispatch(
+      setAlert({
+        severity: "success",
+        message: "La contraseña ha sido modificada con exito!",
+      })
+    );
     navigate("/login");
   }, [recover, navigate, dispatch]);
 
@@ -74,12 +80,6 @@ const StepThree = ({ handleNext, handleBack, activeStep, steps, label }) => {
       });
       return;
     }
-    dispatch(
-      setAlert({
-        severity: "success",
-        message: "La contraseña ha sido modificada con exito!",
-      })
-    );
     dispatch(sendPasswordRecover(password));
   };
 
