@@ -16,7 +16,7 @@ import AdminCells from "../../components/Admins/AdminCells";
 import adminHeaders from '../../components/Admins/adminHeaders'
 import { getAdmins } from "../../state/admin";
 import { useParams } from "react-router";
-
+import Footer from '../../components/Footer/Footer'
 const Home = () => {
 
   const dispatch = useDispatch()
@@ -60,6 +60,7 @@ const Home = () => {
   }
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <SideBar/>
       <Box
@@ -78,6 +79,8 @@ const Home = () => {
         {entity==="admins" && <Dashboard {...adminElements}/>}
       </Box>
     </Box>
+    <Footer/>
+    </>
   );
 };
 

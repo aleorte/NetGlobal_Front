@@ -1,13 +1,20 @@
-import React from 'react';
-import { Avatar, Grid, Typography,Button,Box, Tooltip,IconButton } from '../../styles/material'
-import StatsCard from '../../commons/StatsCard'
-import { AssignmentInd,Business,VisibilityOutlined, EditIcon } from '../../styles/materialIcons';
-import {EditCompany} from "../../components/Modals/company/EditCompany"
-import { AddBranch } from '../Modals/branch/AddBranch';
-import { EditBranch } from '../Modals/branch/EditBranch';
-import { AddGuard } from '../Modals/guard/AddGuard';
-import { EditGuard } from '../Modals/guard/EditGuard';
-import { AddAdmin } from '../Modals/admin/AddAdmin';
+import React from "react";
+import {
+  Avatar,
+  Grid,
+  Typography,
+  Button,
+  Box,
+  Tooltip,
+} from "../../styles/material";
+import StatsCard from "../../commons/StatsCard";
+import {
+  AssignmentInd,
+  Business,
+  VisibilityOutlined,
+} from "../../styles/materialIcons";
+import { EditCompany } from "../../components/Modals/company/EditCompany";
+import CardActions from "../../commons/CardActions"
 
 const CompanyCard = ({selected}) => {
     if (!selected.id) return 
@@ -40,9 +47,21 @@ const CompanyCard = ({selected}) => {
             >
                 Ver sucursales
             </Button>
-            
         </Grid>
-    );
-}
- 
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#8757DF",
+            borderColor: "#8757DF",
+            "&:hover": { borderColor: "#8757DF" },
+          }}
+          startIcon={<VisibilityOutlined color="#8757DF" />}
+        >
+          Ver sucursales
+        </Button>
+      </Grid>
+    </Grid>
+  );
+};
+
 export default CompanyCard;
