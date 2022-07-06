@@ -12,6 +12,8 @@ import { Routes,Route } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
+import  {Calendar}  from './commons/Calendar';
+import CalendarBranch from './views/CalendarBranch';
 
 
 function App() {
@@ -22,8 +24,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Alert/>
-        <NavBar/> 
-        <Routes>      
+        <NavBar/>
+        <Routes>
+        <Route path="/calendar" element={<CalendarBranch/>}/>,
           {adminRoutes}
           {publicRoutes}
         </Routes>
