@@ -13,6 +13,7 @@ import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
 import  {Calendar}  from './commons/Calendar';
+import CalendarBranch from './views/CalendarBranch';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
         <Alert/>
         <NavBar/>
         <Routes>
-        <Route path="/calendar" element={<Calendar/>}/>,
+        <Route path="/calendar" element={<CalendarBranch/>}/>,
           {adminRoutes}
           {publicRoutes}
         </Routes>

@@ -1,13 +1,21 @@
+
+
 export const styleCalendar={
-    "text-align":"center",
-    "border-radius":"10px",
-    position:"absolute",
-    top:"50%",
-    left:"50%",
-    maxWidth:"100%",
-    bgcolor:"white",
-    boxShadow:24,
-    transform:"translate(-50%,-50%)",
-    p:4,
-    '& .MuiTextFieldStyled-root': { m: 1, width: '20ch' }
+    pt:10,
+    pr:4,
+    borderColor:"secondary.main"
+}
+
+export const styleModalCalendar={
+    pt:0,
+}
+
+export const styleModalCalendarButton={
+    pt:10,
+    
+}
+export const styleModalCalendarButtonCancel={
+    pt:10,
+    pr:55,
+    
 }
