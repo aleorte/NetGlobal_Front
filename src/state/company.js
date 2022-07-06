@@ -10,6 +10,10 @@ export const addCompany = createAsyncThunk("ADD_COMPANY", async (company) => {
   return companyServices.addCompany(company);
 })
 
+export const updateCompany = createAsyncThunk("UPDATE_COMPANY", async ({companyId,companyData}) => {
+  return companyServices.updateCompany(companyId,companyData);
+})
+ 
 export const restart = createAction("RESTART")
 
 const companyReducer = createReducer({loading:false,companies:[],error:null,success:false},{
@@ -32,6 +36,19 @@ const companyReducer = createReducer({loading:false,companies:[],error:null,succ
       state.loading = true
     },
     [addCompany.rejected] : (state,action) => {
+      state.error = action.error
+      state.loading = false
+      state.success = false
+    },
+    [updateCompany.fulfilled] : (state,action) => {
+      state.loading=false
+      state.error=null
+      state.success=true
+    },
+    [updateCompany.pending]: (state) => {
+      state.loading = true
+    },
+    [updateCompany.rejected] : (state,action) => {
       state.error = action.error
       state.loading = false
       state.success = false

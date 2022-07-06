@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/system";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import {
   Box,
@@ -19,16 +18,17 @@ import {
   Divider,
   Dialog,
   Button,
-  FormHelperText
+  FormHelperText,
+  LoadingButton,
 } from "../../styles/material";
-import { CloseIcon, AddBoxOutlinedIcon } from "../../styles/materialIcons";
+import { CloseIcon, AddBoxOutlinedIcon, EditIcon } from "../../styles/materialIcons";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { provinciesArg } from "../../utils/provincies";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationCompany } from "../../utils/validations";
 import moment from "moment";
-import { addCompany,restart } from "../../state/company";
+import { addCompany, restart, getCompanies, updateCompany } from "../../state/company";
 import { useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
@@ -46,65 +46,92 @@ const AreaContainer = styled(Box)({
 });
 
 const ImagePreview = styled(Box)({
-  height: "150px",
-  width: "150px",
-  backgroundSize: "cover",
+  height: "250px",
+  width: "400px",
+  backgroundSize: "cover" 
 });
 
-export default function AddCompany() {
+export default function AddCompany({type,selected={}}) {
+    
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()  
-
-  const [contractStartDate, setContractStartDate] = useState(
-    new Date("07/01/2022")
-  );
-  const [contractEndDate, setContractEndDate] = useState(
-    new Date("07/01/2022")
-  );
+  const [newcontractStartDate, setNewContractStartDate] = useState(new Date());
+  const [newcontractEndDate, setNewContractEndDate] = useState(new Date());
 
   const handleDateChange = (newValue) => {
-    setContractStartDate(moment(newValue).format("YYYY-MM-DD"));
+    setNewContractStartDate(newValue);
   };
   const handleDate2Change = (newValue) => {
-    setContractEndDate(moment(newValue).format("YYYY-MM-DD"));
+    setNewContractEndDate(newValue);
   };
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const companies = useSelector(state=>state.company)
-
+  const [ openDialog, setOpenDialog ] = useState(false);
+  const { loading, success, error } = useSelector((state) => state.company);
+  const {id,coordinateLatitude,contractStartDate,contractEndDate,coordinateLength,createdAt,updateAt,guards,branches,...selectedData} = selected
+  
   const {
     register,
-    watch,
     setError,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationCompany), mode: "onSubmit" });
 
-  useEffect(()=>{
-    companies.error && dispatch(setAlert({severity:"error",message:"Hubo un problema al agregar la compañia"}))
-    if (companies.success){
-        dispatch(setAlert({severity:"success",message:"Compañia agregada con exito!"}))
-        setOpenDialog(false)
-    }
-  },[companies,dispatch])
+  const logoImage = getValues("logo")
+  const locationCompany = getValues("location")
 
-  const onSubmit = (data)=>{
-    if (Object.keys(errors).length || contractEndDate < contractStartDate) return
-    setOpenDialog(false)
-    dispatch(addCompany({...data,contractStartDate,contractEndDate}))
-  }
+  useEffect(() => {
+    error &&
+      dispatch(
+        setAlert({
+          severity: "error",
+          message: "Hubo un problema al agregar la compañia",
+        })
+      );
+    if (success) {
+      dispatch(
+        setAlert({
+          severity: "success",
+          message: "Compañia agregada con exito!",
+        })
+      );
+      dispatch(restart());
+      dispatch(getCompanies());
+      setOpenDialog(false);
+    }
+  }, [success, error, dispatch]);
+
+  useEffect(()=>{
+    if (selected.id){
+      Object.entries(selectedData).forEach(prop=>{
+        setValue(prop[0],prop[1])
+      })
+      setNewContractStartDate(moment(selected.contractStartDate).format("MM-DD-YYYY"))
+      setNewContractEndDate(moment(selected.contractEndDate).format("MM-DD-YYYY"))
+    }
+  },[selected,setValue])
+
+  const onSubmit = (data) => {
+    if (Object.keys(errors).length || contractEndDate < contractStartDate) return;
+    const initDateFormated = moment(newcontractStartDate).format("YYYY-MM-DD")
+    const endDateFormated = moment(newcontractEndDate).format("YYYY-MM-DD")
+    type==="add" && dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }));
+    type==="update" && dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }}))
+  };
 
   return (
     <>
       <IconButton aria-label="add" onClick={() => setOpenDialog(true)}>
-        <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
+        {type==="add" && <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />}
+        {type==="update" && <EditIcon sx={{ fontSize: 26, color: "#8757DF" }} /> }
       </IconButton>
       <Dialog fullScreen open={openDialog} TransitionComponent={Transition}>
         <AppBar
           sx={{
             position: "relative",
             height: "67px",
-            backgroundColor: "white",
+            backgroundColor: "#DCD2EE",
           }}
         >
           <Toolbar>
@@ -121,7 +148,8 @@ export default function AddCompany() {
               variant="h6"
               component="div"
             >
-              Añadir compañia
+                {type==="update" && "Editar Compañia"}
+                {type==="add" && "Añadir Compañia"}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -137,9 +165,16 @@ export default function AddCompany() {
           display="flex"
           justifyContent="center"
         >
-          <Grid item xs={10} md={4} display="flex" flexDirection="column" gap={3}>
+          <Grid
+            item
+            xs={10}
+            md={4}
+            display="flex"
+            flexDirection="column"
+            gap={3}
+          >
             <AreaContainer display="flex" gap={2} flexDirection="column">
-              <Typography fontWeight="bold" variant="h5">
+              <Typography fontWeight="bold" variant="h6">
                 Detalles basicos
               </Typography>
               <Divider />
@@ -148,14 +183,14 @@ export default function AddCompany() {
                 label="CUIT"
                 {...register("cuit")}
                 error={errors.cuit !== undefined}
-                helperText = {errors.cuit?.message}
+                helperText={errors.cuit?.message}
               />
               <TextField
                 fullWidth
                 label="Nombre"
                 {...register("legalName")}
                 error={errors.legalName !== undefined}
-                helperText = {errors.legalName?.message}
+                helperText={errors.legalName?.message}
               />
               <Grid container justifyContent="space-between">
                 <Grid item xs={5}>
@@ -167,7 +202,7 @@ export default function AddCompany() {
                       <TextField fullWidth {...params} />
                     )}
                     onChange={handleDateChange}
-                    value={contractStartDate}
+                    value={newcontractStartDate}
                   />
                 </Grid>
                 <Grid item xs={5}>
@@ -179,31 +214,24 @@ export default function AddCompany() {
                       <TextField fullWidth {...params} />
                     )}
                     onChange={handleDate2Change}
-                    value={contractEndDate}
+                    value={newcontractEndDate}
                   />
                 </Grid>
               </Grid>
             </AreaContainer>
 
             <AreaContainer>
-              <Typography fontWeight="bold" variant="h5">
-                {" "}
-                Logo{" "}
+              <Typography fontWeight="bold" variant="h6">
+                Logo
               </Typography>
               <Divider />
-              <TextField
-                fullWidth
-                label="Url"
-                {...register("logo")}
-              />
+              <TextField fullWidth label="Url" {...register("logo")} />
               <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <ImagePreview>
-                  {" "}
-                </ImagePreview>
+                <ImagePreview sx={{backgroundImage:`url(${logoImage})`}}> </ImagePreview>
               </Paper>
             </AreaContainer>
             <AreaContainer>
-              <Typography fontWeight="bold" variant="h5">
+              <Typography fontWeight="bold" variant="h6">
                 Ubicación
               </Typography>
               <Divider />
@@ -216,48 +244,58 @@ export default function AddCompany() {
                       maxHeight: 300,
                     },
                   }}
-                  defaultValue=""
                   {...register("location")}
                   error={errors.location !== undefined}
+                  defaultValue = {locationCompany}
                 >
                   {provinciesArg.map((province) => (
-                    <MenuItem key={province} value={province}>{province}</MenuItem>
+                    <MenuItem key={province} value={province}>
+                      {province}
+                    </MenuItem>
                   ))}
                 </Select>
-                <FormHelperText sx={{color:"red"}}> {errors.location && errors.location.message}</FormHelperText>
+                <FormHelperText sx={{ color: "red" }}>
+                  {errors.location && errors.location.message}
+                </FormHelperText>
               </FormControl>
               <Grid container justifyContent="space-between">
                 <Grid item xs={7}>
-                <TextField
-                fullWidth
-                label="Calle"
-                {...register("street")}
-                error={errors.street !== undefined}
-                helperText = {errors.street?.message}
-              />
+                  <TextField
+                    fullWidth
+                    label="Calle"
+                    {...register("street")}
+                    error={errors.street !== undefined}
+                    helperText={errors.street?.message}
+                  />
                 </Grid>
                 <Grid item xs={3}>
-                <TextField
-                fullWidth
-                label="Altura"
-                {...register("number")}
-                error={errors.number !== undefined}
-                helperText = {errors.number?.message}
-              />
+                  <TextField
+                    fullWidth
+                    label="Altura"
+                    {...register("number")}
+                    error={errors.number !== undefined}
+                    helperText={errors.number?.message}
+                  />
                 </Grid>
               </Grid>
-            </AreaContainer>   
+            </AreaContainer>
             <Box sx={{ mt: "1.5rem" }}>
               <Grid display="flex" justifyContent="center" gap={3}>
-                <Button type="submit" variant="contained" color="secondary">
-                  Agregar
-                </Button>
+                <LoadingButton
+                  type="submit"
+                  color="secondary"
+                  loading={loading}
+                  variant="contained"
+                >
+                  {type==="update" && "Editar"}
+                  {type==="add" && "Añadir"}
+                </LoadingButton>
                 <Button
                   variant="outlined"
                   color="secondary"
                   onClick={() => setOpenDialog(false)}
                 >
-                 Cancelar
+                  Cancelar
                 </Button>
               </Grid>
             </Box>
