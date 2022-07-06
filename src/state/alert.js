@@ -4,7 +4,7 @@ export const setAlert = createAction("SET_ALERT")
 export const closeAlert = createAction("CLOSE_ALERT")
 
 const alertReducer = createReducer(
-  { open: false, severity: "" , message:""},
+  { open: false, severity: "success" , message:""},
   {
     [setAlert] : (state,action) => {
         state.open = true

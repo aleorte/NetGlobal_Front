@@ -5,7 +5,6 @@ import {
   Typography,
   Button,
   Box,
-  Tooltip,
 } from "../../styles/material";
 import StatsCard from "../../commons/StatsCard";
 import {
@@ -13,9 +12,12 @@ import {
   Business,
   VisibilityOutlined,
 } from "../../styles/materialIcons";
-import { EditCompany } from "../../components/Modals/company/EditCompany";
+import CompanyForm from "./CompanyForm";
 
 const CompanyCard = ({ selected }) => {
+
+  console.log(selected)
+
   if (!selected.id) return;
   return (
     <Grid
@@ -28,16 +30,14 @@ const CompanyCard = ({ selected }) => {
       alignItems="center"
     >
       <Box position="absolute" top="5px" right="13px">
-        <Tooltip title="Editar">
-          <EditCompany selected={selected} />
-        </Tooltip>
+        <CompanyForm type="update" selected={selected}/>
       </Box>
-      <Box textAlign="center">
+      <Box display="flex" flexDirection="column" alignItems="center">
         <Avatar
           sx={{
             height: "120px",
             width: "120px",
-            backgroundSize: "contain",
+            backgroundSize: "cover",
             border: "1px solid black",
           }}
           src={selected.logo}

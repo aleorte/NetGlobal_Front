@@ -10,33 +10,54 @@ export const addCompany = createAsyncThunk("ADD_COMPANY", async (company) => {
   return companyServices.addCompany(company);
 })
 
-export const agregarCompany= createAction("Agregar_Company")
+export const updateCompany = createAsyncThunk("UPDATE_COMPANY", async ({companyId,companyData}) => {
+  return companyServices.updateCompany(companyId,companyData);
+})
+ 
+export const restart = createAction("RESTART")
 
-const companyReducer = createReducer({loading:false,companies:[],error:null},{
+const companyReducer = createReducer({loading:false,companies:[],error:null,success:false},{
     [getCompanies.fulfilled]: (state,action)=>{
       const companies = action.payload.companies
-      return {companies,selectedCompany:companies[0]||{},loading:false,error:null}
+      return {companies,loading:false,error:null}
     },
     [getCompanies.pending]: (state) => {
       state.loading = true
     },
     [getCompanies.rejected] : (state,action) => {
-      return {companies:[],selectedCompany:{},loading:false,error:action.error}
+      return {companies:[],loading:false,error:action.error}
     },
     [addCompany.fulfilled] : (state,action) => {
-      const companies = [...state.companies,action.meta.arg.company]
-      return {companies,selectedCompany:companies[0]||{},loading:false,error:null}
+      state.loading=false
+      state.error=null
+      state.success=true
     },
     [addCompany.pending]: (state) => {
       state.loading = true
     },
-    [getCompanies.rejected] : (state,action) => {
+    [addCompany.rejected] : (state,action) => {
       state.error = action.error
       state.loading = false
+      state.success = false
     },
-    [agregarCompany]:(state,action) => {
-      state.companies.push(action.payload)
+    [updateCompany.fulfilled] : (state,action) => {
+      state.loading=false
+      state.error=null
+      state.success=true
     },
+    [updateCompany.pending]: (state) => {
+      state.loading = true
+    },
+    [updateCompany.rejected] : (state,action) => {
+      state.error = action.error
+      state.loading = false
+      state.success = false
+    },
+    [restart]: (state) => {
+      state.loading = false
+      state.error = null
+      state.success = false 
+    }
 }
   
 );

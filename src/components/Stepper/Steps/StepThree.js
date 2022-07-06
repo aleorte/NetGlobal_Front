@@ -153,7 +153,7 @@ const StepThree = ({ handleNext, handleBack, activeStep, steps, label }) => {
             disableRestoreFocus
           >
             {passwordValidations.map((val) => (
-              <Typography p={1}> {val.label} </Typography>
+              <Typography key={val.label} p={1}> {val.label} </Typography>
             ))}
           </Popover>
           <PasswordField
