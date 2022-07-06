@@ -51,7 +51,7 @@ const ImagePreview = styled(Box)({
   backgroundSize: "cover" 
 });
 
-export default function AddCompany({type,selected={}}) {
+export default function CompanyForm({type,selected={}}) {
     
   const dispatch = useDispatch();
 
@@ -81,19 +81,19 @@ export default function AddCompany({type,selected={}}) {
   const logoImage = getValues("logo")
   const locationCompany = getValues("location")
 
-  useEffect(() => {
+  useEffect(() => { 
     error &&
       dispatch(
         setAlert({
           severity: "error",
-          message: "Hubo un problema al agregar la compañia",
+          message: `Hubo un problema al ${selected?.id ? "editar" : "agregar"} la compañia`,
         })
       );
     if (success) {
       dispatch(
         setAlert({
           severity: "success",
-          message: "Compañia agregada con exito!",
+          message: `Compañia ${selected?.id ? "editada" : "agregada"} con exito!`,
         })
       );
       dispatch(restart());
