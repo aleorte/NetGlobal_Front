@@ -74,9 +74,9 @@ const Home = () => {
         }}
       >
         <Toolbar/>
-        {entity==="companias" && <Dashboard {...companyElements}/>}
-        {entity==="vigiladores" && <Dashboard {...guardElements}/>}
-        {entity==="admins" && <Dashboard {...adminElements}/>}
+        {entity==="companias" && <Dashboard key={entity} {...companyElements}/>}
+        {entity==="vigiladores" && <Dashboard key={entity} {...guardElements}/>}
+        {entity==="admins" && <Dashboard key={entity} {...adminElements}/>}
       </Box>
     </Box>
     <Footer/>

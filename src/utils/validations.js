@@ -13,18 +13,36 @@ const validationLogin = Yup.object().shape({
 const validationCompany = Yup.object().shape({
   cuit: Yup.string()
     .required('El cuit es requerido')
-    .min(11,'El cuit debe tener 11 digitos exactos')
-    .max(11,'El cuit debe tener 11 digitos exactos')
-    .matches(/^[0-9]*$/g,"El cuit solo debe contener digitos")
+    .matches(/\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]/g,"El cuit es incorrecto")
   ,number: Yup.string()
     .required("La altura es requerida")
-    .matches(/^[0-9]*$/g,"El cuit solo debe contener digitos")
   ,location: Yup.string()
     .required('La provincia es requerida')
   ,street: Yup.string()
     .required("La dirección es requerida")
   ,legalName: Yup.string()
     .required("El nombre es requerido")
+  ,state: Yup.string()
+    .required("La ciudad es requerida")
 });
 
-export { validationLogin,validationCompany }
+const validationGuard = Yup.object().shape({
+  cuil: Yup.string()
+    .required('El cuil es requerido')
+    .matches(/\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]/g,"El cuil es incorrecto")
+  ,number: Yup.string()
+    .required("La altura es requerida")
+  ,location: Yup.string()
+    .required('La provincia es requerida')
+  ,street: Yup.string()
+    .required("La dirección es requerida")
+  ,name: Yup.string()
+    .required("El nombre es requerido")
+  ,province: Yup.string()
+    .required("La ciudad es requerida")
+  ,email: Yup.string()
+    .required("El email es requerido")
+    .email("El email ingresado no es válido")
+}); 
+
+export { validationLogin,validationCompany,validationGuard }
