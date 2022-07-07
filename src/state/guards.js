@@ -10,6 +10,10 @@ export const addGuard = createAsyncThunk("ADD_GUARDS", async (guard) => {
   return guardServices.addGuard(guard);
 })
 
+export const updateGuard = createAsyncThunk("UPDATE_GUARDS", async ({guardId,guardData}) => {
+  return guardServices.updateGuard(guardId,guardData);
+})
+
 const guardsReducer = createReducer({loading:false,guards:[],error:null,success:false,actionType:""},{
   [getGuards.fulfilled]: (state,action)=>{
     const guards = action.payload.guards
@@ -31,6 +35,20 @@ const guardsReducer = createReducer({loading:false,guards:[],error:null,success:
     state.loading = true
   },
   [addGuard.rejected] : (state,action) => {
+    state.error = action.error
+    state.loading = false
+    state.success = false
+  },
+  [updateGuard.fulfilled]: (state,action)=>{
+    state.actionType = "update"
+    state.loading = false
+    state.error = false
+    state.success = true
+  },
+  [updateGuard.pending]: (state) => {
+    state.loading = true
+  },
+  [updateGuard.rejected] : (state,action) => {
     state.error = action.error
     state.loading = false
     state.success = false

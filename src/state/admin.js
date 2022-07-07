@@ -6,6 +6,14 @@ export const getAdmins = createAsyncThunk("GET_ADMINS", async () => {
   return admins.data
 })
 
+export const addAdmin = createAsyncThunk("ADD_ADMIN", async (admin) => {
+    return adminServices.addAdmin(admin);
+  })
+  
+export const updateAdmin = createAsyncThunk("UPDATE_ADMIN", async ({adminId,adminData}) => {
+    return adminServices.updateAdmin(adminId,adminData);
+})
+
 const adminReducer = createReducer({loading:false,admins:[],error:null},{
     [getAdmins.fulfilled]: (state,action)=>{
         const admins = action.payload.admins
@@ -17,6 +25,35 @@ const adminReducer = createReducer({loading:false,admins:[],error:null},{
     [getAdmins.rejected] : (state,action) => {
         return {admins:[],loading:false,error:action.error}
     },
+    [addAdmin.fulfilled]: (state,action)=>{
+        state.actionType = "add"
+        state.loading = false
+        state.error = false
+        state.success = true
+      },
+    [addAdmin.pending]: (state) => {
+        state.loading = true
+    },
+    [addAdmin.rejected] : (state,action) => {
+        state.error = action.error
+        state.loading = false
+        state.success = false
+    },
+    [updateAdmin.fulfilled]: (state,action)=>{
+        state.actionType = "update"
+        state.loading = false
+        state.error = false
+        state.success = true
+      },
+    [updateAdmin.pending]: (state) => {
+        state.loading = true
+    },
+    [updateAdmin.rejected] : (state,action) => {
+        state.error = action.error
+        state.loading = false
+        state.success = false
+    },
+
 }
   
 );

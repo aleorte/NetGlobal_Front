@@ -26,7 +26,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
-import { addGuard, getGuards } from "../../state/guards";
+import { getGuards, updateGuard } from "../../state/guards";
 import { useSelector,useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
@@ -49,7 +49,7 @@ const ImagePreview = styled(Box)({
   backgroundSize: "cover",
 });
 
-const AddGuard = () => {
+const EditGuard = ({selected}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
   const { success, loading, actionType, error } = useSelector((state) => state.guard);
@@ -69,15 +69,22 @@ const AddGuard = () => {
   const provinceGuard = watch("province");
 
   useEffect(()=>{
-    error && setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"})
-    if (success && actionType==="add"){
-        setAlert({severity:"success",message:"El vigilador ha sido registado con exito!"})
-        dispatch(getGuards())
+    if (selected?.id){
+        Object.entries(selected).forEach(prop=>{
+            setValue(prop[0],prop[1])
+        })
+    }
+  },[selected])
+
+  useEffect(()=>{
+    error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
+    if (success && actionType==="update"){
+        setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"})
     }
   },[success,error])
 
   const onSubmit = (data) => {
-    dispatch(addGuard(data))
+    selected.id && dispatch(updateGuard({guardData:data,guardId:selected.id}))
   };
 
   return (
@@ -107,7 +114,7 @@ const AddGuard = () => {
               variant="h6"
               component="div"
             >
-              Añadir Vigilador
+              Editar vigilador
             </Typography>
           </Toolbar>
         </AppBar>
@@ -255,7 +262,7 @@ const AddGuard = () => {
                   loading={loading}
                   variant="contained"
                 >
-                  Añadir
+                  Editar
                 </LoadingButton>
                 <Button
                   variant="outlined"
@@ -273,4 +280,4 @@ const AddGuard = () => {
   );
 };
 
-export default AddGuard;
+export default EditGuard;

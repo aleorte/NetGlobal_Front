@@ -26,7 +26,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
-import { addGuard, getGuards } from "../../state/guards";
+import { getAdmins, updateAdmin } from "../../state/admin";
 import { useSelector,useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
@@ -49,10 +49,10 @@ const ImagePreview = styled(Box)({
   backgroundSize: "cover",
 });
 
-const AddGuard = () => {
+const EditAdmin = ({selected}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
-  const { success, loading, actionType, error } = useSelector((state) => state.guard);
+  const { success, loading, actionType, error } = useSelector((state) => state.admin);
   const dispatch = useDispatch()
 
   const {
@@ -65,19 +65,27 @@ const AddGuard = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
 
-  const imageGuard = watch("image");
-  const provinceGuard = watch("province");
+  const imageAdmin = watch("image");
+  const provinceAdmin = watch("province");
 
   useEffect(()=>{
-    error && setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"})
-    if (success && actionType==="add"){
-        setAlert({severity:"success",message:"El vigilador ha sido registado con exito!"})
-        dispatch(getGuards())
+    if (selected?.id){
+        Object.entries(selected).forEach(prop=>{
+            setValue(prop[0],prop[1])
+        })
+    }
+  },[selected])
+
+  useEffect(()=>{
+    error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
+    if (success && actionType==="update"){
+        setAlert({severity:"success",message:"El admin ha sido editado con exito!"})
+        dispatch(getAdmins())
     }
   },[success,error])
 
   const onSubmit = (data) => {
-    dispatch(addGuard(data))
+    selected.id && dispatch(updateAdmin({adminData:data,adminId:selected.id}))
   };
 
   return (
@@ -107,7 +115,7 @@ const AddGuard = () => {
               variant="h6"
               component="div"
             >
-              Añadir Vigilador
+              Editar admin
             </Typography>
           </Toolbar>
         </AppBar>
@@ -179,7 +187,7 @@ const AddGuard = () => {
               <Divider />
               <TextField fullWidth label="Url" {...register("image")} />
               <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <ImagePreview sx={{ backgroundImage: `url(${imageGuard})` }}>
+                <ImagePreview sx={{ backgroundImage: `url(${imageAdmin})` }}>
                   {" "}
                 </ImagePreview>
               </Paper>
@@ -200,7 +208,7 @@ const AddGuard = () => {
                   }}
                   {...register("province")}
                   error={errors.province !== undefined}
-                  defaultValue={provinceGuard || "Buenos Aires"}
+                  defaultValue={provinceAdmin || "Buenos Aires"}
                 >
                   {provinciesArg.map((province) => (
                     <MenuItem key={province} value={province}>
@@ -255,7 +263,7 @@ const AddGuard = () => {
                   loading={loading}
                   variant="contained"
                 >
-                  Añadir
+                  Editar
                 </LoadingButton>
                 <Button
                   variant="outlined"
@@ -273,4 +281,4 @@ const AddGuard = () => {
   );
 };
 
-export default AddGuard;
+export default EditAdmin;
