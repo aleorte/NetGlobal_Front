@@ -16,10 +16,10 @@ import DownloadIcon from '@mui/icons-material/Download';
 import companyServices from '../../services/companyServices';
 
 function makeDataforCompanies(a){
-    const data= [['Cuit','Legal Name','Inicio Contrato','Fin Contrato', 'Branches','Casa Central']]
+    const data= [['Cuit','Legal Name','Inicio Contrato','Fin Contrato', 'Sucursales','Casa Central','Hs Totales Cubiertas']]
     for(let i=0 ; i<a.length;i++){
       let arr=[]
-      arr.push(a[i]["cuit"],a[i]["legalName"],a[i]["contractStartDate"],a[i]["contractEndDate"],a[i]["branches"].length,a[i]["location"] )
+      arr.push(a[i]["cuit"],a[i]["legalName"],a[i]["contractStartDate"],a[i]["contractEndDate"],a[i]["branches"].length,a[i]["location"], a[i]["hours"])
       data.push(arr)}
       return data 
   }
