@@ -3,8 +3,9 @@ import guardServices from "../services/guardServices";
 
 export const getGuards = createAsyncThunk("GET_GUARDS", async () => {
   const guards = await guardServices.getGuards();
-  return guards.data
-})
+  return guards.data;
+});
+
 
 export const addGuard = createAsyncThunk("ADD_GUARDS", async (guard) => {
   return guardServices.addGuard(guard);
@@ -13,6 +14,11 @@ export const addGuard = createAsyncThunk("ADD_GUARDS", async (guard) => {
 export const updateGuard = createAsyncThunk("UPDATE_GUARDS", async ({guardId,guardData}) => {
   return guardServices.updateGuard(guardId,guardData);
 })
+
+export const getGuard = createAsyncThunk("GET_GUARD", async (guardId) => {
+  const guard = await guardServices.getGuard(guardId);
+  return guard.data;
+});
 
 const guardsReducer = createReducer({loading:false,guards:[],error:null,success:false,actionType:""},{
   [getGuards.fulfilled]: (state,action)=>{
@@ -53,6 +59,13 @@ const guardsReducer = createReducer({loading:false,guards:[],error:null,success:
     state.loading = false
     state.success = false
   },
+    [getGuard.fulfilled]: (state, action) =>action.payload,
+    [getGuard.pending]: (state) => {
+      state.loading = true;
+    },
+    [getGuard.rejected]: (state, action) => {
+      return { guard: [], loading: false, error: action.error };
+    },
 }
   
 );
