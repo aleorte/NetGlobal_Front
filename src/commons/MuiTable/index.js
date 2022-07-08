@@ -17,6 +17,8 @@ import { descendingComparator, stableSort } from "../../utils/functions";
 import { SearchIcon} from "../../styles/materialIcons";
 import CompanyForm from "../../components/Companies/CompanyForm"
 import { useParams } from 'react-router-dom'
+import AddGuard from "../../components/Guards/AddGuard";
+import AddAdmin from "../../components/Admins/AddAdmin"
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -76,6 +78,8 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
           </Grid>
           <Grid item xs={2} textAlign="right" mr={2}>
               { entity === "companias" && <CompanyForm type="add"/>}
+              { entity === "vigiladores" && <AddGuard/>}
+              { entity === "admins" && <AddAdmin/>}
           </Grid>
         </Grid>
         <MuiTableContainer>

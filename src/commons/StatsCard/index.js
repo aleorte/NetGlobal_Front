@@ -3,7 +3,7 @@ import { Box,Grid, Typography } from '../../styles/material'
 
 const StatsCard = ({icon,value,description}) => {
     return ( 
-        <Grid container display="flex" gap={1}>
+        <Grid container display="flex" gap={1} justifyContent="center">
             <Grid item xs={5} container mt={1} mb={0.8} justifyContent="center" alignContent="center" sx={{backgroundColor:"#DCD2EE",borderRadius:"7px"}}>
                 <Box display="flex" justifyContent="center">
                     {icon}

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { useSelector } from "react-redux";
 import {
   Box,
   Alert,
@@ -21,16 +20,17 @@ import {
   Button,
   FormHelperText,
   LoadingButton,
+  OutlinedInput,
+  Chip,
 } from "../../styles/material";
-import { CloseIcon, AddBoxOutlinedIcon, EditIcon } from "../../styles/materialIcons";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { provinciesArg } from "../../utils/provincies";
+import { AddBoxOutlinedIcon, CloseIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationCompany } from "../../utils/validations";
-import moment from "moment";
-import { addCompany, restart, getCompanies, updateCompany } from "../../state/company";
-import { useDispatch } from "react-redux";
+import { validationGuard } from "../../utils/validations";
+import { provinciesArg } from "../../utils/provincies";
+import { addGuard, getGuards } from "../../state/guards";
+import { getProvinces } from "../../state/provinces";
+import { useSelector, useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -49,29 +49,30 @@ const AreaContainer = styled(Box)({
 const ImagePreview = styled(Box)({
   height: "250px",
   width: "400px",
-  backgroundSize: "cover" 
+  backgroundSize: "cover",
 });
 
-export default function CompanyForm({type,selected={}}) {
-    
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const AddGuard = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [locationError, setLocationError] = useState(false);
+  const [licenses, setLicenses] = useState([]);
+  const { success, loading, actionType, error } = useSelector(
+    (state) => state.guard
+  );
+  const { provinces } = useSelector(state=>state.province)
   const dispatch = useDispatch();
 
-  const [newcontractStartDate, setNewContractStartDate] = useState(new Date());
-  const [newcontractEndDate, setNewContractEndDate] = useState(new Date());
-  const [locationError,setLocationError] = useState(false)
-  const [dateError,setDateError] = useState(false)
-
-  const handleDateChange = (newValue) => {
-    setNewContractStartDate(newValue);
-  };
-  const handleDate2Change = (newValue) => {
-    setNewContractEndDate(newValue);
-  };
-
-  const [ openDialog, setOpenDialog ] = useState(false);
-  const { loading, success, error, actionType } = useSelector((state) => state.company);
-  const {id,coordinateLatitude,contractStartDate,contractEndDate,coordinateLength,createdAt,updateAt,guards,branches,...selectedData} = selected
-  
   const {
     register,
     setError,
@@ -80,66 +81,48 @@ export default function CompanyForm({type,selected={}}) {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationCompany), mode: "onSubmit" });
+  } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
 
-  const logoImage = watch("logo")
-  const stateCompany = getValues("state")
+  const imageGuard = watch("image");
+  const provinceGuard = watch("province");
 
-  useEffect(() => { 
-    if (error){
-      if (error.message==="Request failed with status code 400"){ 
-        setLocationError(true)
-      }else{
-      dispatch(
-        setAlert({
-          severity: "error",
-          message: `Hubo un problema al ${actionType==="update" ? "editar" : "agregar"} la compañia`,
-        })
-        );
-      }
-      return
-    }
-    if (success) {
-      dispatch(
-        setAlert({
-          severity: "success",
-          message: `Compañia ${actionType==="update" ? "editada" : "agregada"} con exito!`,
-        })
-      );
-      dispatch(restart());
-      dispatch(getCompanies());
-      setOpenDialog(false);
-    }
-  }, [success, error,actionType]);
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setLicenses(typeof value === "string" ? value.split(",") : value);
+  };
 
- useEffect(()=>{
-    if (selected.id){
-      Object.entries(selectedData).forEach(prop=>{
-        setValue(prop[0],prop[1])
-      })
-      setNewContractStartDate(moment(selected.contractStartDate).format("MM-DD-YYYY"))
-      setNewContractEndDate(moment(selected.contractEndDate).format("MM-DD-YYYY"))
+  useEffect(() => {
+    error &&
+      setAlert({
+        severity: "error",
+        message: "El registro ha fallado. Intentelo mas tarde",
+      });
+    if (success && actionType === "add") {
+      setAlert({
+        severity: "success",
+        message: "El vigilador ha sido registado con exito!",
+      });
+      dispatch(getGuards());
+      setOpenDialog(false)
     }
-  },[actionType,selected]) 
+  }, [success, error]);
+
+  useEffect(()=>{
+    dispatch(getProvinces())
+  },[])
 
   const onSubmit = (data) => {
-    setLocationError(false)
-    setDateError(false)
-    if (Object.keys(errors).length || (contractEndDate < contractStartDate)){
-      setDateError(true)
-      return
-    }
-    const initDateFormated = moment(newcontractStartDate).format("YYYY-MM-DD")
-    const endDateFormated = moment(newcontractEndDate).format("YYYY-MM-DD")
-    type==="add" && dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }));
-    type==="update" && dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }}))
+    if (licenses.length===0) return
+    dispatch(addGuard({...data,licenses:licenses.map(province=>province.id)}))
+    console.log({...data,licenses:licenses.map(province=>province.id)});
   };
 
   return (
     <>
       <IconButton aria-label="add" onClick={() => setOpenDialog(true)}>
-        {type==="add" && <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />}
-        {type==="update" && <EditIcon sx={{ fontSize: 26, color: "#8757DF" }} /> }
+        <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
       </IconButton>
       <Dialog fullScreen open={openDialog} TransitionComponent={Transition}>
         <AppBar
@@ -163,8 +146,7 @@ export default function CompanyForm({type,selected={}}) {
               variant="h6"
               component="div"
             >
-                {type==="update" && "Editar Compañia"}
-                {type==="add" && "Añadir Compañia"}
+              Añadir Vigilador
             </Typography>
           </Toolbar>
         </AppBar>
@@ -196,54 +178,49 @@ export default function CompanyForm({type,selected={}}) {
               <TextField
                 fullWidth
                 label="CUIT"
-                {...register("cuit")}
-                error={errors.cuit !== undefined}
-                helperText={errors.cuit?.message}
-              />
-              <TextField
-                fullWidth
-                label="Nombre"
-                {...register("legalName")}
-                error={errors.legalName !== undefined}
-                helperText={errors.legalName?.message}
+                {...register("cuil")}
+                error={errors.cuil !== undefined}
+                helperText={errors.cuil?.message}
               />
               <Grid container justifyContent="space-between">
                 <Grid item xs={5}>
-                  <DesktopDatePicker
-                    label="Fecha de inicio del contrato"
-                    inputFormat="MM/dd/yyyy"
-                    margin="normal"
-                    renderInput={(params) => (
-                      <TextField fullWidth {...params} />
-                    )}
-                    onChange={handleDateChange}
-                    value={newcontractStartDate}
+                  <TextField
+                    fullWidth
+                    label="Apellido"
+                    {...register("lastName")}
+                    error={errors.lastName !== undefined}
+                    helperText={errors.lastName?.message}
                   />
                 </Grid>
                 <Grid item xs={5}>
-                  <DesktopDatePicker
-                    label="Fecha de fin del contrato"
-                    inputFormat="MM/dd/yyyy"
-                    margin="normal"
-                    renderInput={(params) => (
-                      <TextField fullWidth {...params} />
-                    )}
-                    onChange={handleDate2Change}
-                    value={newcontractEndDate}
+                  <TextField
+                    fullWidth
+                    label="Nombre"
+                    {...register("name")}
+                    error={errors.name !== undefined}
+                    helperText={errors.name?.message}
                   />
                 </Grid>
-                {dateError && <Alert mt={1} severity="warning"> Por favor, verifique las fechas</Alert>}
               </Grid>
+              <TextField
+                fullWidth
+                label="Email"
+                {...register("email")}
+                error={errors.email !== undefined}
+                helperText={errors.email?.message}
+              />
             </AreaContainer>
 
             <AreaContainer>
               <Typography fontWeight="bold" variant="h6">
-                Logo
+                Image
               </Typography>
               <Divider />
-              <TextField fullWidth label="Url" {...register("logo")} />
+              <TextField fullWidth label="Url" {...register("image")} />
               <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <ImagePreview sx={{backgroundImage:`url(${logoImage})`}}> </ImagePreview>
+                <ImagePreview sx={{ backgroundImage: `url(${imageGuard})` }}>
+                  {" "}
+                </ImagePreview>
               </Paper>
             </AreaContainer>
             <AreaContainer>
@@ -260,9 +237,9 @@ export default function CompanyForm({type,selected={}}) {
                       maxHeight: 300,
                     },
                   }}
-                  {...register("state")}
-                  error={errors.state !== undefined}
-                  defaultValue = {stateCompany || "Buenos Aires"}
+                  {...register("province")}
+                  error={errors.province !== undefined}
+                  defaultValue={provinceGuard || "Buenos Aires"}
                 >
                   {provinciesArg.map((province) => (
                     <MenuItem key={province} value={province}>
@@ -300,8 +277,48 @@ export default function CompanyForm({type,selected={}}) {
                     helperText={errors.number?.message}
                   />
                 </Grid>
-                {locationError && <Alert sx={{marginTop:"20px"}} severity="warning"> No fue posible localizar la direccion, por favor intente de nuevo.</Alert>}
+                {locationError && (
+                  <Alert sx={{ marginTop: "20px" }} severity="warning">
+                    {" "}
+                    No fue posible localizar la direccion, por favor intente de
+                    nuevo.
+                  </Alert>
+                )}
               </Grid>
+            </AreaContainer>
+            <AreaContainer>
+              <Typography fontWeight="bold" variant="h6">
+                Licencias
+              </Typography>
+              <Divider />
+              <FormControl sx={{ m: 1 , mb:"200px" }}>
+                <InputLabel id="demo-multiple-chip-label">Provinces</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  fullWidth
+                  value={licenses}
+                  onChange={handleChange}
+                  input={
+                    <OutlinedInput id="select-multiple-chip" label="Chip" />
+                  }
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value.name} label={value.name} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {provinces.map((province) => (
+                    <MenuItem key={province.name} value={province}>
+                      {province.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </AreaContainer>
             <Box sx={{ mt: "1.5rem" }}>
               <Grid display="flex" justifyContent="center" gap={3}>
@@ -311,8 +328,7 @@ export default function CompanyForm({type,selected={}}) {
                   loading={loading}
                   variant="contained"
                 >
-                  {type==="update" && "Editar"}
-                  {type==="add" && "Añadir"}
+                  Añadir
                 </LoadingButton>
                 <Button
                   variant="outlined"
@@ -328,4 +344,6 @@ export default function CompanyForm({type,selected={}}) {
       </Dialog>
     </>
   );
-}
+};
+
+export default AddGuard;

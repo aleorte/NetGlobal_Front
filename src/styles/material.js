@@ -54,6 +54,8 @@ export { default as FormControl} from '@mui/material/FormControl'
 export { default as Select} from '@mui/material/Select'
 export { default as InputLabel} from '@mui/material/InputLabel'
 export { default as FormHelperText } from '@mui/material/FormHelperText'
+export { default as Chip } from '@mui/material/Chip'
+export { default as OutlinedInput } from '@mui/material/OutlinedInput'
 
 
 

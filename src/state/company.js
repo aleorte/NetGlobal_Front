@@ -16,10 +16,10 @@ export const updateCompany = createAsyncThunk("UPDATE_COMPANY", async ({companyI
  
 export const restart = createAction("RESTART")
 
-const companyReducer = createReducer({loading:false,companies:[],error:null,success:false},{
+const companyReducer = createReducer({loading:false,companies:[],error:null,success:false,actionType:""},{
     [getCompanies.fulfilled]: (state,action)=>{
       const companies = action.payload.companies
-      return {companies,loading:false,error:null}
+      return {companies,loading:false,error:null,actionType:"get"}
     },
     [getCompanies.pending]: (state) => {
       state.loading = true
@@ -31,6 +31,7 @@ const companyReducer = createReducer({loading:false,companies:[],error:null,succ
       state.loading=false
       state.error=null
       state.success=true
+      state.actionType="add"
     },
     [addCompany.pending]: (state) => {
       state.loading = true
@@ -44,6 +45,7 @@ const companyReducer = createReducer({loading:false,companies:[],error:null,succ
       state.loading=false
       state.error=null
       state.success=true
+      state.actionType="update"
     },
     [updateCompany.pending]: (state) => {
       state.loading = true
