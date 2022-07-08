@@ -22,44 +22,14 @@ import { Calendar } from "../../commons/Calendar";
 const CalendarBranch = () => {
 
   const dispatch = useDispatch()
-  const { companies } = useSelector(state=>state.company)
-  const { guards } = useSelector(state=>state.guard)
   const { admins } = useSelector(state=>state.admin)
   const { entity } = useParams()
-
+  const {branchAssignament}=useSelector(state=>state.branchAssignament)
   useEffect(()=>{
-    if (entity === "companias"){
-      dispatch(getCompanies())
-    }else if (entity === "admins"){
-      dispatch(getAdmins())
-    }else if (entity === "vigiladores"){
-      dispatch(getGuards())
-    }
+    
   },[entity,dispatch])
 
-  const companyElements = {
-    data:companies,
-    headers:companyHeaders, 
-    Card:CompanyCard, 
-    Cells:CompanyCells,
-    label:"Compañias",
-  }
 
-  const guardElements = {
-    data:guards,
-    headers:guardHeaders, 
-    Card:GuardCard, 
-    Cells:GuardCells,
-    label:"Vigiladores",
-  }
-
-  const adminElements = {
-    data:admins,
-    headers:adminHeaders, 
-    Card:AdminCard, 
-    Cells:AdminCells,
-    label:"Admins",
-  }
 
   return (
     <>
