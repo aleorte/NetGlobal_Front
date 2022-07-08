@@ -5,7 +5,6 @@ import { CssBaseline } from '@mui/material';
 import { Provider } from "react-redux"
 import store from './state/store';
 import NavBar from './components/NavBar'
-import HomeCompany from './views/Company/HomeCompany';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Routes,Route } from 'react-router-dom'

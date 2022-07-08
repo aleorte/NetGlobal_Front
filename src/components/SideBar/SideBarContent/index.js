@@ -17,27 +17,32 @@ import {
   QueryStats,
   SupervisedUserCircle,
 } from "../../../styles/materialIcons";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
+import { useSelector } from "react-redux";
 
 const options = [
-  { label: "Companias", icon: <Apartment />,url:"/home/companias"},
-  { label: "Vigiladores", icon: <AssignmentInd />,url:"/home/vigiladores" },
-  { label: "Reportes", icon: <QueryStats />,url:"/home/reportes" },
+  { label: "Companias", icon: <Apartment />, url: "/home/companias" },
+  { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
+  { label: "Reportes", icon: <QueryStats />, url: "/home/reportes" },
 ];
 
-const adminOptions = [{ label: "Usuarios", icon: <SupervisedUserCircle />,url:"/home/admins" }];
+const adminOptions = [
+  { label: "Admins", icon: <SupervisedUserCircle />, url: "/home/admins" },
+];
 
 const SideBarContent = () => {
-
   const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const { userInfo } = useSelector((state) => state.user);
   let indexOption = 0;
-  const location = useLocation()
+  const location = useLocation();
 
-  useEffect(()=>{
-    const actualIndex = options.map(element=>element.label.toLowerCase()).indexOf(location.pathname.slice(1))
-    setSelectedIndex(Number(actualIndex)+1)
-  },[location])
+  useEffect(() => {
+    const actualIndex = options
+      .map((element) => element.label.toLowerCase())
+      .indexOf(location.pathname.slice(1));
+    setSelectedIndex(Number(actualIndex) + 1);
+  }, [location]);
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
@@ -82,24 +87,36 @@ const SideBarContent = () => {
         {options.map((option, i) => {
           indexOption++;
           return (
-            <Link style={{textDecoration:"none",color:"inherit"}} key={i} to={option.url}> 
-              <Item option={option} index={indexOption}/> 
+            <Link
+              style={{ textDecoration: "none", color: "inherit" }}
+              key={i}
+              to={option.url}
+            >
+              <Item option={option} index={indexOption} />
             </Link>
-          )
+          );
         })}
-        <Divider textAlign="left">
-          <Typography variant="body2" fontWeight="400" mb={2} mt={2}>
-            ADMIN
-          </Typography>
-        </Divider>
-        {adminOptions.map((option, i) => {
-          indexOption++;
-          return (
-            <Link style={{textDecoration:"none",color:"inherit"}} key={i} to={option.url}>
-              <Item key={i} option={option} index={indexOption} />
-            </Link>
-          )
-        })}
+        {userInfo?.superAdmin && (
+          <>
+            <Divider textAlign="left">
+              <Typography variant="body2" fontWeight="400" mb={2} mt={2}>
+                ADMIN
+              </Typography>
+            </Divider>
+            {adminOptions.map((option, i) => {
+              indexOption++;
+              return (
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  key={i}
+                  to={option.url}
+                >
+                  <Item key={i} option={option} index={indexOption} />
+                </Link>
+              );
+            })}
+          </>
+        )}
       </List>
     </div>
   );

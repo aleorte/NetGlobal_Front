@@ -1,5 +1,5 @@
 import React from "react";
-import { MuiCell, Typography, MuiRow } from "../../styles/material";
+import { MuiCell, Typography, MuiRow, Box, Avatar } from "../../styles/material";
 
 const AdminCells = ({data,handleClick,isItemSelected}) => {
 
@@ -22,10 +22,13 @@ const AdminCells = ({data,handleClick,isItemSelected}) => {
       >
         <Typography sx={{ width: "100px" }}>{data.cuil}</Typography>
       </MuiCell>
-      <MuiCell align="left" sx={{ fontSize: "15px", width: "300px" }}>
-        <Typography sx={{ width: "100px", fontWeight: 600 }}>
-          {data.lastName + " " + data.name}
-        </Typography>
+      <MuiCell align="left" sx={{ fontSize: "15px", width: "150px" }}>
+        <Box display="flex" alignItems="center" gap="6px">
+          <Avatar src={data.image}>{data.name[0]}</Avatar>
+          <Typography sx={{ width: "150px", fontWeight: 600 }}>
+            {data.lastName + " " + data.name}
+          </Typography>
+        </Box>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
         {data.email}

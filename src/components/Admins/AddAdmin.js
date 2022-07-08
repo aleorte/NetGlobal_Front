@@ -73,6 +73,7 @@ const AddGuard = () => {
     if (success && actionType==="add"){
         setAlert({severity:"success",message:"El admin ha sido registado con exito!"})
         dispatch(getAdmins())
+        setOpenDialog(false)
     }
   },[success,error])
 

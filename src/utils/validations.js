@@ -13,7 +13,6 @@ const validationLogin = Yup.object().shape({
 const validationCompany = Yup.object().shape({
   cuit: Yup.string()
     .required('El cuit es requerido')
-    .matches(/\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]/g,"El cuit es incorrecto")
   ,number: Yup.string()
     .required("La altura es requerida")
   ,location: Yup.string()
@@ -29,7 +28,7 @@ const validationCompany = Yup.object().shape({
 const validationGuard = Yup.object().shape({
   cuil: Yup.string()
     .required('El cuil es requerido')
-    .matches(/\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]/g,"El cuil es incorrecto")
+    /* .matches(/\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]/g,"El cuil es incorrecto") */
   ,number: Yup.string()
     .required("La altura es requerida")
   ,location: Yup.string()

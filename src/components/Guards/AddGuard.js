@@ -20,6 +20,8 @@ import {
   Button,
   FormHelperText,
   LoadingButton,
+  OutlinedInput,
+  Chip,
 } from "../../styles/material";
 import { AddBoxOutlinedIcon, CloseIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
@@ -27,7 +29,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
 import { addGuard, getGuards } from "../../state/guards";
-import { useSelector,useDispatch } from "react-redux";
+import { getProvinces } from "../../state/provinces";
+import { useSelector, useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -49,11 +52,26 @@ const ImagePreview = styled(Box)({
   backgroundSize: "cover",
 });
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 const AddGuard = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
-  const { success, loading, actionType, error } = useSelector((state) => state.guard);
-  const dispatch = useDispatch()
+  const [licenses, setLicenses] = useState([]);
+  const { success, loading, actionType, error } = useSelector(
+    (state) => state.guard
+  );
+  const { provinces } = useSelector(state=>state.province)
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -68,16 +86,37 @@ const AddGuard = () => {
   const imageGuard = watch("image");
   const provinceGuard = watch("province");
 
-  useEffect(()=>{
-    error && setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"})
-    if (success && actionType==="add"){
-        setAlert({severity:"success",message:"El vigilador ha sido registado con exito!"})
-        dispatch(getGuards())
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setLicenses(typeof value === "string" ? value.split(",") : value);
+  };
+
+  useEffect(() => {
+    error &&
+      setAlert({
+        severity: "error",
+        message: "El registro ha fallado. Intentelo mas tarde",
+      });
+    if (success && actionType === "add") {
+      setAlert({
+        severity: "success",
+        message: "El vigilador ha sido registado con exito!",
+      });
+      dispatch(getGuards());
+      setOpenDialog(false)
     }
-  },[success,error])
+  }, [success, error]);
+
+  useEffect(()=>{
+    dispatch(getProvinces())
+  },[])
 
   const onSubmit = (data) => {
-    dispatch(addGuard(data))
+    if (licenses.length===0) return
+    dispatch(addGuard({...data,licenses:licenses.map(province=>province.id)}))
+    console.log({...data,licenses:licenses.map(province=>province.id)});
   };
 
   return (
@@ -246,6 +285,40 @@ const AddGuard = () => {
                   </Alert>
                 )}
               </Grid>
+            </AreaContainer>
+            <AreaContainer>
+              <Typography fontWeight="bold" variant="h6">
+                Licencias
+              </Typography>
+              <Divider />
+              <FormControl sx={{ m: 1 , mb:"200px" }}>
+                <InputLabel id="demo-multiple-chip-label">Provinces</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  fullWidth
+                  value={licenses}
+                  onChange={handleChange}
+                  input={
+                    <OutlinedInput id="select-multiple-chip" label="Chip" />
+                  }
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value.name} label={value.name} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {provinces.map((province) => (
+                    <MenuItem key={province.name} value={province}>
+                      {province.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </AreaContainer>
             <Box sx={{ mt: "1.5rem" }}>
               <Grid display="flex" justifyContent="center" gap={3}>

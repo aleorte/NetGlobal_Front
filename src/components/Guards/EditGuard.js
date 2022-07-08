@@ -21,7 +21,7 @@ import {
   FormHelperText,
   LoadingButton,
 } from "../../styles/material";
-import { AddBoxOutlinedIcon, CloseIcon } from "../../styles/materialIcons";
+import { AddBoxOutlinedIcon, CloseIcon, EditIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
@@ -80,6 +80,8 @@ const EditGuard = ({selected}) => {
     error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
     if (success && actionType==="update"){
         setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"})
+        setOpenDialog(false)
+        dispatch(getGuards)
     }
   },[success,error])
 
@@ -90,7 +92,7 @@ const EditGuard = ({selected}) => {
   return (
     <>
       <IconButton aria-label="add" onClick={() => setOpenDialog(true)}>
-        <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
+        <EditIcon sx={{ fontSize: 26, color: "#8757DF" }} />
       </IconButton>
       <Dialog fullScreen open={openDialog} TransitionComponent={Transition}>
         <AppBar

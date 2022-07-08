@@ -1,45 +1,42 @@
 import React from "react";
-import { MuiCell, Typography, MuiRow,Box, Avatar } from "../../styles/material";
-import Status from "../../commons/Status";
+import { MuiCell, Typography, MuiRow ,Box } from "../../styles/material";
+import Status from '../../commons/Status'
 
-const GuardCells = ({data,handleClick,isItemSelected}) => {
+const BranchCells = ({ data, handleClick, isItemSelected }) => {
 
   return (
     <MuiRow
       hover
-      onClick={(event) => handleClick(event, data.id)}
+      onClick={(event) => {
+        handleClick(event, data.id)
+      }}
       role="checkbox"
       aria-checked={isItemSelected}
       tabIndex={-1}
-      key={data.cuil}
+      key={data.cuit}
       selected={isItemSelected}
     >
       <MuiCell
         sx={{
           fontSize: "15px",
-          width: "100px",
+          width: "80px",
           color: "#545252",
         }}
       >
-        <Typography sx={{ width: "100px" }}>{data.cuil}</Typography>
+        <Typography sx={{ width: "100px" }}>{data.cuit}</Typography>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", width: "150px" }}>
         <Box display="flex" alignItems="center" gap="6px">
-          <Avatar src={data.image}>{data.name[0]}</Avatar>
           <Typography sx={{ width: "150px", fontWeight: 600 }}>
-            {data.lastName + " " + data.name}
+            {data.name}
           </Typography>
         </Box>
       </MuiCell>
       <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
         <Status status={data.active}/>
       </MuiCell>
-      <MuiCell align="left" sx={{ fontSize: "15px", color: "#545252" }}>
-        {data.email}
-      </MuiCell>
-      
     </MuiRow>
   );
 };
 
-export default GuardCells;
+export default BranchCells;

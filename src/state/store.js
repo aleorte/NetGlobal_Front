@@ -6,6 +6,8 @@ import alertReducer from "./alert"
 import companyReducer from "./company"
 import guardsReducer from "./guards"
 import adminReducer from "./admin"
+import provincesReducer from "./provinces"
+import branchReducer from "./branch"
 
 const store=configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
@@ -17,7 +19,9 @@ const store=configureStore({
         alert : alertReducer,
         company: companyReducer,
         guard: guardsReducer,
-        admin: adminReducer
+        admin: adminReducer,
+        province: provincesReducer,
+        branch: branchReducer
     }
 })
 
