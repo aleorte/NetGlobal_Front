@@ -26,7 +26,7 @@ function App() {
         <Alert/>
         <NavBar/>
         <Routes>
-        <Route path="/calendar" element={<CalendarBranch/>}/>,
+        <Route path='company/:companyId/branch/:branchId' element={<CalendarBranch/>}/>
           {adminRoutes}
           {publicRoutes}
         </Routes>
