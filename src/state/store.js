@@ -22,7 +22,7 @@ const store=configureStore({
         guard: guardsReducer,
         admin: adminReducer,
         province: provincesReducer,
-        branch: branchReducer
+        branch: branchReducer,
         branchAssignament:assignamentReducer,
 
     }
