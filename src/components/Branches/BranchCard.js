@@ -11,9 +11,13 @@ import {
   Business,
   VisibilityOutlined,
 } from "../../styles/materialIcons";
+import { Link } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 
 const BranchCard = ({ selected }) => {
+
+  const {companyId} = useParams()
 
   if (!selected.id) return;
   return (
@@ -48,17 +52,19 @@ const BranchCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
-      <Button
-        variant="outlined"
-        sx={{
-          color: "#8757DF",
-          borderColor: "#8757DF",
-          "&:hover": { borderColor: "#8757DF" },
-        }}
-        startIcon={<VisibilityOutlined color="#8757DF" />}
-      >
-        Ver Calendario
-      </Button>
+      <Link to={`/company/${companyId}/branch/${selected.id}`}>
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#8757DF",
+            borderColor: "#8757DF",
+            "&:hover": { borderColor: "#8757DF" },
+          }}
+          startIcon={<VisibilityOutlined color="#8757DF" />}
+        >
+          Ver Calendario
+        </Button>
+      </Link>
     </Grid>
   );
 };

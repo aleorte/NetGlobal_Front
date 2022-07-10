@@ -25,4 +25,7 @@ export { default as SearchIcon } from '@mui/icons-material/Search'
 export { default as DraftsIcon } from '@mui/icons-material/Drafts';
 export { default as PinIcon } from '@mui/icons-material/Pin';
 export { default as CloseIcon } from '@mui/icons-material/Close'
+export { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore'
+
+
 

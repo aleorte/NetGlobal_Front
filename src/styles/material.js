@@ -56,6 +56,9 @@ export { default as InputLabel} from '@mui/material/InputLabel'
 export { default as FormHelperText } from '@mui/material/FormHelperText'
 export { default as Chip } from '@mui/material/Chip'
 export { default as OutlinedInput } from '@mui/material/OutlinedInput'
+export { default as Accordion } from '@mui/material/Accordion'
+export { default as AccordionSummary } from '@mui/material/AccordionSummary'
+export { default as AccordionDetails } from '@mui/material/AccordionDetails'
 
 
 

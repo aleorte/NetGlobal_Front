@@ -8,6 +8,9 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from "../../../styles/material";
 import UserCard from "./UserCard";
 import { ListItemStyled } from "./sideBarStyles";
@@ -16,6 +19,7 @@ import {
   AssignmentInd,
   QueryStats,
   SupervisedUserCircle,
+  ExpandMoreIcon,
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
@@ -24,7 +28,14 @@ import { useSelector } from "react-redux";
 const options = [
   { label: "Companias", icon: <Apartment />, url: "/home/companias" },
   { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
-  { label: "Reportes", icon: <QueryStats />, url: "/home/reportes" },
+  {
+    label: "Reportes",
+    icon: <QueryStats />,
+    suboptions: [
+      { label: "Reportes1", icon: <QueryStats />, url: "/home/reportesuno" },
+      { label: "Reportes2", icon: <QueryStats />, url: "/home/reportesdos" },
+    ],
+  },
 ];
 
 const adminOptions = [
@@ -48,18 +59,32 @@ const SideBarContent = () => {
     setSelectedIndex(index);
   };
 
-  const Item = ({ option, index }) => {
+  const Item = ({ option, index, notSelectable }) => {
     return (
       <ListItemStyled
         key={option.label}
         selected={selectedIndex === index}
         disablePadding
+        sx={{
+          "&:hover": {
+            backgroundColor: notSelectable ? "transparent" : "#DCD2EE",
+            borderRadius: "10px",
+          },
+        }}
       >
-        <ListItemButton onClick={() => handleListItemClick(index)}>
+        <ListItemButton
+          disableRipple
+          sx={{
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+          }}
+          onClick={() => handleListItemClick(index)}
+        >
           <ListItemIcon
             sx={{
               "&.MuiListItemIcon-root": {
-                color: selectedIndex === index && "#9D77E2",
+                //color: selectedIndex === index && "#9D77E2",
               },
               pl: 2,
             }}
@@ -86,7 +111,52 @@ const SideBarContent = () => {
         </Divider>
         {options.map((option, i) => {
           indexOption++;
-          return (
+          return option.suboptions ? (
+            <Accordion
+              elevation={0}
+              sx={{
+                "&.MuiAccordion-root": {
+                  "&:before": {
+                    backgroundColor: "transparent",
+                  },
+                  border: "none",
+                  width: "100%",
+                  marginLeft: 0,
+                  paddingLeft:0
+                },
+              }}
+            >
+              <AccordionSummary
+                sx={{
+                  margin:0,
+                  paddingLeft:"1px",
+                  height: "45px",
+                  borderRadius: "10px",
+
+                }}
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Item
+                  notSelectable={true}
+                  option={option}
+                  index={indexOption}
+                />
+              </AccordionSummary>
+              <AccordionDetails>
+                {option.suboptions.map((suboption) => {
+                  return (
+                    <Link
+                      style={{ textDecoration: "none", color: "inherit" }}
+                      key={i}
+                      to={suboption.url}
+                    >
+                      <Item option={suboption} index={indexOption} />
+                    </Link>
+                  );
+                })}
+              </AccordionDetails>
+            </Accordion>
+          ) : (
             <Link
               style={{ textDecoration: "none", color: "inherit" }}
               key={i}
