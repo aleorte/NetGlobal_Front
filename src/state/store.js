@@ -24,7 +24,6 @@ const store=configureStore({
         province: provincesReducer,
         branch: branchReducer,
         branchAssignament:assignamentReducer,
-
     }
 })
 

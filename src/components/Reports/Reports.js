@@ -7,15 +7,12 @@ import Table from '@mui/material/Table';
 import Box from  '@mui/material/Box';
 import { IconButton } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DownloadIcon from '@mui/icons-material/Download';
-import companyServices from '../../services/companyServices';
-import guardServices from "../../services/guardServices";
 
 function makeDataforCompanies(a){
     const data= [['Cuit','Legal Name','Inicio Contrato','Fin Contrato', 'Sucursales','Casa Central','Hs Totales Cubiertas']]

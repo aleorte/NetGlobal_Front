@@ -1,18 +1,56 @@
 import React from 'react';
 import { Navigate, Outlet,Route } from 'react-router-dom';
 import { useSelector } from 'react-redux'
-import Home from '../views/Home';
-import Branches from '../views/Branches';
+import { Box, Toolbar } from '../styles/material'
+import SideBar from '../components/SideBar'
+import Companies from '../components/Companies'
+import Guards from '../components/Guards'
+import Admins from '../components/Admins'
+import Reports from '../components/Reports/Reports';
+import Branches from '../components/Branches';
+import { Calendar } from '../commons/Calendar';
 
 const ProtectedAdminRoute = () => {
+
     const user = useSelector(state=>state.user)
-    return user.userInfo.id ? <Outlet /> : <Navigate to="/login" />;
+
+    return user.userInfo.id ? 
+        <Box sx={{ display: "flex" }}>
+            <SideBar />
+            <Box
+            component="main"
+            sx={{
+                flexGrow: 1,
+                p: 3,
+                width: { sm: `calc(100% - 240px)` },
+                minHeight: "calc(100vh - 64px)",
+                backgroundColor: "#F4F6F8",
+            }}
+            >
+            <Toolbar />         
+            <Outlet />          
+            </Box>
+        </Box>
+    : 
+        <Navigate to="/login" />;
 }
+
+const ProtectedSuperAdminRoute = () => {
+    const user = useSelector(state=>state.user)
+    return user.userInfo.superAdmin ? <Outlet /> : <Navigate to="/home/companias" />;
+}
+
 
 const adminRoutes = 
     <Route exact path='/home' element={<ProtectedAdminRoute/>}>
-        <Route exact path='/home/:entity' element={<Home/>}/>
-        <Route exact path='/home/companias/:companyId/sucursales' element={<Branches/>}/>
+        <Route exact path='companias' element={<Companies/>}/>
+        <Route exact path='vigiladores' element={<Guards/>}/>
+        <Route exact path='reportes' element={<Reports/>}/>
+        <Route exact path='companias/:companyId/sucursales' element={<Branches/>}/>
+        <Route exact path='companias/:companyId/sucursales/:branchId' element={<Calendar/>}/>
+        <Route exact path='admins' element={<ProtectedSuperAdminRoute/>}>
+            <Route exact path='' element={<Admins/>}/>
+        </Route>
     </Route>
-
+    
 export default adminRoutes
