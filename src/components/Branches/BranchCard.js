@@ -52,7 +52,7 @@ const BranchCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
-      <Link to={`/company/${companyId}/branch/${selected.id}`}>
+      <Link to={`/home/companias/${companyId}/sucursales/${selected.id}`}>
         <Button
           variant="outlined"
           sx={{

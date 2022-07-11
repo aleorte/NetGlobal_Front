@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { Box, Toolbar } from "../../styles/material";
-import SideBar from "../../components/SideBar";
 import Dashboard from "../../commons/Dashboard";
 import BranchCard from "../../components/Branches/BranchCard";
 import branchHeaders from "../../components/Branches/BranchHeaders";
@@ -28,26 +26,8 @@ const Branches = () => {
         label:"Sucursales",
     }
 
-  return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <SideBar />
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            width: { sm: `calc(100% - 240px)` },
-            minHeight: "calc(100vh - 64px)",
-            backgroundColor: "#F4F6F8",
-          }}
-        >
-          <Toolbar />
-          <Dashboard {...branchElements} />
-        </Box>
-      </Box>
-    </>
-  );
+  return <Dashboard {...branchElements} />
+  
 };
 
 export default Branches;

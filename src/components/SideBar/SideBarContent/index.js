@@ -32,8 +32,8 @@ const options = [
     label: "Reportes",
     icon: <QueryStats />,
     suboptions: [
-      { label: "Reportes1", icon: <QueryStats />, url: "/home/reportesuno" },
-      { label: "Reportes2", icon: <QueryStats />, url: "/home/reportesdos" },
+      { label: "Reportes1", icon: <QueryStats />, url: "/home/reportes" },
+      { label: "Reportes2", icon: <QueryStats />, url: "/home/reportes" },
     ],
   },
 ];
@@ -113,6 +113,8 @@ const SideBarContent = () => {
           indexOption++;
           return option.suboptions ? (
             <Accordion
+              key={option.label}
+              disableGutters={true}
               elevation={0}
               sx={{
                 "&.MuiAccordion-root": {
@@ -132,7 +134,6 @@ const SideBarContent = () => {
                   paddingLeft:"1px",
                   height: "45px",
                   borderRadius: "10px",
-
                 }}
                 expandIcon={<ExpandMoreIcon />}
               >
@@ -147,7 +148,7 @@ const SideBarContent = () => {
                   return (
                     <Link
                       style={{ textDecoration: "none", color: "inherit" }}
-                      key={i}
+                      key={suboption.label}
                       to={suboption.url}
                     >
                       <Item option={suboption} index={indexOption} />
@@ -159,7 +160,7 @@ const SideBarContent = () => {
           ) : (
             <Link
               style={{ textDecoration: "none", color: "inherit" }}
-              key={i}
+              key={option.label}
               to={option.url}
             >
               <Item option={option} index={indexOption} />

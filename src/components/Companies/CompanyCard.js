@@ -66,7 +66,7 @@ const CompanyCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
-      <Link to={`/home/companias/${selected.id}/sucursales`}>
+      <Link style={{textDecoration:"none"}} to={`/home/companias/${selected.id}/sucursales`}>
         <Button
           variant="outlined"
           sx={{
