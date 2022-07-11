@@ -11,12 +11,11 @@ const Branches = () => {
 
     const {companyId} = useParams()
     const dispatch = useDispatch()
+    const { branches } = useSelector(state=>state.branch)
 
     useEffect(()=>{
         dispatch(getBranches(companyId))
     },[])
-
-    const { branches } = useSelector(state=>state.branch)
 
     const branchElements = {
         data:branches,

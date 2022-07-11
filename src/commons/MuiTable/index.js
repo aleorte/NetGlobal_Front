@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState,useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -16,9 +16,10 @@ import TableHead from "./TableHead";
 import { descendingComparator, stableSort } from "../../utils/functions";
 import { SearchIcon} from "../../styles/materialIcons";
 import CompanyForm from "../../components/Companies/CompanyForm"
-import { useParams } from 'react-router-dom'
+import { useLocation,useParams } from 'react-router-dom'
 import AddGuard from "../../components/Guards/AddGuard";
 import AddAdmin from "../../components/Admins/AddAdmin"
+import AddBranch from "../../components/Branches/AddBranch";
 
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -32,7 +33,8 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search,setSearch] = useState("")
-  const { entity } = useParams()
+  const {pathname} = useLocation()
+  const { companyId } = useParams()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -77,9 +79,10 @@ export default function EnhancedTable({ headers, data, Cells,handleClick,isSelec
             />
           </Grid>
           <Grid item xs={2} textAlign="right" mr={2}>
-              { entity === "companias" && <CompanyForm type="add"/>}
-              { entity === "vigiladores" && <AddGuard/>}
-              { entity === "admins" && <AddAdmin/>}
+              { pathname === "/home/companias" && <CompanyForm type="add"/>}
+              { pathname === "/home/vigiladores" && <AddGuard/>}
+              { pathname === "/home/admins" && <AddAdmin/>}
+              { pathname.includes("/home/companias/") && <AddBranch company={companyId}/> }
           </Grid>
         </Grid>
         <MuiTableContainer>

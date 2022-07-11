@@ -13,6 +13,7 @@ import {
 } from "../../styles/materialIcons";
 import { Link } from 'react-router-dom'
 import { useParams } from "react-router-dom";
+import EditBranch from './EditBranch'
 
 
 const BranchCard = ({ selected }) => {
@@ -31,7 +32,7 @@ const BranchCard = ({ selected }) => {
       alignItems="center"
     >
       <Box position="absolute" top="5px" right="13px">
-        
+        <EditBranch selected={selected} />
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
         <Typography mt={1} fontWeight={400} fontSize={25}>

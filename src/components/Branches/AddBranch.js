@@ -23,7 +23,7 @@ import {
 import { AddBoxOutlinedIcon, CloseIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationCompany } from "../../utils/validations";
+import { validationBranch } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
 import { addBranch, getBranches } from "../../state/branch";
 import { getProvinces } from "../../state/provinces";
@@ -43,7 +43,7 @@ const AreaContainer = styled(Box)({
   borderRadius: "5px",
 });
 
-const AddBranch = ({selected}) => {
+const AddBranch = ({company}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
   const { success, loading, actionType, error } = useSelector(
@@ -60,7 +60,7 @@ const AddBranch = ({selected}) => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationCompany), mode: "onSubmit" });
+  } = useForm({ resolver: yupResolver(validationBranch), mode: "onSubmit" });
 
   const provinceGuard = watch("province");
 
@@ -75,17 +75,15 @@ const AddBranch = ({selected}) => {
         severity: "success",
         message: "El vigilador ha sido registado con exito!",
       });
-      dispatch(getBranches(selected.id));
+      dispatch(getBranches(company));
       setOpenDialog(false)
     }
   }, [success, error]);
 
-  useEffect(()=>{
-    dispatch(getProvinces())
-  },[])
-
   const onSubmit = (data) => {
-    dispatch(addBranch({...data}))
+    if (company){
+      dispatch(addBranch({companyId:company,branch:data}))
+    }
   };
 
   return (
@@ -176,8 +174,8 @@ const AddBranch = ({selected}) => {
                       maxHeight: 300,
                     },
                   }}
-                  {...register("province")}
-                  error={errors.province !== undefined}
+                  {...register("provinceName")}
+                  error={errors.provinceName !== undefined}
                   defaultValue={provinceGuard || "Buenos Aires"}
                 >
                   {provinciesArg.map((province) => (
