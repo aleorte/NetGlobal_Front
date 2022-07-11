@@ -1,4 +1,5 @@
 import { getCompanies } from "../../state/company";
+import { getGuards } from "../../state/guards";
 import { useSelector,useDispatch } from "react-redux";
 import React, {useEffect, useState} from "react";
 import { styled } from '@mui/material/styles';
@@ -18,6 +19,16 @@ function makeDataforCompanies(a){
     for(let i=0 ; i<a.length;i++){
       let arr=[]
       arr.push(a[i]["cuit"],a[i]["legalName"],a[i]["contractStartDate"],a[i]["contractEndDate"],a[i]["branches"].length,a[i]["location"], a[i]["hours"])
+      data.push(arr)}
+      return data 
+  }
+  function makeDataforGuards(a){
+    const data= [['Cuil','Nombre','Apellido','Reside en', 'Estado','Hs Trabajadas']]
+    for(let i=0 ; i<a.length;i++){
+      let arr=[]
+      arr.push(a[i]["cuil"],a[i]["name"],a[i]["lastName"],a[i]["province"])
+      a[i]["active"] ? arr.push("Activo") :  arr.push("Inactivo")
+      arr.push(a[i]["workedHours"])
       data.push(arr)}
       return data 
   }
@@ -71,10 +82,14 @@ function createData(name, cuit, branches, hs) {
 export default function Reports() {
     const dispatch = useDispatch()
     const { companies } = useSelector(state=>state.company)
+    const {guards} = useSelector(state=>state.guard)
     useEffect(()=>{
           dispatch(getCompanies())
+          dispatch(getGuards())
       },[])
+      console.log(guards)
     const toDownload = makeDataforCompanies(companies)
+    const toDownloadGuards = makeDataforGuards(guards)
   return (
     <Box m={5} sx={ {marginTop: "122px"}} >
     <TableContainer component={Paper} style={{ width: 900 }}>
@@ -107,8 +122,41 @@ export default function Reports() {
         </TableBody>
       </Table>
     </TableContainer>
-    <IconButton align="right"  onClick={()=> downloadFile(toDownload)}><DownloadIcon/></IconButton>
+    <IconButton align="right"  onClick={()=> downloadFile(toDownload,'companyReport.csv')}><DownloadIcon/></IconButton>
+    <Box sx={ {marginTop: "80px"}} >
+    <TableContainer component={Paper} style={{ width: 900 }}>
+      <Table sx={{ minWidth: 75 }}   aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">Cuil</StyledTableCell>
+            <StyledTableCell align="center">Nombre</StyledTableCell>
+            <StyledTableCell align="center">Apellido</StyledTableCell>
+            <StyledTableCell align="center">Reside en </StyledTableCell>
+            <StyledTableCell align="center">Estado</StyledTableCell>
+            <StyledTableCell align="center">Hs Trabajadas</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {guards.map((row) => (
+            <StyledTableRow key={row.cuil}>
+             <StyledTableCell align="center">{row.name}</StyledTableCell>
+              <StyledTableCell component="th" scope="row" align="center">
+                {row.name}
+              </StyledTableCell>
+              <StyledTableCell align="center">{row.lastName}</StyledTableCell>
+              <StyledTableCell align="center">{row.province}</StyledTableCell>
+              <StyledTableCell align="center">{row.active ? 'Activo' : 'Inactivo'}</StyledTableCell>
+              <StyledTableCell align="center">{row.workedHours}</StyledTableCell>
+           
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <IconButton align="right"  onClick={()=> downloadFile(toDownloadGuards ,'guardReport.csv')}><DownloadIcon/></IconButton>
     </Box>
+    </Box>
+
   );
 }
 
