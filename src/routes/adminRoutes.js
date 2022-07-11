@@ -9,6 +9,7 @@ import Admins from '../components/Admins'
 import Reports from '../components/Reports/Reports';
 import Branches from '../components/Branches';
 import { Calendar } from '../commons/Calendar';
+import Inactives from '../views/Inactives';
 
 const ProtectedAdminRoute = () => {
 
@@ -48,6 +49,7 @@ const adminRoutes =
         <Route exact path='reportes' element={<Reports/>}/>
         <Route exact path='companias/:companyId/sucursales' element={<Branches/>}/>
         <Route exact path='companias/:companyId/sucursales/:branchId' element={<Calendar/>}/>
+        <Route exact path='inasistencias' element={<Inactives/>}/>
         <Route exact path='admins' element={<ProtectedSuperAdminRoute/>}>
             <Route exact path='' element={<Admins/>}/>
         </Route>

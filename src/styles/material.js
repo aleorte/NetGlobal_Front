@@ -21,6 +21,7 @@ export { default as List} from '@mui/material/List'
 export { default as ListItemButton} from '@mui/material/ListItemButton'
 export { default as ListItemIcon} from '@mui/material/ListItemIcon'
 export { default as ListItemText} from '@mui/material/ListItemText'
+export { default as ListItemAvatar} from '@mui/material/ListItemAvatar'
 export { default as MuiAlert} from '@mui/material/Alert'
 export { default as Snackbar} from '@mui/material/Snackbar'
 export { default as AppBar} from '@mui/material/AppBar'
@@ -59,6 +60,9 @@ export { default as OutlinedInput } from '@mui/material/OutlinedInput'
 export { default as Accordion } from '@mui/material/Accordion'
 export { default as AccordionSummary } from '@mui/material/AccordionSummary'
 export { default as AccordionDetails } from '@mui/material/AccordionDetails'
+export { default as Tabs } from '@mui/material/Tabs'
+export { default as Tab } from '@mui/material/Tab'
+
 
 
 

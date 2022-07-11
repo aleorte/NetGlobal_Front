@@ -20,6 +20,7 @@ import {
   QueryStats,
   SupervisedUserCircle,
   ExpandMoreIcon,
+  FactCheckOutlinedIcon,
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
@@ -28,6 +29,7 @@ import { useSelector } from "react-redux";
 const options = [
   { label: "Companias", icon: <Apartment />, url: "/home/companias" },
   { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
+  { label: "Inasistencias", icon: <FactCheckOutlinedIcon />, url: "/home/inasistencias" },
   {
     label: "Reportes",
     icon: <QueryStats />,
