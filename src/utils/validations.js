@@ -42,6 +42,21 @@ const validationGuard = Yup.object().shape({
   ,email: Yup.string()
     .required("El email es requerido")
     .email("El email ingresado no es válido")
-}); 
+});
 
-export { validationLogin,validationCompany,validationGuard }
+const validationBranch = Yup.object().shape({
+  cuit: Yup.string()
+    .required('El cuit es requerido')
+  ,number: Yup.string()
+    .required("La altura es requerida")
+  ,provinceName: Yup.string()
+    .required('La provincia es requerida')
+  ,street: Yup.string()
+    .required("La dirección es requerida")
+  ,name: Yup.string()
+    .required("El nombre es requerido")
+  ,location: Yup.string()
+    .required("La ciudad es requerida")
+});
+
+export { validationLogin,validationCompany,validationGuard,validationBranch }

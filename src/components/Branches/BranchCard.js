@@ -11,9 +11,14 @@ import {
   Business,
   VisibilityOutlined,
 } from "../../styles/materialIcons";
+import { Link } from 'react-router-dom'
+import { useParams } from "react-router-dom";
+import EditBranch from './EditBranch'
 
 
 const BranchCard = ({ selected }) => {
+
+  const {companyId} = useParams()
 
   if (!selected.id) return;
   return (
@@ -27,7 +32,7 @@ const BranchCard = ({ selected }) => {
       alignItems="center"
     >
       <Box position="absolute" top="5px" right="13px">
-        
+        <EditBranch selected={selected} />
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
         <Typography mt={1} fontWeight={400} fontSize={25}>
@@ -48,17 +53,19 @@ const BranchCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
-      <Button
-        variant="outlined"
-        sx={{
-          color: "#8757DF",
-          borderColor: "#8757DF",
-          "&:hover": { borderColor: "#8757DF" },
-        }}
-        startIcon={<VisibilityOutlined color="#8757DF" />}
-      >
-        Ver Calendario
-      </Button>
+      <Link to={`/home/companias/${companyId}/sucursales/${selected.id}`}>
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#8757DF",
+            borderColor: "#8757DF",
+            "&:hover": { borderColor: "#8757DF" },
+          }}
+          startIcon={<VisibilityOutlined color="#8757DF" />}
+        >
+          Ver Calendario
+        </Button>
+      </Link>
     </Grid>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Toolbar,
   Divider,
@@ -8,6 +8,9 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from "../../../styles/material";
 import UserCard from "./UserCard";
 import { ListItemStyled } from "./sideBarStyles";
@@ -16,15 +19,24 @@ import {
   AssignmentInd,
   QueryStats,
   SupervisedUserCircle,
+  ExpandMoreIcon,
+  FactCheckOutlinedIcon,
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
 
 const options = [
-  { label: "Companias", icon: <Apartment />, url: "/home/companias" },
+  { label: "Compañias", icon: <Apartment />, url: "/home/companias" },
   { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
-  { label: "Reportes", icon: <QueryStats />, url: "/home/reportes" },
+  { label: "Inasistencias", icon: <FactCheckOutlinedIcon />, url: "/home/inasistencias" },
+  {
+    label: "Reportes",
+    icon: <QueryStats />,
+    suboptions: [
+      { label: "Compañias", icon: <QueryStats />, url: "/home/reportes/companias" },
+      { label: "Vigiladores", icon: <QueryStats />, url: "/home/reportes/vigiladores" },
+    ],
+  },
 ];
 
 const adminOptions = [
@@ -32,30 +44,36 @@ const adminOptions = [
 ];
 
 const SideBarContent = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const { userInfo } = useSelector((state) => state.user);
   let indexOption = 0;
-  const location = useLocation();
-
-  useEffect(() => {
-    const actualIndex = options
-      .map((element) => element.label.toLowerCase())
-      .indexOf(location.pathname.slice(1));
-    setSelectedIndex(Number(actualIndex) + 1);
-  }, [location]);
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
   };
 
-  const Item = ({ option, index }) => {
+  const Item = ({ option, index, notSelectable }) => {
     return (
       <ListItemStyled
         key={option.label}
         selected={selectedIndex === index}
         disablePadding
+        sx={{
+          "&:hover": {
+            backgroundColor: notSelectable ? "transparent" : "#DCD2EE",
+            borderRadius: "10px",
+          },
+        }}
       >
-        <ListItemButton onClick={() => handleListItemClick(index)}>
+        <ListItemButton
+          disableRipple
+          sx={{
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+          }}
+          onClick={() => handleListItemClick(index)}
+        >
           <ListItemIcon
             sx={{
               "&.MuiListItemIcon-root": {
@@ -86,10 +104,57 @@ const SideBarContent = () => {
         </Divider>
         {options.map((option, i) => {
           indexOption++;
-          return (
+          return option.suboptions ? (
+            <Accordion
+              key={option.label}
+              disableGutters={true}
+              elevation={0}
+              sx={{
+                "&.MuiAccordion-root": {
+                  "&:before": {
+                    backgroundColor: "transparent",
+                  },
+                  border: "none",
+                  width: "100%",
+                  marginLeft: 0,
+                  paddingLeft:0
+                },
+              }}
+            >
+              <AccordionSummary
+                sx={{
+                  margin:0,
+                  paddingLeft:"1px",
+                  height: "45px",
+                  borderRadius: "10px",
+                }}
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Item
+                  notSelectable={true}
+                  option={option}
+                  index={indexOption}
+                />
+              </AccordionSummary>
+              <AccordionDetails>
+                {option.suboptions.map((suboption) => {
+                  indexOption++
+                  return (
+                    <Link
+                      style={{ textDecoration: "none", color: "inherit" }}
+                      key={suboption.label}
+                      to={suboption.url}
+                    >
+                      <Item option={suboption} index={indexOption} />
+                    </Link>
+                  );
+                })}
+              </AccordionDetails>
+            </Accordion>
+          ) : (
             <Link
               style={{ textDecoration: "none", color: "inherit" }}
-              key={i}
+              key={option.label}
               to={option.url}
             >
               <Item option={option} index={indexOption} />

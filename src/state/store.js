@@ -9,6 +9,7 @@ import adminReducer from "./admin"
 import provincesReducer from "./provinces"
 import branchReducer from "./branch"
 import assignmentReducer from "./assignmentState"
+import inactiveReducer from "./inactive"
 
 const store=configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
@@ -24,7 +25,7 @@ const store=configureStore({
         province: provincesReducer,
         branch: branchReducer,
         branchAssignment:assignmentReducer,
-
+        inactive: inactiveReducer
     }
 })
 

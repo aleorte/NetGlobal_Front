@@ -7,15 +7,10 @@ import store from './state/store';
 import NavBar from './components/NavBar'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Routes,Route } from 'react-router-dom'
+import { Routes } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
-import CalendarBranch from './views/CalendarBranch';
-import Reports from './components/Reports/Reports';
-import SideBar from './components/SideBar/index'
-import Box from  '@mui/material/Box';
-import CalendarGuardView from './views/CalendarGuard';
 
 function App() {
 
@@ -27,16 +22,8 @@ function App() {
         <Alert/>
         <NavBar/>
         <Routes>
-        <Route path='company/:companyId/branch/:branchId' element={<CalendarBranch/>}/>
-        <Route path='guard/:guardId' element={<CalendarGuardView/>}/>
           {adminRoutes}
           {publicRoutes}
-          <Route path="/home/reportes" element={
-          <Box display="flex" direction="column">
-          <SideBar/>
-          <Reports/>
-          </Box>
-          }/>
         </Routes>
       </ThemeProvider>
       </LocalizationProvider>

@@ -22,19 +22,8 @@ const CalendarBranchView = () => {
   return (
     <>
     <Box sx={{ display: "flex" }}>
-      <SideBar/>
       <CalendarBox/>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - 240px)` },
-          minHeight:"calc(100vh - 64px)",
-          backgroundColor:"#F4F6F8"
-        }}>
        <CalendarBranch/>
-       </Box>
       </Box>
     <Footer/>
     </>

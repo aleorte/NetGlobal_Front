@@ -7,7 +7,6 @@ const guardServices = {
     updateGuard : (guardId,guardData) => axios.put(`${URL}/guards/${guardId}`,guardData),
     getGuard:(guardId)=> axios.get(`${URL}/guards/${guardId}`),
     getAvailableGuards:(branchId,date)=>axios.post(`${URL}/branch/${branchId}/guards`,{date})
-
 }
 
 

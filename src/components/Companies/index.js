@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CompanyCard from "./CompanyCard";
 import CompanyCells from "./CompanyCells";
 import companyHeaders from "./CompanyHeaders";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { getCompanies } from "../../state/company";
+import Dashboard from "../../commons/Dashboard";
 
 
 const Companies = () => {
 
-  const companiesInfo = useSelector(state=>state.companies) 
+  const dispatch = useDispatch()
+  const { companies } = useSelector(state=>state.company)
+  
+  useEffect(()=>{
+    dispatch(getCompanies())
+  },[])
+
+  const companyData = {
+    data: companies ,
+    headers:companyHeaders, 
+    Card:CompanyCard, 
+    Cells:CompanyCells,
+    label:"Compañias",
+  }
 
   return (
-    {
-      data:companiesInfo.companies ,
-      headers:companyHeaders, 
-      card:<CompanyCard/>, 
-      Cells:CompanyCells,
-      label:"Company",
-    }
+    <Dashboard {...companyData}/>
   )
 }
 export default Companies;

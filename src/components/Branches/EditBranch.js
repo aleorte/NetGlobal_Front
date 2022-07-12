@@ -24,11 +24,12 @@ import {
 import { AddBoxOutlinedIcon, CloseIcon, EditIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationGuard } from "../../utils/validations";
+import { validationBranch } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
-import { getGuards, updateGuard } from "../../state/guards";
+import { getBranches, updateBranch } from "../../state/branch";
 import { useSelector,useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
+import { useParams } from 'react-router-dom'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -43,17 +44,12 @@ const AreaContainer = styled(Box)({
   borderRadius: "5px",
 });
 
-const ImagePreview = styled(Box)({
-  height: "250px",
-  width: "400px",
-  backgroundSize: "cover",
-});
-
-const EditGuard = ({selected}) => {
+const EditBranch = ({selected}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
-  const { success, loading, actionType, error } = useSelector((state) => state.guard);
+  const { success, loading, actionType, error } = useSelector((state) => state.branch);
   const dispatch = useDispatch()
+  const {companyId} = useParams()
 
   const {
     register,
@@ -63,9 +59,8 @@ const EditGuard = ({selected}) => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
+  } = useForm({ resolver: yupResolver(validationBranch), mode: "onSubmit" });
 
-  const imageGuard = watch("image");
   const provinceGuard = watch("province");
 
   useEffect(()=>{
@@ -81,12 +76,13 @@ const EditGuard = ({selected}) => {
     if (success && actionType==="update"){
         setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"})
         setOpenDialog(false)
-        dispatch(getGuards())
+        dispatch(getBranches(companyId))
     }
   },[success,error])
 
   const onSubmit = (data) => {
-    selected.id && dispatch(updateGuard({guardData:data,guardId:selected.id}))
+    const branchData = {cuit:data.cuit,name:data.name,provinceName:data.provinceName,location:data.location,street:data.street,number:data.number}
+    selected.id && dispatch(updateBranch({branchId:selected.id,branchData}))
   };
 
   return (
@@ -116,7 +112,7 @@ const EditGuard = ({selected}) => {
               variant="h6"
               component="div"
             >
-              Editar vigilador
+              Editar sucursal
             </Typography>
           </Toolbar>
         </AppBar>
@@ -148,50 +144,20 @@ const EditGuard = ({selected}) => {
               <TextField
                 fullWidth
                 label="CUIT"
-                {...register("cuil")}
-                error={errors.cuil !== undefined}
-                helperText={errors.cuil?.message}
+                {...register("cuit")}
+                error={errors.cuit !== undefined}
+                helperText={errors.cuit?.message}
               />
-              <Grid container justifyContent="space-between">
-                <Grid item xs={5}>
-                  <TextField
-                    fullWidth
-                    label="Apellido"
-                    {...register("lastName")}
-                    error={errors.lastName !== undefined}
-                    helperText={errors.lastName?.message}
-                  />
-                </Grid>
-                <Grid item xs={5}>
-                  <TextField
-                    fullWidth
-                    label="Nombre"
-                    {...register("name")}
-                    error={errors.name !== undefined}
-                    helperText={errors.name?.message}
-                  />
-                </Grid>
-              </Grid>
-              <TextField
-                fullWidth
-                label="Email"
-                {...register("email")}
-                error={errors.email !== undefined}
-                helperText={errors.email?.message}
-              />
-            </AreaContainer>
-
-            <AreaContainer>
-              <Typography fontWeight="bold" variant="h6">
-                Image
-              </Typography>
-              <Divider />
-              <TextField fullWidth label="Url" {...register("image")} />
-              <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <ImagePreview sx={{ backgroundImage: `url(${imageGuard})` }}>
-                  {" "}
-                </ImagePreview>
-              </Paper>
+              
+            <Grid item xs={5}>
+                <TextField
+                  fullWidth
+                  label="Nombre"
+                  {...register("name")}
+                  error={errors.name !== undefined}
+                  helperText={errors.name?.message}
+                />
+            </Grid>
             </AreaContainer>
             <AreaContainer>
               <Typography fontWeight="bold" variant="h6">
@@ -207,8 +173,8 @@ const EditGuard = ({selected}) => {
                       maxHeight: 300,
                     },
                   }}
-                  {...register("province")}
-                  error={errors.province !== undefined}
+                  {...register("provinceName")}
+                  error={errors.provinceName !== undefined}
                   defaultValue={provinceGuard || "Buenos Aires"}
                 >
                   {provinciesArg.map((province) => (
@@ -282,4 +248,4 @@ const EditGuard = ({selected}) => {
   );
 };
 
-export default EditGuard;
+export default EditBranch;

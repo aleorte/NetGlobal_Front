@@ -3,7 +3,6 @@ import { styled } from "@mui/system";
 import {
   Box,
   Alert,
-  Paper,
   InputLabel,
   Select,
   MenuItem,
@@ -21,13 +20,14 @@ import {
   FormHelperText,
   LoadingButton,
 } from "../../styles/material";
-import { AddBoxOutlinedIcon, CloseIcon, EditIcon } from "../../styles/materialIcons";
+import { AddBoxOutlinedIcon, CloseIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationGuard } from "../../utils/validations";
+import { validationBranch } from "../../utils/validations";
 import { provinciesArg } from "../../utils/provincies";
-import { getGuards, updateGuard } from "../../state/guards";
-import { useSelector,useDispatch } from "react-redux";
+import { addBranch, getBranches } from "../../state/branch";
+import { getProvinces } from "../../state/provinces";
+import { useSelector, useDispatch } from "react-redux";
 import { setAlert } from "../../state/alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -43,17 +43,14 @@ const AreaContainer = styled(Box)({
   borderRadius: "5px",
 });
 
-const ImagePreview = styled(Box)({
-  height: "250px",
-  width: "400px",
-  backgroundSize: "cover",
-});
-
-const EditGuard = ({selected}) => {
+const AddBranch = ({company}) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [locationError, setLocationError] = useState(false);
-  const { success, loading, actionType, error } = useSelector((state) => state.guard);
-  const dispatch = useDispatch()
+  const { success, loading, actionType, error } = useSelector(
+    (state) => state.branch
+  );
+  const { provinces } = useSelector(state=>state.province)
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -63,36 +60,36 @@ const EditGuard = ({selected}) => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
+  } = useForm({ resolver: yupResolver(validationBranch), mode: "onSubmit" });
 
-  const imageGuard = watch("image");
   const provinceGuard = watch("province");
 
-  useEffect(()=>{
-    if (selected?.id){
-        Object.entries(selected).forEach(prop=>{
-            setValue(prop[0],prop[1])
-        })
+  useEffect(() => {
+    error &&
+      setAlert({
+        severity: "error",
+        message: "El registro ha fallado. Intentelo mas tarde",
+      });
+    if (success && actionType === "add") {
+      setAlert({
+        severity: "success",
+        message: "El vigilador ha sido registado con exito!",
+      });
+      dispatch(getBranches(company));
+      setOpenDialog(false)
     }
-  },[selected])
-
-  useEffect(()=>{
-    error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
-    if (success && actionType==="update"){
-        setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"})
-        setOpenDialog(false)
-        dispatch(getGuards())
-    }
-  },[success,error])
+  }, [success, error]);
 
   const onSubmit = (data) => {
-    selected.id && dispatch(updateGuard({guardData:data,guardId:selected.id}))
+    if (company){
+      dispatch(addBranch({companyId:company,branch:data}))
+    }
   };
 
   return (
     <>
       <IconButton aria-label="add" onClick={() => setOpenDialog(true)}>
-        <EditIcon sx={{ fontSize: 26, color: "#8757DF" }} />
+        <AddBoxOutlinedIcon sx={{ fontSize: 40, color: "#8757DF" }} />
       </IconButton>
       <Dialog fullScreen open={openDialog} TransitionComponent={Transition}>
         <AppBar
@@ -116,7 +113,7 @@ const EditGuard = ({selected}) => {
               variant="h6"
               component="div"
             >
-              Editar vigilador
+              Añadir Sucursal
             </Typography>
           </Toolbar>
         </AppBar>
@@ -148,50 +145,20 @@ const EditGuard = ({selected}) => {
               <TextField
                 fullWidth
                 label="CUIT"
-                {...register("cuil")}
-                error={errors.cuil !== undefined}
-                helperText={errors.cuil?.message}
+                {...register("cuit")}
+                error={errors.cuit !== undefined}
+                helperText={errors.cuit?.message}
               />
-              <Grid container justifyContent="space-between">
-                <Grid item xs={5}>
-                  <TextField
-                    fullWidth
-                    label="Apellido"
-                    {...register("lastName")}
-                    error={errors.lastName !== undefined}
-                    helperText={errors.lastName?.message}
-                  />
-                </Grid>
-                <Grid item xs={5}>
-                  <TextField
-                    fullWidth
-                    label="Nombre"
-                    {...register("name")}
-                    error={errors.name !== undefined}
-                    helperText={errors.name?.message}
-                  />
-                </Grid>
-              </Grid>
-              <TextField
-                fullWidth
-                label="Email"
-                {...register("email")}
-                error={errors.email !== undefined}
-                helperText={errors.email?.message}
-              />
-            </AreaContainer>
-
-            <AreaContainer>
-              <Typography fontWeight="bold" variant="h6">
-                Image
-              </Typography>
-              <Divider />
-              <TextField fullWidth label="Url" {...register("image")} />
-              <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <ImagePreview sx={{ backgroundImage: `url(${imageGuard})` }}>
-                  {" "}
-                </ImagePreview>
-              </Paper>
+              
+            <Grid item xs={5}>
+                <TextField
+                  fullWidth
+                  label="Nombre"
+                  {...register("name")}
+                  error={errors.name !== undefined}
+                  helperText={errors.name?.message}
+                />
+            </Grid>
             </AreaContainer>
             <AreaContainer>
               <Typography fontWeight="bold" variant="h6">
@@ -207,8 +174,8 @@ const EditGuard = ({selected}) => {
                       maxHeight: 300,
                     },
                   }}
-                  {...register("province")}
-                  error={errors.province !== undefined}
+                  {...register("provinceName")}
+                  error={errors.provinceName !== undefined}
                   defaultValue={provinceGuard || "Buenos Aires"}
                 >
                   {provinciesArg.map((province) => (
@@ -264,7 +231,7 @@ const EditGuard = ({selected}) => {
                   loading={loading}
                   variant="contained"
                 >
-                  Editar
+                  Añadir
                 </LoadingButton>
                 <Button
                   variant="outlined"
@@ -282,4 +249,4 @@ const EditGuard = ({selected}) => {
   );
 };
 
-export default EditGuard;
+export default AddBranch;
