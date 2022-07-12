@@ -56,7 +56,7 @@ const GuardsReport = () => {
           <MuiTableBody>
             {guards.map((row) => (
               <StyledTableRow key={row.cuil}>
-                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.cuil}</StyledTableCell>
                 <StyledTableCell component="th" scope="row" align="center">
                   {row.name}
                 </StyledTableCell>

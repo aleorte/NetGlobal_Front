@@ -44,7 +44,7 @@ const adminOptions = [
 ];
 
 const SideBarContent = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const { userInfo } = useSelector((state) => state.user);
   let indexOption = 0;
 

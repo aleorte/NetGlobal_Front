@@ -2,12 +2,7 @@ import React, { useEffect } from "react";
 import {
   Typography,
   Box,
-  Paper,
   Grid,
-  Link,
-  Breadcrumbs,
-  Divider,
-  Button,
   Collapse,
   IconButton,
   List,
@@ -22,11 +17,15 @@ import {
 } from "../../styles/materialIcons";
 import { TransitionGroup } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
-import { setInactive } from "../../state/inactive";
+import { setInactive,getPending,getPast } from "../../state/inactive";
 
 const PendingAbsences = () => {
-  const { inactives } = useSelector((state) => state.inactive);
+  const { pending } = useSelector((state) => state.inactive);
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getPending())
+  },[])
 
   function renderItem({ item, handleInactive }) {
     return (
@@ -38,7 +37,7 @@ const PendingAbsences = () => {
               edge="end"
               aria-label="delete"
               title="Aceptar"
-              onClick={() => handleInactive(item, true)}
+              onClick={() => handleInactive(item, "APPROVED")}
               sx={{ mr: 2 }}
             >
               <CheckCircleOutlineOutlinedIcon
@@ -50,7 +49,7 @@ const PendingAbsences = () => {
               edge="end"
               aria-label="delete"
               title="Rechazar"
-              onClick={() => handleInactive(item, false)}
+              onClick={() => handleInactive(item, "REJECTED")}
             >
               <CancelOutlinedIcon color="error" sx={{ fontSize: "30px" }} />
             </IconButton>
@@ -66,7 +65,7 @@ const PendingAbsences = () => {
         <ListItemText
           primaryTypographyProps={{}}
           primary={
-            <Typography fontWeight="bold"> {item.guard.name} </Typography>
+            <Typography fontWeight="bold"> {item.guards[0].lastName + " " + item.guards[0].name} </Typography>
           }
           secondary={
             <>
@@ -79,7 +78,7 @@ const PendingAbsences = () => {
                 {item.startDate + " | " + item.endDate}
               </Typography>
               <br />
-              {item.description}
+              {item.detail}
             </>
           }
         ></ListItemText>
@@ -87,21 +86,22 @@ const PendingAbsences = () => {
     );
   }
 
-  const handleInactive = (item, result) => {
-    dispatch(setInactive({ guard: item, result }));
+  const handleInactive = (item, state) => {
+    dispatch(setInactive({ inactiveId: item.id, state }))
+    .then(()=>{dispatch(getPast())})
   };
 
   return (
     <Box>
       <Grid my={2} display="flex" flexDirection="column">
         <div>
-          {inactives.length===0 ? (
+          {pending.length===0 ? (
             <Typography> No hay peticiones pendientes</Typography>
           ) : (
             <Box sx={{ mt: 1 }}>
               <List sx={{ bgcolor: "background.paper" }}>
                 <TransitionGroup>
-                  {inactives.map((item) => (
+                  {pending.map((item) => (
                     <Collapse key={item.id}>
                       {renderItem({ item, handleInactive })}
                     </Collapse>
