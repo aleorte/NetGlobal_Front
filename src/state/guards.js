@@ -20,6 +20,12 @@ export const getGuard = createAsyncThunk("GET_GUARD", async (guardId) => {
   return guard.data;
 });
 
+export const getAvailableGuards= createAsyncThunk("GET_AVAIBLEGUARDS", async ({branchId,date}) => {
+  console.log("daleeeeeeeeee",branchId,date)
+  const AvailableGuards = await guardServices.getAvailableGuards(branchId,date);
+  return AvailableGuards.data
+})
+
 const guardsReducer = createReducer({loading:false,guards:[],error:null,success:false,actionType:""},{
   [getGuards.fulfilled]: (state,action)=>{
     const guards = action.payload.guards
@@ -66,6 +72,17 @@ const guardsReducer = createReducer({loading:false,guards:[],error:null,success:
     [getGuard.rejected]: (state, action) => {
       return { guard: [], loading: false, error: action.error };
     },
+    [getAvailableGuards.fulfilled]: (state,action)=>{
+      const AvailableGuards = action.payload
+      return {AvailableGuards,loading:false,error:null}
+    },
+    [getAvailableGuards.pending]: (state) => {
+      state.loading = true
+    },
+    [getAvailableGuards.rejected] : (state,action) => {
+      return {AvailableGuards:[],loading:false,error:action.error}
+    },
+
 }
   
 );

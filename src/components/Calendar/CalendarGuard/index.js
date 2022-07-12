@@ -23,66 +23,65 @@ import {
   Appointments,
   AppointmentTooltip,
   AppointmentForm,
-  Resources,
   EditRecurrenceMenu,
+  Resources,
+  DragDropProvider,
+  ConfirmationDialog,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { Button, Box } from "../../styles/material";
-import { getAssignamentsBranch } from "../../state/assignamentState";
+import { Button, Box } from "../../../styles/material";
+import {
+  getAssignmentsGuard,
+  addAssignmentsGuard,
+  putAssignmentsGuard,
+  deleteAssignment,
+} from "../../../state/assignmentState";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { getGuard } from "../../state/guards";
-import { ContentPasteSearchOutlined } from "@mui/icons-material";
+import { useParams, useNavigate } from "react-router-dom";
+import { getGuard, getAvailableGuards } from "../../../state/guards";
+import { getRandomColor } from "../../../utils/functions";
 
-const SchedulerData = [
-  {
-    startDate: "2022-07-05T09:45",
-    endDate: "2022-07-05T19:45",
-    title: "Tarea",
-  },
-  {
-    startDate: "2022-07-07T10:45",
-    endDate: "2022-07-07T22:30",
-    title: "Codear",
-  },
-];
 
-export const Calendar = () => {
+export const CalendarGuard = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const [branchCalendar, setBranchCalendar] = useState([]);
-  const [nameGuard, setNameGuard] = useState({});
-  const [asignedGuards, setAsignedGuards] = useState([]);
-
-  const assignamentsBranch = useSelector((state) => state.branchAssignament);
+  const navigate = useNavigate();
+  const [guardCalendar, setGuardCalendar] = useState([]);
+  const [branchGuardsAvailables, setBranchGuardsAvailables] = useState([]);
+  const [currentAppoimentId, setCurrentAppoimentId] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const assignmentsGuard = useSelector((state) => state.branchAssignment);
   const guard = useSelector((state) => state.guard);
 
+  const [valor, setValor] = useState("");
+
   useEffect(() => {
-    dispatch(getAssignamentsBranch(params.branchId));
+    dispatch(getAssignmentsGuard(params.guardId));
+    dispatch(getGuard(params.guardId));
   }, []);
 
-  useEffect( () => {
-    const calendar=[]
-    const data = JSON.parse(JSON.stringify(assignamentsBranch));
-    async function asyncFn(){
-      const guards = await Promise.all(
-        data.map((oneGuard) => dispatch(getGuard(oneGuard.guardId)))
-      );
-      for (let i = 0; i < data.length; i++) {
-        const startedDate = data[i].startTime;
-        const endedDate = data[i].endTime;
-        const guardName=guards[i].payload.name+" "+guards[i].payload.lastName
-        calendar.push({
-          startDate: startedDate,
-          endDate: endedDate,
-          title:guardName,
-        });
-        setBranchCalendar(calendar);}
-    }
-    asyncFn()
-  }, [assignamentsBranch]);
 
+  console.log("AAAAA",assignmentsGuard)
+  useEffect(() => {
+    if (assignmentsGuard.length) {
+      const data = JSON.parse(JSON.stringify(assignmentsGuard)); //refleja la base de datos en el calendario
+      const calendar = data.map((currentGuard) => {                   //Adaptación necesaria para recibir los datos
+        console.log("HOLAA", currentGuard);                           // y que puedan ser renderizados por la librería
+        const dataGuard = {
+          startDate: currentGuard.startTime,
+          endDate: currentGuard.endTime,
+          title: currentGuard.name,
+          assignmentId: currentGuard.id,
+          date: moment(currentGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida
+          state: currentGuard.state,                                 //obtener el id de la tarea en lo que resta del código
+        };
+        return dataGuard;
+      })
+      console.log("DATOSSSS",calendar)
+      setGuardCalendar(calendar);
+    }                  
+  }, [assignmentsGuard, guard]);
 
+  
   const PREFIX = "Demo";
 
   const classes = {
@@ -118,9 +117,17 @@ export const Calendar = () => {
     }
   };
 
+  const dataSouce = [
+    {
+      fieldName: "guardId",
+      title: "Guard",
+      instances: branchGuardsAvailables,
+    },
+  ];
+
   const InputComponent = (props) => {
     if (props.placeholder === "Title") {
-      return <AppointmentForm.Select {...props} />;
+      return null;
     }
     if (props.placeholder === "Notes") {
       return (
@@ -135,6 +142,21 @@ export const Calendar = () => {
 
   const BoolEditor = (props) => {
     return null;
+  };
+
+
+  const buttonComponent = (props) => {
+    console.log("PROPPS", props);
+    if (props.title === "Delete") {
+      return (
+        <ConfirmationDialog.Button
+          {...props}
+          onClick={dispatch(deleteAssignment(currentAppoimentId))}
+        />
+      );
+    } else {
+      return <ConfirmationDialog.Button {...props} />;
+    }
   };
 
   const commandButtonComponent = (props) => {
@@ -164,21 +186,11 @@ export const Calendar = () => {
     );
   };
 
-  const editOverlay = ({ fullSize, ...restProps }) => {
-    return (
-      <AppointmentForm.Overlay
-        {...restProps}
-        fullSize={false}
-      ></AppointmentForm.Overlay>
-    );
-  };
-
   return (
     <Box sx={styleCalendar}>
-      <Scheduler data={branchCalendar}>
+      <Scheduler data={guardCalendar}>
         <ViewState />
-        <EditingState />
-        <EditRecurrenceMenu />
+        <EditingState/>
         <IntegratedEditing />
         <MonthView
           dayScaleCellComponent={DayScaleCell}
@@ -195,16 +207,10 @@ export const Calendar = () => {
         <DateNavigator />
         <ViewSwitcher />
         <Appointments />
-        <AppointmentTooltip showCloseButton showOpenButton />
-        <AppointmentForm
-          commandButtonComponent={commandButtonComponent}
-          overlayComponent={editOverlay}
-          basicLayoutComponent={BasicLayout}
-          booleanEditorComponent={BoolEditor}
-          labelComponent={LabelComponent}
-          textEditorComponent={InputComponent}
+        <AppointmentTooltip
+          showCloseButton
         />
-        <Resources />
+        <DragDropProvider />
       </Scheduler>
     </Box>
   );

@@ -1,67 +1,90 @@
-import { createReducer, createAsyncThunk,createAction } from "@reduxjs/toolkit";
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from "@reduxjs/toolkit";
 import companyServices from "../services/companyServices";
 
 export const getCompanies = createAsyncThunk("GET_COMPANIES", async () => {
   const companies = await companyServices.getCompanies();
-  return companies.data
-})
+  return companies.data;
+});
+
+export const getCompany = createAsyncThunk(
+  "GET_COMPANIES",
+  async (companyId) => {
+    const company = await companyServices.getCompany(companyId);
+    return company.data;
+  }
+);
 
 export const addCompany = createAsyncThunk("ADD_COMPANY", async (company) => {
   return companyServices.addCompany(company);
-})
+});
 
-export const updateCompany = createAsyncThunk("UPDATE_COMPANY", async ({companyId,companyData}) => {
-  return companyServices.updateCompany(companyId,companyData);
-})
- 
-export const restart = createAction("RESTART")
+export const updateCompany = createAsyncThunk(
+  "UPDATE_COMPANY",
+  async ({ companyId, companyData }) => {
+    return companyServices.updateCompany(companyId, companyData);
+  }
+);
 
-const companyReducer = createReducer({loading:false,companies:[],error:null,success:false,actionType:""},{
-    [getCompanies.fulfilled]: (state,action)=>{
-      const companies = action.payload.companies
-      return {companies,loading:false,error:null,actionType:"get"}
+export const restart = createAction("RESTART");
+
+const companyReducer = createReducer(
+  {
+    loading: false,
+    companies: [],
+    error: null,
+    success: false,
+    actionType: "",
+  },
+  {
+    [getCompanies.fulfilled]: (state, action) => {
+      const companies = action.payload.companies;
+      return { companies, loading: false, error: null, actionType: "get" };
     },
     [getCompanies.pending]: (state) => {
-      state.loading = true
+      state.loading = true;
     },
-    [getCompanies.rejected] : (state,action) => {
-      return {companies:[],loading:false,error:action.error}
+    [getCompanies.rejected]: (state, action) => {
+      return { companies: [], loading: false, error: action.error };
     },
-    [addCompany.fulfilled] : (state,action) => {
-      state.loading=false
-      state.error=null
-      state.success=true
-      state.actionType="add"
+    [getCompany.fulfilled]: (state, action) => action.payload,
+    [addCompany.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.success = true;
+      state.actionType = "add";
     },
     [addCompany.pending]: (state) => {
-      state.loading = true
+      state.loading = true;
     },
-    [addCompany.rejected] : (state,action) => {
-      state.error = action.error
-      state.loading = false
-      state.success = false
+    [addCompany.rejected]: (state, action) => {
+      state.error = action.error;
+      state.loading = false;
+      state.success = false;
     },
-    [updateCompany.fulfilled] : (state,action) => {
-      state.loading=false
-      state.error=null
-      state.success=true
-      state.actionType="update"
+    [updateCompany.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.success = true;
+      state.actionType = "update";
     },
     [updateCompany.pending]: (state) => {
-      state.loading = true
+      state.loading = true;
     },
-    [updateCompany.rejected] : (state,action) => {
-      state.error = action.error
-      state.loading = false
-      state.success = false
+    [updateCompany.rejected]: (state, action) => {
+      state.error = action.error;
+      state.loading = false;
+      state.success = false;
     },
     [restart]: (state) => {
-      state.loading = false
-      state.error = null
-      state.success = false 
-    }
-}
-  
+      state.loading = false;
+      state.error = null;
+      state.success = false;
+    },
+  }
 );
 
 export default companyReducer;

@@ -7,9 +7,10 @@ import Companies from '../components/Companies'
 import Guards from '../components/Guards'
 import Admins from '../components/Admins'
 import Branches from '../components/Branches';
-import { Calendar } from '../commons/Calendar';
 import Inactives from '../views/Inactives';
 import Reports from '../views/Reports';
+import CalendarBranchView from '../views/CalendarBranch';
+import CalendarGuardView from '../views/CalendarGuard';
 
 const ProtectedAdminRoute = () => {
 
@@ -48,7 +49,8 @@ const adminRoutes =
         <Route exact path='vigiladores' element={<Guards/>}/>
         <Route exact path='reportes/:report' element={<Reports/>}/>
         <Route exact path='companias/:companyId/sucursales' element={<Branches/>}/>
-        <Route exact path='companias/:companyId/sucursales/:branchId' element={<Calendar/>}/>
+        <Route path='companias/:companyId/sucursales/:branchId' element={<CalendarBranchView/>}/>
+        <Route path='vigilante/:guardId' element={<CalendarGuardView/>}/>
         <Route exact path='inasistencias' element={<Inactives/>}/>
         <Route exact path='admins' element={<ProtectedSuperAdminRoute/>}>
             <Route exact path='' element={<Admins/>}/>

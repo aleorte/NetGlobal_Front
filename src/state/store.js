@@ -8,7 +8,7 @@ import guardsReducer from "./guards"
 import adminReducer from "./admin"
 import provincesReducer from "./provinces"
 import branchReducer from "./branch"
-import assignamentReducer from "./assignamentState"
+import assignmentReducer from "./assignmentState"
 import inactiveReducer from "./inactive"
 
 const store=configureStore({
@@ -24,7 +24,7 @@ const store=configureStore({
         admin: adminReducer,
         province: provincesReducer,
         branch: branchReducer,
-        branchAssignament:assignamentReducer,
+        branchAssignment:assignmentReducer,
         inactive: inactiveReducer
     }
 })

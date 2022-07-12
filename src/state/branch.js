@@ -5,7 +5,6 @@ export const getBranches = createAsyncThunk("GET_BRANCHES", async (companyId) =>
   const branches = await branchServices.getBranches(companyId);
   return branches.data
 })
-
 export const addBranch = createAsyncThunk("ADD_BRANCH", async ({companyId,branch}) => {
   return branchServices.addBranch(companyId,branch);
 })
