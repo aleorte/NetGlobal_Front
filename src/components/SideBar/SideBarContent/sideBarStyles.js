@@ -4,7 +4,7 @@ import { styled} from "@mui/system";
 export const ListItemStyled = styled(ListItem)({
     "&.Mui-selected": {
         backgroundColor: 'white',
-        /* color:"#8757DF", */
+        color:"#8757DF"
         /* borderRadius:"10px" */
     },
     borderRadius:"10px",

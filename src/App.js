@@ -7,15 +7,10 @@ import store from './state/store';
 import NavBar from './components/NavBar'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Routes,Route } from 'react-router-dom'
+import { Routes } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
-
-
-import Reports from './components/Reports/Reports';
-import SideBar from './components/SideBar/index'
-import Box from  '@mui/material/Box';
 
 function App() {
 
