@@ -6,10 +6,11 @@ import SideBar from '../components/SideBar'
 import Companies from '../components/Companies'
 import Guards from '../components/Guards'
 import Admins from '../components/Admins'
-import Reports from '../components/Reports/Reports';
 import Branches from '../components/Branches';
 import { Calendar } from '../commons/Calendar';
 import Inactives from '../views/Inactives';
+import CompanyReport from '../components/Reports/CompanyReport';
+import GuardsReport from '../components/Reports/GuardsReport';
 
 const ProtectedAdminRoute = () => {
 
@@ -46,7 +47,8 @@ const adminRoutes =
     <Route exact path='/home' element={<ProtectedAdminRoute/>}>
         <Route exact path='companias' element={<Companies/>}/>
         <Route exact path='vigiladores' element={<Guards/>}/>
-        <Route exact path='reportes' element={<Reports/>}/>
+        <Route exact path='reportes/companias' element={<CompanyReport/>}/>
+        <Route exact path='reportes/vigiladores' element={<GuardsReport/>}/>
         <Route exact path='companias/:companyId/sucursales' element={<Branches/>}/>
         <Route exact path='companias/:companyId/sucursales/:branchId' element={<Calendar/>}/>
         <Route exact path='inasistencias' element={<Inactives/>}/>

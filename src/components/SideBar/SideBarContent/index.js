@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Toolbar,
   Divider,
@@ -23,19 +23,18 @@ import {
   FactCheckOutlinedIcon,
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
 
 const options = [
-  { label: "Companias", icon: <Apartment />, url: "/home/companias" },
+  { label: "Compañias", icon: <Apartment />, url: "/home/companias" },
   { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
   { label: "Inasistencias", icon: <FactCheckOutlinedIcon />, url: "/home/inasistencias" },
   {
     label: "Reportes",
     icon: <QueryStats />,
     suboptions: [
-      { label: "Reportes1", icon: <QueryStats />, url: "/home/reportes" },
-      { label: "Reportes2", icon: <QueryStats />, url: "/home/reportes" },
+      { label: "Compañias", icon: <QueryStats />, url: "/home/reportes/companias" },
+      { label: "Vigiladores", icon: <QueryStats />, url: "/home/reportes/vigiladores" },
     ],
   },
 ];
@@ -48,14 +47,6 @@ const SideBarContent = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(null);
   const { userInfo } = useSelector((state) => state.user);
   let indexOption = 0;
-  const location = useLocation();
-
-  useEffect(() => {
-    const actualIndex = options
-      .map((element) => element.label.toLowerCase())
-      .indexOf(location.pathname.slice(1));
-    setSelectedIndex(Number(actualIndex) + 1);
-  }, [location]);
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
@@ -86,7 +77,7 @@ const SideBarContent = () => {
           <ListItemIcon
             sx={{
               "&.MuiListItemIcon-root": {
-                //color: selectedIndex === index && "#9D77E2",
+                color: selectedIndex === index && "#9D77E2",
               },
               pl: 2,
             }}
@@ -147,6 +138,7 @@ const SideBarContent = () => {
               </AccordionSummary>
               <AccordionDetails>
                 {option.suboptions.map((suboption) => {
+                  indexOption++
                   return (
                     <Link
                       style={{ textDecoration: "none", color: "inherit" }}

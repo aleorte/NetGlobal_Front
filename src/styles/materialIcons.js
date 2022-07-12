@@ -29,6 +29,7 @@ export { default as ExpandMoreIcon } from '@mui/icons-material/ExpandMore'
 export { default as FactCheckOutlinedIcon} from '@mui/icons-material/FactCheckOutlined';
 export { default as CheckCircleOutlineOutlinedIcon} from '@mui/icons-material/CheckCircleOutlineOutlined';
 export { default as CancelOutlinedIcon} from '@mui/icons-material/CancelOutlined';
+export { default as DownloadIcon } from '@mui/icons-material/Download';
 
 
 
