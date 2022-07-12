@@ -25,6 +25,10 @@ const Home = () => {
   const { admins } = useSelector(state=>state.admin)
   const { entity } = useParams()
 
+
+console.log("esto es admin",admins)
+
+
   useEffect(()=>{
     if (entity === "companias"){
       dispatch(getCompanies())

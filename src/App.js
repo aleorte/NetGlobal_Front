@@ -11,12 +11,11 @@ import { Routes,Route } from 'react-router-dom'
 import publicRoutes from './routes/publicRoutes';
 import adminRoutes from './routes/adminRoutes';
 import Alert from './commons/Alert';
-import  {Calendar}  from './commons/Calendar';
 import CalendarBranch from './views/CalendarBranch';
-
 import Reports from './components/Reports/Reports';
 import SideBar from './components/SideBar/index'
 import Box from  '@mui/material/Box';
+import CalendarGuardView from './views/CalendarGuard';
 
 function App() {
 
@@ -29,6 +28,7 @@ function App() {
         <NavBar/>
         <Routes>
         <Route path='company/:companyId/branch/:branchId' element={<CalendarBranch/>}/>
+        <Route path='guard/:guardId' element={<CalendarGuardView/>}/>
           {adminRoutes}
           {publicRoutes}
           <Route path="/home/reportes" element={

@@ -6,6 +6,7 @@ export const getBranches = createAsyncThunk("GET_BRANCHES", async (companyId) =>
   return branches.data
 })
 
+
 export const restart = createAction("RESTART")
 
 const branchReducer = createReducer({loading:false,branches:[],error:null,success:false,actionType:""},{

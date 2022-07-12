@@ -4,10 +4,10 @@ import { Box, } from "../../styles/material"
 import { useSelector,useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import Footer from '../../components/Footer/Footer'
-import { CalendarBranch } from "../../components/Calendar/CalendarBranch";
-import { CalendarBox } from "../../components/Calendar/CalendarBox";
+import { CalendarGuard } from "../../components/Calendar/CalendarGuard";
 
-const CalendarBranchView = () => {
+
+const CalendarGuardView = () => {
 
   const dispatch = useDispatch()
   const { admins } = useSelector(state=>state.admin)
@@ -17,13 +17,10 @@ const CalendarBranchView = () => {
     
   },[entity,dispatch])
 
-
-
   return (
     <>
     <Box sx={{ display: "flex" }}>
       <SideBar/>
-      <CalendarBox/>
       <Box
         component="main"
         sx={{
@@ -33,7 +30,7 @@ const CalendarBranchView = () => {
           minHeight:"calc(100vh - 64px)",
           backgroundColor:"#F4F6F8"
         }}>
-       <CalendarBranch/>
+       <CalendarGuard/>
        </Box>
       </Box>
     <Footer/>
@@ -41,4 +38,4 @@ const CalendarBranchView = () => {
   );
 };
 
-export default CalendarBranchView;
+export default CalendarGuardView;
