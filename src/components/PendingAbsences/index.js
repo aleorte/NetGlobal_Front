@@ -14,6 +14,7 @@ import {
 import {
   CancelOutlinedIcon,
   CheckCircleOutlineOutlinedIcon,
+  FactCheckOutlinedIcon
 } from "../../styles/materialIcons";
 import { TransitionGroup } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
@@ -58,8 +59,8 @@ const PendingAbsences = ({render}) => {
       >
         <ListItemAvatar>
           <Avatar
-            alt="Semy Sharp"
-            src="https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg"
+            alt={item.guards[0].name}
+            src={item.guards[0].image}
           />
         </ListItemAvatar>
         <ListItemText
@@ -97,7 +98,10 @@ const PendingAbsences = ({render}) => {
       <Grid my={2} display="flex" flexDirection="column">
         <div>
           {pending.length===0 ? (
-            <Typography> No hay peticiones pendientes</Typography>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <FactCheckOutlinedIcon sx={{fontSize:"100px",color:"lightgray"}}/>
+              <Typography variant="h6" sx={{color:"gray"}}> No hay peticiones pendientes </Typography>
+            </Box>
           ) : (
             <Box sx={{ mt: 1 }}>
               <List sx={{ bgcolor: "background.paper" }}>

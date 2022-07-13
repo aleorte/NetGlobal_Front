@@ -42,7 +42,7 @@ const BranchCard = ({ selected }) => {
         <Grid item>
           <StatsCard
             icon={<AssignmentInd sx={{ fontSize: 30, color: "#8757DF" }} />}
-            value={4}
+            value={selected.guards}
             description="Vigiladores"
           />
         </Grid>
