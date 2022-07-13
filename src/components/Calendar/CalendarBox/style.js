@@ -1,10 +1,13 @@
 
 export const styleBoxCalendar={
+    ml:"15px",
     position:"absolute",
-    mt:10,
     height:"150px",
-    width:"700px",
+    width:"100%",
     border:"0,5px solid",
     display:"flex",
     backgroundColor:"white"
+}
+export const styleGridCalendar={
+    pl:"70px"
 }

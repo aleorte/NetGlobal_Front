@@ -1,7 +1,7 @@
 
 
 export const styleCalendar={
-    pt:40,
+    pt:23,
     pr:4,
     borderColor:"secondary.main"
 }

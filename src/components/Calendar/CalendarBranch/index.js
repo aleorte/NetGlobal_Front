@@ -54,28 +54,34 @@ export const CalendarBranch = () => {
   const [valor, setValor] = useState("");
 
   useEffect(() => {
-    const dateFormat=moment(currentDate).format("YYYY-MM-DD")
+    const dateFormat = moment(currentDate).format("YYYY-MM-DD");
     dispatch(getAssignmentsBranch(params.branchId));
-    dispatch(getAvailableGuards({branchId:params.branchId,date:dateFormat}));
+    dispatch(
+      getAvailableGuards({ branchId: params.branchId, date: dateFormat })
+    );
   }, []);
 
   useEffect(() => {
     if (assignmentsBranch.length) {
       const data = JSON.parse(JSON.stringify(assignmentsBranch)); //refleja la base de datos en el calendario
-      const calendar = data.map((oneGuard) => {                   //Adaptación necesaria para recibir los datos                          // y que puedan ser renderizados por la librería
+      const calendar = data.map((oneGuard) => {
+        //Adaptación necesaria para recibir los datos                          // y que puedan ser renderizados por la librería
         const dataGuard = {
           startDate: oneGuard.startTime,
           endDate: oneGuard.endTime,
           title: oneGuard.guardName,
           assignmentId: oneGuard.id,
           date: moment(oneGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida
-          state: oneGuard.state,                                 //obtener el id de la tarea en lo que resta del código
+          state: oneGuard.state,
+          guardId: `${oneGuard.id}`, //obtener el id de la tarea en lo que resta del código
         };
         return dataGuard;
       });
-      if (Array.isArray(guard.AvailableGuards)) {         //filtrando los guardias que esten disponibles para esa sucursal
-        const guardsAvailables =                          //y modificandolos para que esten en el formato necesario para el
-          guard.AvailableGuards.map((guard) => {          // Scheduler(libreria del calendario)
+      if (Array.isArray(guard.guards)) {
+        //filtrando los guardias que esten disponibles para esa sucursal
+        const guardsAvailables = //y modificandolos para que esten en el formato necesario para el
+          guard.guards.map((guard) => {
+            // Scheduler(libreria del calendario)
             const guardAvalaible = {
               id: guard.id,
               text: `${guard.name} ${guard.lastName} - ${guard.hs} hs`,
@@ -87,9 +93,11 @@ export const CalendarBranch = () => {
       }
       setBranchCalendar(calendar);
     } else {
-      if(Array.isArray(guard.AvailableGuards)){
-        const guardsAvailables = guard.AvailableGuards.map((guard) => {         //para que igual se puedan ver los guardias disponibles
-          const guardAvalaible = {                                              //necesario por si no hay tareas
+      if (Array.isArray(guard.guards)) {
+        const guardsAvailables = guard.guards.map((guard) => {
+          //para que igual se puedan ver los guardias disponibles
+          const guardAvalaible = {
+            //necesario por si no hay tareas
             id: guard.id,
             text: guard.name + " " + guard.lastName,
             color: "purple",
@@ -97,12 +105,12 @@ export const CalendarBranch = () => {
           return guardAvalaible;
         });
         setBranchGuardsAvailables(guardsAvailables);
-      }                                                                          
-      
+      }
     }
   }, [assignmentsBranch, guard]);
 
   const commitChanges = ({ added, changed, deleted }) => {
+    console.log("DELETEADO",deleted)
     if (added) {
       dispatch(
         addAssignmentsGuard({
@@ -112,11 +120,10 @@ export const CalendarBranch = () => {
           endTime: added.endDate,
           branchId: params.branchId,
           guardId: added.guardId,
-          notes:added.notes,
+          notes: added.notes,
           adminId: 1,
         })
-      )
-      .then(()=> dispatch(getAssignmentsBranch(params.branchId)))
+      ).then(() => dispatch(getAssignmentsBranch(params.branchId)));
     }
     if (changed) {
       changed = changed.undefined;
@@ -129,8 +136,7 @@ export const CalendarBranch = () => {
             guardId: changed.guardId,
           },
         })
-      )
-      .then(()=> dispatch(getAssignmentsBranch(params.branchId)))
+      ).then(() => dispatch(getAssignmentsBranch(params.branchId)));
     }
   };
 
@@ -161,7 +167,7 @@ export const CalendarBranch = () => {
   );
   const LabelComponent = (props) => {
     if (props.text === "Details") {
-      return <AppointmentForm.Label {...props} text="Agregar Vigilante" />;
+      return <AppointmentForm.Label {...props} text="Asignar Vigilante" />;
     } else if (props.text === "More Information") {
       return <AppointmentForm.Label {...props} text="Notas" />;
     } else if (props.text === "-") {
@@ -196,8 +202,10 @@ export const CalendarBranch = () => {
     return null;
   };
 
-  const layoutComponent = (props) => {                               //Adaptación para poder obtener el id de
-    if (props.appointmentMeta !== undefined) {                       //la tarea seleccionada en el calendario Scheduler
+  const layoutComponent = (props) => {
+    //Adaptación para poder obtener el id de
+    if (props.appointmentMeta !== undefined) {
+      //la tarea seleccionada en el calendario Scheduler
       const id = props.appointmentMeta.data.assignmentId;
       const date = props.appointmentMeta.data.date;
       setCurrentDate(date);
@@ -207,46 +215,41 @@ export const CalendarBranch = () => {
     return <AppointmentTooltip.Layout {...props} />;
   };
 
-  // const buttonComponent = (props) => {
-  //   console.log("PROPINA",props)
-  //   if (props.title === "Delete") {
-  //     return (
-  //       <ConfirmationDialog.Button
-  //         {...props}
-  //         onClick={()=>{dispatch(deleteAssignment(currentAppoimentId))
-  //         .then(()=>dispatch(getAssignmentsBranch(params.branchId)))}
-  //         }
-  //       />
-  //       )
+  const buttonComponent = (props) => {
+    console.log("PROPINA", props);
+    if (props.title === "Delete") {
+      return (
+        <ConfirmationDialog.Button
+          {...props}
+          onClose={() => {
+            dispatch(deleteAssignment(currentAppoimentId));
+          }}
+        />
+      );
+    } else {
+      return <ConfirmationDialog.Button {...props} />;
+    }
+  };
+
+  // const ConfirmationDialogLayout = (props) => {
+  //   console.log(props);
+  //   if (props.isDeleting) {
+  //     const funciona = async () => {
+  //       try {
+  //         await Promise.all(
+  //           dispatch(deleteAssignment(currentAppoimentId)),
+  //           dispatch(getAssignmentsBranch(params.branchId))
+  //         );
+  //         return <ConfirmationDialog.Layout {...props} />;
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     };
+  //     funciona();
   //   } else {
-  //     return <ConfirmationDialog.Button {...props} />;
+  //     return <ConfirmationDialog.Layout {...props} />;
   //   }
   // };
-
-
-  
-  const ConfirmationDialogLayout=(props)=>{
-    console.log(props)
-    if(props.isDeleting){
-      dispatch(deleteAssignment(currentAppoimentId))
-      dispatch(getAssignmentsBranch(params.branchId))
-      return (
-        <ConfirmationDialog.Layout
-        {...props}
-        />
-      )
-    }else{
-      return (
-        <ConfirmationDialog.Layout
-        {...props}
-        />
-      )
-    }
-  }
-
-
-
-
 
   const commandButtonComponent = (props) => {
     if (props.id === "saveButton")
@@ -296,9 +299,9 @@ export const CalendarBranch = () => {
         <DateNavigator />
         <ViewSwitcher />
         <ConfirmationDialog
-        layoutComponent={ConfirmationDialogLayout}
-        // buttonComponent={buttonComponent}
-         />
+          // layoutComponent={ConfirmationDialogLayout}
+          // buttonComponent={buttonComponent}
+        />
         <Appointments />
         <AppointmentTooltip
           showOpenButton
@@ -307,8 +310,8 @@ export const CalendarBranch = () => {
           layoutComponent={layoutComponent}
         />
         <AppointmentForm
-          commandButtonComponent={commandButtonComponent}
-          basicLayoutComponent={BasicLayout}
+          // commandButtonComponent={commandButtonComponent}
+          // basicLayoutComponent={BasicLayout}
           booleanEditorComponent={BoolEditor}
           labelComponent={LabelComponent}
           textEditorComponent={InputComponent}

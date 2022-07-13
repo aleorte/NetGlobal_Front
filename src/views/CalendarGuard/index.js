@@ -5,6 +5,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import Footer from '../../components/Footer/Footer'
 import { CalendarGuard } from "../../components/Calendar/CalendarGuard";
+import { CalendarBoxGuard } from "../../components/Calendar/CalendarBox/calendarBoxGuard";
 
 
 const CalendarGuardView = () => {
@@ -20,19 +21,9 @@ const CalendarGuardView = () => {
   return (
     <>
     <Box sx={{ display: "flex" }}>
-      <SideBar/>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - 240px)` },
-          minHeight:"calc(100vh - 64px)",
-          backgroundColor:"#F4F6F8"
-        }}>
+      <CalendarBoxGuard/>
        <CalendarGuard/>
        </Box>
-      </Box>
     <Footer/>
     </>
   );

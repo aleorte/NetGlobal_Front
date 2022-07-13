@@ -11,7 +11,7 @@ export const getCompanies = createAsyncThunk("GET_COMPANIES", async () => {
 });
 
 export const getCompany = createAsyncThunk(
-  "GET_COMPANIES",
+  "GET_COMPANY",
   async (companyId) => {
     const company = await companyServices.getCompany(companyId);
     return company.data;
@@ -35,6 +35,7 @@ const companyReducer = createReducer(
   {
     loading: false,
     companies: [],
+    company:{},
     error: null,
     success: false,
     actionType: "",
@@ -50,7 +51,9 @@ const companyReducer = createReducer(
     [getCompanies.rejected]: (state, action) => {
       return { companies: [], loading: false, error: action.error };
     },
-    [getCompany.fulfilled]: (state, action) => action.payload,
+    [getCompany.fulfilled]: (state, action) => {
+      state.company=action.payload},
+
     [addCompany.fulfilled]: (state, action) => {
       state.loading = false;
       state.error = null;
