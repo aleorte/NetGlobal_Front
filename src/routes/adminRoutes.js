@@ -50,7 +50,7 @@ const adminRoutes =
         <Route exact path='reportes/:report' element={<Reports/>}/>
         <Route exact path='companias/:companyId/sucursales' element={<Branches/>}/>
         <Route path='companias/:companyId/sucursales/:branchId' element={<CalendarBranchView/>}/>
-        <Route path='vigilante/:guardId' element={<CalendarGuardView/>}/>
+        <Route path='vigiladores/:guardId' element={<CalendarGuardView/>}/>
         <Route exact path='inasistencias' element={<Inactives/>}/>
         <Route exact path='admins' element={<ProtectedSuperAdminRoute/>}>
             <Route exact path='' element={<Admins/>}/>

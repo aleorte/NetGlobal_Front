@@ -7,6 +7,7 @@ import {
   VisibilityOutlined,
 } from "../../styles/materialIcons";
 import EditGuard from "./EditGuard";
+import { Link } from "react-router-dom";
 
 const GuardCard = ({ selected }) => {
   if (!selected?.id) return;
@@ -56,6 +57,7 @@ const GuardCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
+      <Link to={`${selected.id}`}>
       <Button
         variant="outlined"
         sx={{
@@ -67,6 +69,7 @@ const GuardCard = ({ selected }) => {
       >
         Ver Calendario
       </Button>
+      </Link>
     </Grid>
   );
 };
