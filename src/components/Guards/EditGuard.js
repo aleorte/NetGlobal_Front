@@ -21,7 +21,7 @@ import {
   FormHelperText,
   LoadingButton,
 } from "../../styles/material";
-import { AddBoxOutlinedIcon, CloseIcon, EditIcon } from "../../styles/materialIcons";
+import { CloseIcon, EditIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
@@ -74,19 +74,19 @@ const EditGuard = ({selected}) => {
             setValue(prop[0],prop[1])
         })
     }
-  },[selected])
+  },[selected,openDialog])
 
-  useEffect(()=>{
-    error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
-    if (success && actionType==="update"){
-        setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"})
-        setOpenDialog(false)
-        dispatch(getGuards())
-    }
-  },[success,error])
-
-  const onSubmit = (data) => {
-    selected.id && dispatch(updateGuard({guardData:data,guardId:selected.id}))
+  const onSubmit = async (data) => {
+    if (!selected.id) return 
+    try{
+      await dispatch(updateGuard({guardData:data,guardId:selected.id})).unwrap()
+      dispatch(setAlert({severity:"success",message:"El vigilador ha sido editado con exito!"}))
+      dispatch(getGuards())
+      setOpenDialog(false)
+    }catch(e){
+      (e?.code === 400) && setLocationError(true)
+      dispatch(setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"}))
+    } 
   };
 
   return (

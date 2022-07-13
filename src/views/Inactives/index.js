@@ -17,6 +17,7 @@ function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
+    value === index &&
     <Typography
       component="div"
       role="tabpanel"
@@ -76,10 +77,10 @@ const Inactives = () => {
             <Tab label="PASADAS" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <PendingAbsences />
+            <PendingAbsences/>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <PastAbsences />
+            <PastAbsences/> 
           </TabPanel>
         </Box>
       </Grid>

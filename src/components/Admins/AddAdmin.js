@@ -69,9 +69,9 @@ const AddGuard = () => {
   const provinceAdmin = watch("province");
 
   useEffect(()=>{
-    error && setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"})
+    error && dispatch(setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"}))
     if (success && actionType==="add"){
-        setAlert({severity:"success",message:"El admin ha sido registado con exito!"})
+        dispatch(setAlert({severity:"success",message:"El admin ha sido registado con exito!"}))
         dispatch(getAdmins())
         setOpenDialog(false)
     }

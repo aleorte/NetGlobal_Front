@@ -44,14 +44,14 @@ const GuardCard = ({ selected }) => {
         <Grid item xs={4}>
           <StatsCard
             icon={<AssignmentInd sx={{ fontSize: 30, color: "#8757DF" }} />}
-            value="170"
+            value={selected.workedHours}
             description="Horas"
           />
         </Grid>
         <Grid item xs={4}>
           <StatsCard
             icon={<Business sx={{ fontSize: 30, color: "#8757DF" }} />}
-            value="5"
+            value={selected.tasks}
             description="Tareas"
           />
         </Grid>

@@ -8,7 +8,6 @@ import {
 import StatsCard from "../../commons/StatsCard";
 import {
   AssignmentInd,
-  Business,
   VisibilityOutlined,
 } from "../../styles/materialIcons";
 import { Link } from 'react-router-dom'
@@ -40,20 +39,15 @@ const BranchCard = ({ selected }) => {
         </Typography>
       </Box>
       <Grid container display="flex" justifyContent="center" gap={5}>
-        <Grid item xs={4}>
+        <Grid item>
           <StatsCard
             icon={<AssignmentInd sx={{ fontSize: 30, color: "#8757DF" }} />}
+            value={4}
             description="Vigiladores"
           />
         </Grid>
-        <Grid item xs={4}>
-          <StatsCard
-            icon={<Business sx={{ fontSize: 30, color: "#8757DF" }} />}
-            description="Sucursales"
-          />
-        </Grid>
       </Grid>
-      <Link to={`/home/companias/${companyId}/sucursales/${selected.id}`}>
+      <Link style={{textDecoration:"none"}} to={`/home/companias/${companyId}/sucursales/${selected.id}`}>
         <Button
           variant="outlined"
           sx={{

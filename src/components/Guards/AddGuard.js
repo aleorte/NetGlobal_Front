@@ -95,15 +95,15 @@ const AddGuard = () => {
 
   useEffect(() => {
     error &&
-      setAlert({
+      dispatch(setAlert({
         severity: "error",
         message: "El registro ha fallado. Intentelo mas tarde",
-      });
+      }));
     if (success && actionType === "add") {
-      setAlert({
+      dispatch(setAlert({
         severity: "success",
         message: "El vigilador ha sido registado con exito!",
-      });
+      }));
       dispatch(getGuards());
       setOpenDialog(false)
     }

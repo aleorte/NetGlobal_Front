@@ -38,6 +38,7 @@ const Reports = () => {
         <Divider />
         {report==="companias" && <CompanyReport/>}
         {report==="vigiladores" && <GuardsReport/>}
+       
       </Grid>
     </Box>
      );
