@@ -11,8 +11,13 @@ export const addGuard = createAsyncThunk("ADD_GUARDS", async (guard) => {
   return guardServices.addGuard(guard);
 })
 
-export const updateGuard = createAsyncThunk("UPDATE_GUARDS", async ({guardId,guardData}) => {
-  return guardServices.updateGuard(guardId,guardData);
+export const updateGuard = createAsyncThunk("UPDATE_GUARDS", async ({guardId,guardData},{ rejectWithValue }) => {
+  try {
+    const { data } = await guardServices.updateGuard(guardId,guardData)
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 })
 
 export const getGuard = createAsyncThunk("GET_GUARD", async (guardId) => {

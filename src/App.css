@@ -16,3 +16,23 @@
 .leaflet-control-attribution{
     display:none;
 }
+
+.pin {
+    width: 35px ;
+    height: 35px ;
+    background-color: #a55eea ;
+    border-radius: 60px 60px 0px 60px ;
+    position:relative ;
+    transform: rotate(45deg);
+}
+
+.pin::after {
+    content: "" ;
+    width: 20px ;
+    height: 20px ;
+    background: #222 ;
+    position: absolute ;
+    left: 26% ;
+    top: 26% ;
+    border-radius: 60px ;
+}

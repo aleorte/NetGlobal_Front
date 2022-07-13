@@ -77,16 +77,17 @@ const EditAdmin = ({selected}) => {
   },[selected])
 
   useEffect(()=>{
-    error && setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"})
+    error && dispatch(setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"}))
     if (success && actionType==="update"){
-        setAlert({severity:"success",message:"El admin ha sido editado con exito!"})
+        dispatch(setAlert({severity:"success",message:"El admin ha sido editado con exito!"}))
         dispatch(getAdmins())
         setOpenDialog(false)
     }
   },[success,error])
 
   const onSubmit = (data) => {
-    selected.id && dispatch(updateAdmin({adminData:data,adminId:selected.id}))
+    if (!selected.id) return 
+    dispatch(updateAdmin({adminData:data,adminId:selected.id}))
   };
 
   return (

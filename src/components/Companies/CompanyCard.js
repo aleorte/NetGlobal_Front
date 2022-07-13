@@ -17,8 +17,6 @@ import { Link } from 'react-router-dom'
 
 const CompanyCard = ({ selected }) => {
 
-  console.log(selected)
-
   if (!selected.id) return;
   return (
     <Grid

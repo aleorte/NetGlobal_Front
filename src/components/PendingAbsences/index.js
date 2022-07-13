@@ -19,7 +19,7 @@ import { TransitionGroup } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import { setInactive,getPending,getPast } from "../../state/inactive";
 
-const PendingAbsences = () => {
+const PendingAbsences = ({render}) => {
   const { pending } = useSelector((state) => state.inactive);
   const dispatch = useDispatch();
 
@@ -92,6 +92,7 @@ const PendingAbsences = () => {
   };
 
   return (
+    
     <Box>
       <Grid my={2} display="flex" flexDirection="column">
         <div>
