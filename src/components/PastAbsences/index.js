@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { getPast } from "../../state/inactive";
 import { useSelector, useDispatch } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridNoRowsOverlay } from "@mui/x-data-grid";
 import StatusAbsence from "../../commons/StatusAbsence";
+import { Typography } from "@mui/material";
 
 const PastAbsences = () => {
   const { past } = useSelector((state) => state.inactive);
@@ -74,7 +75,15 @@ const PastAbsences = () => {
         disableColumnMenu
         disableColumnSelector
         disableSelectionOnClick
-      />
+        localeText={{
+          toolbarDensity: 'Size',
+          toolbarDensityLabel: 'Size',
+          toolbarDensityCompact: 'Small',
+          toolbarDensityStandard: 'Medium',
+          toolbarDensityComfortable: 'Large',
+          noRowsLabel:"No hay peticiones pasadas"
+  }}
+    />
     </div>
   );
 };
