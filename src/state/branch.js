@@ -10,6 +10,11 @@ export const getBranch = createAsyncThunk("GET_BRANCH", async (branchId) => {
   return branch.data
 })
 
+export const getAvailableGuards = createAsyncThunk("GET_GUARDS", async (branchId) => {
+  const branch = await branchServices.getAvailableGuards(branchId);
+  return branch.data
+})
+
 export const addBranch = createAsyncThunk("ADD_BRANCH", async ({companyId,branch}) => {
   return branchServices.addBranch(companyId,branch);
 })
@@ -20,16 +25,20 @@ export const updateBranch = createAsyncThunk("UPDATE_BRANCH", async ({branchId,b
 
 export const restart = createAction("RESTART")
 
-const branchReducer = createReducer({loading:false,branches:[],branch:{},error:null,success:false,actionType:""},{
+const branchReducer = createReducer({loading:false,branches:[],branch:{},error:null,success:false,actionType:"",guards:[]},{
     [getBranches.fulfilled]: (state,action)=>{
       const branches = action.payload
-      return {branches,loading:false,error:null,actionType:"get"}
+      state.branches = branches
+      state.loading = false
+      state.error = null
+      state.actionType = "get"
     },
     [getBranches.pending]: (state) => {
       state.loading = true
     },
     [getBranches.rejected] : (state,action) => {
-      return {branches:[],loading:false,error:action.error}
+      state.loading = false
+      state.error = action.error
     },
     [getBranch.fulfilled]: (state,action)=>{state.branch= action.payload},
 
@@ -60,6 +69,9 @@ const branchReducer = createReducer({loading:false,branches:[],branch:{},error:n
       state.error = action.error
       state.loading = false
       state.success = false
+    },
+    [getAvailableGuards.fulfilled]: (state,action)=>{
+      state.guards= action.payload
     },
 });
 

@@ -2,9 +2,11 @@ import React from 'react';
 import { Marker } from 'react-leaflet';
 import IconLocation from './IconLocation';
 
-const MarkerStyled = ({position,icon}) => {
+const MarkerStyled = ({position,icon,children}) => {
     return ( 
-        <Marker position={position} icon={IconLocation(icon)} />
+        <Marker position={position} icon={IconLocation(icon)}>
+            {children}
+        </Marker>
     );
 }
  

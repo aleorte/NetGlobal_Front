@@ -25,7 +25,9 @@ const Branches = () => {
         label:"Sucursales",
     }
 
-  return <Dashboard {...branchElements} />
+  return (
+    branches &&
+    <Dashboard {...branchElements} />)
   
 };
 
