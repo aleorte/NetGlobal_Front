@@ -59,7 +59,7 @@ export const CalendarBranch = () => {
     dispatch(
       getAvailableGuards({ branchId: params.branchId, date: dateFormat })
     );
-  }, []);
+  }, [currentDate]);
 
   useEffect(() => {
     if (assignmentsBranch.length) {
@@ -72,9 +72,10 @@ export const CalendarBranch = () => {
           title: oneGuard.guardName,
           assignmentId: oneGuard.id,
           date: moment(oneGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida
-          state: oneGuard.state,
-          guardId: `${oneGuard.id}`, //obtener el id de la tarea en lo que resta del código
+         
+          //obtener el id de la tarea en lo que resta del código
         };
+        console.log("DATAGUARD",dataGuard)
         return dataGuard;
       });
       if (Array.isArray(guard.guards)) {
@@ -110,7 +111,6 @@ export const CalendarBranch = () => {
   }, [assignmentsBranch, guard]);
 
   const commitChanges = ({ added, changed, deleted }) => {
-    console.log("DELETEADO",deleted)
     if (added) {
       dispatch(
         addAssignmentsGuard({
@@ -203,6 +203,7 @@ export const CalendarBranch = () => {
   };
 
   const layoutComponent = (props) => {
+    console.log("props",props)
     //Adaptación para poder obtener el id de
     if (props.appointmentMeta !== undefined) {
       //la tarea seleccionada en el calendario Scheduler
@@ -215,15 +216,32 @@ export const CalendarBranch = () => {
     return <AppointmentTooltip.Layout {...props} />;
   };
 
+  const appointmentlayoutComponent=(props)=>{
+    console.log("LO NECESARIO PARA TRIUNFAR",props)
+    const currentDay=moment(props.value).subtract(1,"days").format("YYYY-MM-DD")
+    setCurrentDate(currentDay)
+    console.log("FECHAAAA",currentDate)
+    return <AppointmentForm.DateEditor
+    {...props}/>
+  }
+
+
+
+  const deleteOneAssignment=async()=>{
+  try{ await Promise.all(dispatch(deleteAssignment(currentAppoimentId)),
+    dispatch(getAssignmentsBranch(params.branchId)))}catch(err){
+      console.log(err)
+    }
+}
+
+
   const buttonComponent = (props) => {
     console.log("PROPINA", props);
     if (props.title === "Delete") {
+      setTimeout(deleteOneAssignment,1500) 
       return (
         <ConfirmationDialog.Button
           {...props}
-          onClose={() => {
-            dispatch(deleteAssignment(currentAppoimentId));
-          }}
         />
       );
     } else {
@@ -231,25 +249,6 @@ export const CalendarBranch = () => {
     }
   };
 
-  // const ConfirmationDialogLayout = (props) => {
-  //   console.log(props);
-  //   if (props.isDeleting) {
-  //     const funciona = async () => {
-  //       try {
-  //         await Promise.all(
-  //           dispatch(deleteAssignment(currentAppoimentId)),
-  //           dispatch(getAssignmentsBranch(params.branchId))
-  //         );
-  //         return <ConfirmationDialog.Layout {...props} />;
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     funciona();
-  //   } else {
-  //     return <ConfirmationDialog.Layout {...props} />;
-  //   }
-  // };
 
   const commandButtonComponent = (props) => {
     if (props.id === "saveButton")
@@ -265,6 +264,17 @@ export const CalendarBranch = () => {
         </Box>
       );
   };
+
+  const overlayProps=(props)=>{
+    console.log(props)
+    return <AppointmentForm.Overlay {...props}/>
+  }
+
+
+
+
+
+
 
   const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }) => {
     return (
@@ -299,8 +309,7 @@ export const CalendarBranch = () => {
         <DateNavigator />
         <ViewSwitcher />
         <ConfirmationDialog
-          // layoutComponent={ConfirmationDialogLayout}
-          // buttonComponent={buttonComponent}
+          buttonComponent={buttonComponent}
         />
         <Appointments />
         <AppointmentTooltip
@@ -311,10 +320,11 @@ export const CalendarBranch = () => {
         />
         <AppointmentForm
           // commandButtonComponent={commandButtonComponent}
-          // basicLayoutComponent={BasicLayout}
+          dateEditorComponent={appointmentlayoutComponent}
           booleanEditorComponent={BoolEditor}
           labelComponent={LabelComponent}
           textEditorComponent={InputComponent}
+          overlayComponent={overlayProps}
         />
         <Resources data={dataSouce} mainResourceName="guardId" />
         <DragDropProvider />

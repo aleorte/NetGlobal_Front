@@ -19,8 +19,12 @@ export const setInactive = createAsyncThunk("SET_INACTIVE", async ({inactiveId,s
     return inactiveServices.setInactive(inactiveId,state);
 })
 
+export const getGuardInactives= createAsyncThunk("GET_INACTIVE", async (inactiveId) => {
+    return inactiveServices.getGuardInactives(inactiveId);
+})
+
 const inactiveReducer = createReducer(
-  { pending: [], past:[], loading:false, error:null },
+  { pending: [], past:[],guardInactives:[],loading:false, error:null },
   {
     [getPending.fulfilled] : (state,action) => {
         state.pending = action.payload.data
@@ -57,6 +61,11 @@ const inactiveReducer = createReducer(
     [setInactive.fulfilled] : (state,action) => {
         state.pending = state.pending.filter(inactive => inactive.id!==action.meta.arg.inactiveId)
     },
+
+    [getGuardInactives.fulfilled]:(state,action)=>{
+        state.guardInactives=action.payload
+    }
+
     /* [getInactives.fulfilled] : (state,action) => {
         state.inactives = action.payload
         state.loading = false
