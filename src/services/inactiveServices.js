@@ -1,9 +1,10 @@
 import API from "."
 
 const inactiveServices = {
-    getPending: () => API.get(`/inactivities/pending`),
-    getPast: () => API.get(`/inactivities/state`),
-    setInactive: (inactiveId,state) => API.put(`/inactivities/${inactiveId}`,{state})
+    getPending: () => axios.get(`${URL}/inactivities/pending`),
+    getPast: () => axios.get(`${URL}/inactivities/state`),
+    setInactive: (inactiveId,state) => axios.put(`${URL}/inactivities/${inactiveId}`,{state}),
+    getGuardInactives:(guardId)=>axios.get(`${URL}/inactivities?guard=${guardId}`)
 }
 
 export default inactiveServices

@@ -39,6 +39,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getGuard, getAvailableGuards } from "../../../state/guards";
 import { getRandomColor } from "../../../utils/functions";
+import { getGuardInactives } from "../../../state/inactive";
 
 
 export const CalendarGuard = () => {
@@ -50,33 +51,49 @@ export const CalendarGuard = () => {
   const [currentAppoimentId, setCurrentAppoimentId] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
   const assignmentsGuard = useSelector((state) => state.branchAssignment);
-  const guard = useSelector((state) => state.guard);
+  const {guard} = useSelector((state) => state.guard);
+  const {guardInactives} = useSelector((state) => state.inactive);
 
   const [valor, setValor] = useState("");
 
   useEffect(() => {
+    dispatch(getGuardInactives(params.guardId))
     dispatch(getAssignmentsGuard(params.guardId));
     dispatch(getGuard(params.guardId));
+    
   }, []);
 
 
   console.log("AAAAA",assignmentsGuard)
   useEffect(() => {
-    if (assignmentsGuard.length) {
-      const data = JSON.parse(JSON.stringify(assignmentsGuard)); //refleja la base de datos en el calendario
-      const calendar = data.map((currentGuard) => {                   //Adaptación necesaria para recibir los datos
+    if (assignmentsGuard.length&&guardInactives.guard) {
+      const inactiveGuardData=JSON.parse(JSON.stringify(guardInactives))
+      console.log("INACTIVEEE",guardInactives)
+      const data = JSON.parse(JSON.stringify(assignmentsGuard));
+      const calendarInactive=inactiveGuardData.inactivities.map((inactive)=>{
+        if(inactive.state==="APPROVED"){
+          const dataInactive={
+            startDate: inactive.startDate,
+            endDate: inactive.endDate,
+            title: inactiveGuardData.guard+" inactividad",
+          }
+          return dataInactive
+        } else return ("")
+      }
+      )                                                            //refleja la base de datos en el calendario
+      const guardAppoiments = data.map((currentGuard) => {                   //Adaptación necesaria para recibir los datos
         console.log("HOLAA", currentGuard);                           // y que puedan ser renderizados por la librería
         const dataGuard = {
           startDate: currentGuard.startTime,
           endDate: currentGuard.endTime,
           title: currentGuard.name,
           assignmentId: currentGuard.id,
-          date: moment(currentGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida
-          state: currentGuard.state,                                 //obtener el id de la tarea en lo que resta del código
-        };
+          date: moment(currentGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida 
+        };                                                           //obtener el id de la tarea en lo que resta del código
         return dataGuard;
       })
-      console.log("DATOSSSS",calendar)
+      const calendar=guardAppoiments.concat(calendarInactive)
+      console.log("ESTO ES CALENDAR",calendar)
       setGuardCalendar(calendar);
     }                  
   }, [assignmentsGuard, guard]);

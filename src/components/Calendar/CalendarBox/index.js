@@ -18,7 +18,8 @@ export const CalendarBox = () => {
   useEffect(() => {
     const asynkFun=async ()=>{
       try{
-       await Promise.all(dispatch(getCompany(params.companyId)),dispatch(getBranch(params.branchId)))
+       dispatch(getCompany(params.companyId))
+       dispatch(getBranch(params.branchId))
       }
       catch(err){
         console.log(err)
