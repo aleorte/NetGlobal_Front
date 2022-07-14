@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React from "react";
 import {
   Toolbar,
   Divider,
@@ -24,32 +24,44 @@ import {
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 
-const options = [
+const adminOptions = [
   { label: "Compañias", icon: <Apartment />, url: "/home/companias" },
   { label: "Vigiladores", icon: <AssignmentInd />, url: "/home/vigiladores" },
-  { label: "Inasistencias", icon: <FactCheckOutlinedIcon />, url: "/home/inasistencias" },
+  {
+    label: "Inasistencias",
+    icon: <FactCheckOutlinedIcon />,
+    url: "/home/inasistencias",
+  },
   {
     label: "Reportes",
     icon: <QueryStats />,
     suboptions: [
-      { label: "Compañias", icon: <QueryStats />, url: "/home/reportes/companias" },
-      { label: "Vigiladores", icon: <QueryStats />, url: "/home/reportes/vigiladores" },
+      {
+        label: "Compañias",
+        icon: <QueryStats />,
+        url: "/home/reportes/companias",
+      },
+      {
+        label: "Vigiladores",
+        icon: <QueryStats />,
+        url: "/home/reportes/vigiladores",
+      },
     ],
   },
 ];
 
-const adminOptions = [
+const superAdminOptions = [
   { label: "Admins", icon: <SupervisedUserCircle />, url: "/home/admins" },
 ];
 
 const SideBarContent = () => {
   const { userInfo } = useSelector((state) => state.user);
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
   let indexOption = 0;
 
-  const Item = ({ option, index, notSelectable,url }) => {
+  const Item = ({ option, index, notSelectable, url }) => {
     return (
       <ListItemStyled
         key={option.label}
@@ -98,7 +110,7 @@ const SideBarContent = () => {
             GENERAL
           </Typography>
         </Divider>
-        {options.map((option, i) => {
+        {adminOptions.map((option, i) => {
           indexOption++;
           return option.suboptions ? (
             <Accordion
@@ -113,14 +125,14 @@ const SideBarContent = () => {
                   border: "none",
                   width: "100%",
                   marginLeft: 0,
-                  paddingLeft:0
+                  paddingLeft: 0,
                 },
               }}
             >
               <AccordionSummary
                 sx={{
-                  margin:0,
-                  paddingLeft:"1px",
+                  margin: 0,
+                  paddingLeft: "1px",
                   height: "45px",
                   borderRadius: "10px",
                 }}
@@ -134,14 +146,18 @@ const SideBarContent = () => {
               </AccordionSummary>
               <AccordionDetails>
                 {option.suboptions.map((suboption) => {
-                  indexOption++
+                  indexOption++;
                   return (
                     <Link
                       style={{ textDecoration: "none", color: "inherit" }}
                       key={suboption.label}
                       to={suboption.url}
                     >
-                      <Item url={suboption.url} option={suboption} index={indexOption} />
+                      <Item
+                        url={suboption.url}
+                        option={suboption}
+                        index={indexOption}
+                      />
                     </Link>
                   );
                 })}
@@ -164,7 +180,7 @@ const SideBarContent = () => {
                 ADMIN
               </Typography>
             </Divider>
-            {adminOptions.map((option, i) => {
+            {superAdminOptions.map((option, i) => {
               indexOption++;
               return (
                 <Link
