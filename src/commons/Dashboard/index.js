@@ -66,16 +66,9 @@ const Dashboard = ({ headers, data, Card, Cells, label }) => {
               <BranchMap selected={selected} />
             ) : (
               <MapView
+                label={label}
                 selected={selected}
-                places={data.map((element) => {
-                  return {
-                    position: [
-                      element.coordinateLatitude,
-                      element.coordinateLength,
-                    ],
-                    logo: element.logo || element.image,
-                  };
-                })}
+                places={data}
               />
             )}
           </Grid>

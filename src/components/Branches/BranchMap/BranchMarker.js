@@ -16,7 +16,6 @@ const BranchMarker = ({ guard, branch,onClick }) => {
 
   return (
     <Marker
-      key={guard?.id}
       position={guardPosition}
       icon={guardIcon}
       eventHandlers={{
