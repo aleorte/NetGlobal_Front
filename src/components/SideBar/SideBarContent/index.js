@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import {
   Toolbar,
   Divider,
@@ -24,6 +24,7 @@ import {
 } from "../../../styles/materialIcons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useLocation } from 'react-router-dom'
 
 const options = [
   { label: "Compañias", icon: <Apartment />, url: "/home/companias" },
@@ -44,19 +45,15 @@ const adminOptions = [
 ];
 
 const SideBarContent = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const { userInfo } = useSelector((state) => state.user);
+  const { pathname } = useLocation()
   let indexOption = 0;
 
-  const handleListItemClick = (index) => {
-    setSelectedIndex(index);
-  };
-
-  const Item = ({ option, index, notSelectable }) => {
+  const Item = ({ option, index, notSelectable,url }) => {
     return (
       <ListItemStyled
         key={option.label}
-        selected={selectedIndex === index}
+        selected={pathname === url}
         disablePadding
         sx={{
           "&:hover": {
@@ -72,12 +69,11 @@ const SideBarContent = () => {
               backgroundColor: "transparent",
             },
           }}
-          onClick={() => handleListItemClick(index)}
         >
           <ListItemIcon
             sx={{
               "&.MuiListItemIcon-root": {
-                color: selectedIndex === index && "#9D77E2",
+                color: pathname === url && "#9D77E2",
               },
               pl: 2,
             }}
@@ -145,7 +141,7 @@ const SideBarContent = () => {
                       key={suboption.label}
                       to={suboption.url}
                     >
-                      <Item option={suboption} index={indexOption} />
+                      <Item url={suboption.url} option={suboption} index={indexOption} />
                     </Link>
                   );
                 })}
@@ -157,7 +153,7 @@ const SideBarContent = () => {
               key={option.label}
               to={option.url}
             >
-              <Item option={option} index={indexOption} />
+              <Item url={option.url} option={option} index={indexOption} />
             </Link>
           );
         })}

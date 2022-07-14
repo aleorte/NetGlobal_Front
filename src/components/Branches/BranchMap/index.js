@@ -53,7 +53,7 @@ const BranchMap = ({ selected }) => {
           positions={linePosition}
         />
 
-        {guards.map((guard) => {
+        {guards.length && guards.map((guard) => {
           return (
             <BranchMarker key={guard?.id} guard={guard} branch={selected} onClick={onClick}/>
           );

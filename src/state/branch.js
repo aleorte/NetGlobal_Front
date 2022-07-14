@@ -28,13 +28,17 @@ export const restart = createAction("RESTART")
 const branchReducer = createReducer({loading:false,branches:[],branch:{},error:null,success:false,actionType:"",guards:[]},{
     [getBranches.fulfilled]: (state,action)=>{
       const branches = action.payload
-      return {branches,loading:false,error:null,actionType:"get"}
+      state.branches = branches
+      state.loading = false
+      state.error = null
+      state.actionType = "get"
     },
     [getBranches.pending]: (state) => {
       state.loading = true
     },
     [getBranches.rejected] : (state,action) => {
-      return {branches:[],loading:false,error:action.error}
+      state.loading = false
+      state.error = action.error
     },
     [getBranch.fulfilled]: (state,action)=>{state.branch= action.payload},
 

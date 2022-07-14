@@ -24,6 +24,7 @@ const Guards = () => {
   }
 
   return (
+    guards &&
     <Dashboard {...guardData}/>
   )
 }
