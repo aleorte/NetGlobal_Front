@@ -18,14 +18,24 @@ export const getCompany = createAsyncThunk(
   }
 );
 
-export const addCompany = createAsyncThunk("ADD_COMPANY", async (company) => {
-  return companyServices.addCompany(company);
+export const addCompany = createAsyncThunk("ADD_COMPANY", async (company,{rejectWithValue}) => {
+  try {
+    const { data } = await companyServices.addCompany(company);
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
 export const updateCompany = createAsyncThunk(
   "UPDATE_COMPANY",
-  async ({ companyId, companyData }) => {
-    return companyServices.updateCompany(companyId, companyData);
+  async ({ companyId, companyData },{rejectWithValue}) => {
+    try {
+      const { data } = await companyServices.updateCompany(companyId, companyData);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
