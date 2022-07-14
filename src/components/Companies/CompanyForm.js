@@ -85,33 +85,6 @@ export default function CompanyForm({type,selected={}}) {
   const logoImage = watch("logo")
   const stateCompany = getValues("state")
 
-  useEffect(() => { 
-    if (error){
-      if (error.message==="Request failed with status code 400"){ 
-        setLocationError(true)
-      }else{
-      dispatch(
-        setAlert({
-          severity: "error",
-          message: `Hubo un problema al ${actionType==="update" ? "editar" : "agregar"} la compañia`,
-        })
-        );
-      }
-      return
-    }
-    if (success) {
-      dispatch(
-        setAlert({
-          severity: "success",
-          message: `Compañia ${actionType==="update" ? "editada" : "agregada"} con exito!`,
-        })
-      );
-      dispatch(restart());
-      dispatch(getCompanies());
-      setOpenDialog(false);
-    }
-  }, [success, error,actionType]);
-
  useEffect(()=>{
     if (selected.id){
       Object.entries(selectedData).forEach(prop=>{
@@ -122,7 +95,7 @@ export default function CompanyForm({type,selected={}}) {
     }
   },[actionType,selected]) 
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setLocationError(false)
     setDateError(false)
     if (Object.keys(errors).length || (contractEndDate < contractStartDate)){
@@ -131,8 +104,16 @@ export default function CompanyForm({type,selected={}}) {
     }
     const initDateFormated = moment(newcontractStartDate).format("YYYY-MM-DD")
     const endDateFormated = moment(newcontractEndDate).format("YYYY-MM-DD")
-    type==="add" && dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }));
-    type==="update" && dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }}))
+    try{
+      type==="add" && await dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }));
+      type==="update" && await dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }}))
+      dispatch(setAlert({severity:"success",message:`La compañia ha sido ${type==="add" ? "agregada" : "editada"} con exito!`}))
+      dispatch(getCompanies())
+      setOpenDialog(false)
+    }catch(e){
+      (e?.code === 400) && setLocationError(true)
+      dispatch(setAlert({severity:"error",message:"No se pudo editar correctamente. Intente de nuevo mas tarde"}))
+    }
   };
 
   return (

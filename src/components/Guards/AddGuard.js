@@ -80,6 +80,7 @@ const AddGuard = () => {
     watch,
     setValue,
     getValues,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
 
@@ -93,30 +94,25 @@ const AddGuard = () => {
     setLicenses(typeof value === "string" ? value.split(",") : value);
   };
 
-  useEffect(() => {
-    error &&
-      dispatch(setAlert({
-        severity: "error",
-        message: "El registro ha fallado. Intentelo mas tarde",
-      }));
-    if (success && actionType === "add") {
-      dispatch(setAlert({
-        severity: "success",
-        message: "El vigilador ha sido registado con exito!",
-      }));
-      dispatch(getGuards());
-      setOpenDialog(false)
-    }
-  }, [success, error]);
-
   useEffect(()=>{
     dispatch(getProvinces())
   },[])
 
-  const onSubmit = (data) => {
+  useEffect(()=>{
+    reset()
+  },[openDialog])
+
+  const onSubmit = async (data) => {
     if (licenses.length===0) return
-    dispatch(addGuard({...data,licenses:licenses.map(province=>province.id)}))
-    console.log({...data,licenses:licenses.map(province=>province.id)});
+    try{
+      await dispatch(addGuard({...data,licenses:licenses.map(province=>province.id)})).unwrap()
+      dispatch(setAlert({severity:"success",message:"El vigilador ha sido agregado con exito!"}))
+      dispatch(getGuards())
+      setOpenDialog(false)
+    }catch(e){
+      (e?.code === 400) && setLocationError(true)
+      dispatch(setAlert({severity:"error",message:"No se pudo agregar correctamente. Intente de nuevo mas tarde"}))
+    } 
   };
 
   return (
