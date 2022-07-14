@@ -24,7 +24,7 @@ export const getGuardInactives= createAsyncThunk("GET_INACTIVE", async (inactive
 })
 
 const inactiveReducer = createReducer(
-  { pending: [], past:[],guardInactives:[],loading:false, error:null },
+  { pending: [], past:[],guardInactives:{},loading:false, error:null },
   {
     [getPending.fulfilled] : (state,action) => {
         state.pending = action.payload.data
@@ -63,7 +63,7 @@ const inactiveReducer = createReducer(
     },
 
     [getGuardInactives.fulfilled]:(state,action)=>{
-        state.guardInactives=action.payload
+        state.guardInactives=action.payload.data
     }
 
     /* [getInactives.fulfilled] : (state,action) => {
