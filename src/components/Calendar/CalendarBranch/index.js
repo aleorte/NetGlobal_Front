@@ -225,12 +225,14 @@ export const CalendarBranch = () => {
 
 
 
-
+const currentDateFun=async(value)=>{
+  const currentDay=await moment(value).subtract(1,"days").format("YYYY-MM-DD")
+    setCurrentDate(currentDay)
+}
 
   const appointmentlayoutComponent=(props)=>{
     console.log("LO NECESARIO PARA TRIUNFAR",props)
-    const currentDay=moment(props.value).subtract(1,"days").format("YYYY-MM-DD")
-    setCurrentDate(currentDay)
+    setTimeout(currentDateFun(props.value),3000)
     console.log("FECHAAAA",currentDate)
     return <AppointmentForm.DateEditor
     {...props}/>

@@ -75,7 +75,7 @@ export const CalendarGuard = () => {
           const dataInactive={
             startDate: inactive.startDate,
             endDate: inactive.endDate,
-            title: inactiveGuardData.guard+" inactividad",
+            title: "LICENCIA",
           }
           return dataInactive
         } else return ("")
@@ -86,7 +86,7 @@ export const CalendarGuard = () => {
         const dataGuard = {
           startDate: currentGuard.startTime,
           endDate: currentGuard.endTime,
-          title: currentGuard.name,
+          title:`${moment(currentGuard.startTime).format("HH-mm")} Hs - ${moment(currentGuard.endTime).format("HH-mm")}Hs`,
           assignmentId: currentGuard.id,
           date: moment(currentGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida 
         };                                                           //obtener el id de la tarea en lo que resta del código
