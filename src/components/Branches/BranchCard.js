@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
   Button,
   Box,
+  Avatar
 } from "../../styles/material";
 import StatsCard from "../../commons/StatsCard";
 import {
@@ -13,13 +14,20 @@ import {
 import { Link } from 'react-router-dom'
 import { useParams } from "react-router-dom";
 import EditBranch from './EditBranch'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { getCompany } from "../../state/company";
 
 const BranchCard = ({ selected }) => {
 
-  const {companyId} = useParams()
+  const { companyId } = useParams()
+  const { company } = useSelector(state=>state.company)
+  const dispatch = useDispatch()
 
-  if (!selected.id) return;
+  useEffect(()=>{
+    dispatch(getCompany(companyId))
+  },[])
+
+  if (!selected.id || !company) return;
   return (
     <Grid
       display="flex"
@@ -34,6 +42,17 @@ const BranchCard = ({ selected }) => {
         <EditBranch selected={selected} />
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
+        <Avatar
+          sx={{
+            height: "120px",
+            width: "120px",
+            backgroundSize: "cover",
+            border: "1px solid black",
+          }}
+          src={company?.logo}
+        >
+          {company.legalName[0]}
+        </Avatar>
         <Typography mt={1} fontWeight={400} fontSize={25}>
           {selected.name}
         </Typography>

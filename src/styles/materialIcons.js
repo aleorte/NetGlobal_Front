@@ -30,6 +30,8 @@ export { default as FactCheckOutlinedIcon} from '@mui/icons-material/FactCheckOu
 export { default as CheckCircleOutlineOutlinedIcon} from '@mui/icons-material/CheckCircleOutlineOutlined';
 export { default as CancelOutlinedIcon} from '@mui/icons-material/CancelOutlined';
 export { default as DownloadIcon } from '@mui/icons-material/Download';
+export { default as DirectionsWalkIcon} from '@mui/icons-material/DirectionsWalk';
+export { default as DirectionsCarIcon} from '@mui/icons-material/DirectionsCar';
 
 
 
