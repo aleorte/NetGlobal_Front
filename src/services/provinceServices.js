@@ -1,8 +1,7 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const provinceServices = {
-    getProvinces: () => axios.get(`${URL}/provinces`),
+    getProvinces: () => API.get(`/provinces`),
 }
 
 export default provinceServices

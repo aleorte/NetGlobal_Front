@@ -22,7 +22,7 @@ const MapView = ({ places, selected, label }) => {
         ref={setMap}
       >
         <TileLayer url="https://api.maptiler.com/maps/outdoor/256/{z}/{x}/{y}.png?key=zOsCRqkcw3fXtUb1lzmZ" />
-        {places.map((place, i) => <MarkerStyled place={place} label={label}/>)}
+        {places.map((place, i) => <MarkerStyled key={place.id} place={place} label={label}/>)}
       </MapContainer>
     )
   );

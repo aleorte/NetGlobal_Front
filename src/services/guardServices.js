@@ -1,12 +1,11 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const guardServices = {
-    getGuards: () => axios.get(`${URL}/guards`),
-    addGuard : (guardData) => axios.post(`${URL}/register/guard`,guardData),
-    updateGuard : (guardId,guardData) => axios.put(`${URL}/guards/${guardId}`,guardData),
-    getGuard:(guardId)=> axios.get(`${URL}/guards/${guardId}`),
-    getAvailableGuards:(branchId,date)=>axios.post(`${URL}/branch/${branchId}/guards`,{date})
+    getGuards: () => API.get(`/guards`),
+    addGuard : (guardData) => API.post(`/register/guard`,guardData),
+    updateGuard : (guardId,guardData) => API.put(`/guards/${guardId}`,guardData),
+    getGuard:(guardId)=> API.get(`/guards/${guardId}`),
+    getAvailableGuards:(branchId,date)=>API.post(`/branch/${branchId}/guards`,{date})
 }
 
 

@@ -1,11 +1,10 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const companyServices = {
-    getCompanies: () => axios.get(`${URL}/company?page=1`),
-    getCompany: (companyId)=>axios.get(`${URL}/company/${companyId}`),
-    addCompany: (company) => axios.post(`${URL}/company`,company),
-    updateCompany : (companyId,companyData) => axios.put(`${URL}/company/${companyId}`,companyData)
+    getCompanies: () => API.get(`/company?page=1`),
+    getCompany: (companyId)=>API.get(`/company/${companyId}`),
+    addCompany: (company) => API.post(`/company`,company),
+    updateCompany : (companyId,companyData) => API.put(`/company/${companyId}`,companyData)
 }
 
 export default companyServices

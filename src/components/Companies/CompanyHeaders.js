@@ -21,13 +21,13 @@ const companyHeaders = [
       id: "contractStartDate",
       numeric: false,
       disablePadding: false,
-      label: "INICIO",
+      label: "INICIO CONTRATO",
     },
     {
       id: "contractEndDate",
       numeric: false,
       disablePadding: false,
-      label: "FINAL",
+      label: "FINAL CONTRATO",
     },
   ];
 

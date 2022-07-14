@@ -1,10 +1,9 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const adminServices = {
-    getAdmins: () => axios.get(`${URL}/admin`),
-    addAdmin: (adminData) => axios.post(`${URL}/register/admin`,adminData),
-    updateAdmin : (adminId,adminData) => axios.put(`${URL}/admin/${adminId}`,adminData)
+    getAdmins: () => API.get(`/admin`),
+    addAdmin: (adminData) => API.post(`/register/admin`,adminData),
+    updateAdmin : (adminId,adminData) => API.put(`/admin/${adminId}`,adminData)
 }
 
 export default adminServices
