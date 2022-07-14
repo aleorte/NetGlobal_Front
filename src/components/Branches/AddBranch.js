@@ -150,7 +150,7 @@ const AddBranch = ({company}) => {
                 helperText={errors.cuit?.message}
               />
               
-            <Grid item xs={5}>
+            <Grid item>
                 <TextField
                   fullWidth
                   label="Nombre"

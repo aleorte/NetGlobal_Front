@@ -1,12 +1,11 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const AssignmentServices = {
-    getAssignmentsBranch: (branchId) => axios.get(`${URL}/branch/${branchId}/tasks`),
-    getAssignmentsGuard: (guardId) => axios.get(`${URL}/assignments?guard=${guardId}`),
-    addAssignmentsGuard: (assignment) => axios.post(`${URL}/assignments`,assignment),
-    putAssignmentsGuard:(assignmentId,assignment)=> axios.put(`${URL}/assignments/${assignmentId}`,assignment),
-    deleteAssignment:(assignmentId)=>axios.delete(`${URL}/assignments/${assignmentId}`)
+    getAssignmentsBranch: (branchId) => API.get(`/branch/${branchId}/tasks`),
+    getAssignmentsGuard: (guardId) => API.get(`/assignments?guard=${guardId}`),
+    addAssignmentsGuard: (assignment) => API.post(`/assignments`,assignment),
+    putAssignmentsGuard:(assignmentId,assignment)=> API.put(`/assignments/${assignmentId}`,assignment),
+    deleteAssignment:(assignmentId)=>API.delete(`/assignments/${assignmentId}`)
 }
 
 export default AssignmentServices

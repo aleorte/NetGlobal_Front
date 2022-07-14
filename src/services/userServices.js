@@ -1,11 +1,10 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const userServices = {
-    logIn: (email,password)=> axios.post(`${URL}/login`,{email,password}),
-    sendMailRecover: (email) => axios.post(`${URL}/admin/forgot-password`,{email}),
-    sendCodeRecover: (email,code) => axios.post(`${URL}/admin/token`,{email:email,recoveryKey:code}),
-    sendPasswordRecover: (email,code,password) => axios.put(`${URL}/admin/recover/new-password`,{email,recoveryKey:code,password})
+    logIn: (email,password)=> API.post(`/login`,{email,password}),
+    sendMailRecover: (email) => API.post(`/admin/forgot-password`,{email}),
+    sendCodeRecover: (email,code) => API.post(`/admin/token`,{email:email,recoveryKey:code}),
+    sendPasswordRecover: (email,code,password) => API.put(`/admin/recover/new-password`,{email,recoveryKey:code,password})
 }
 
 export default userServices

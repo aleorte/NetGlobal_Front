@@ -57,7 +57,7 @@ const GuardCard = ({ selected }) => {
           />
         </Grid>
       </Grid>
-      <Link to={`${selected.id}`}>
+      <Link style={{textDecoration:"none"}} to={`${selected.id}`}>
       <Button
         variant="outlined"
         sx={{

@@ -91,6 +91,7 @@ const Dashboard = ({ headers, data, Card, Cells, label }) => {
           headers={headers}
           data={data}
           Cells={Cells}
+          label={label}
         />
       </Box>
     </Box>

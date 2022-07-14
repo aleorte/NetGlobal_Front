@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { URL } from '../constants'
+import API from "."
 
 const inactiveServices = {
     getPending: () => axios.get(`${URL}/inactivities/pending`),
