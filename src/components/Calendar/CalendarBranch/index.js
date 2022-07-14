@@ -23,12 +23,10 @@ import {
   Appointments,
   AppointmentTooltip,
   AppointmentForm,
-  EditRecurrenceMenu,
   Resources,
-  DragDropProvider,
   ConfirmationDialog,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { Button, Box } from "../../../styles/material";
+import { Box } from "../../../styles/material";
 import {
   getAssignmentsBranch,
   addAssignmentsGuard,
@@ -36,22 +34,18 @@ import {
   deleteAssignment,
 } from "../../../state/assignmentState";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { getGuard, getAvailableGuards } from "../../../state/guards";
-import { getRandomColor } from "../../../utils/functions";
+import { useParams} from "react-router-dom";
+import { getAvailableGuards } from "../../../state/guards";
 
 export const CalendarBranch = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [branchCalendar, setBranchCalendar] = useState([]);
   const [branchGuardsAvailables, setBranchGuardsAvailables] = useState([]);
   const [currentAppoimentId, setCurrentAppoimentId] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
   const assignmentsBranch = useSelector((state) => state.branchAssignment);
   const guard = useSelector((state) => state.guard);
-
-  const [valor, setValor] = useState("");
 
   useEffect(() => {
     const dateFormat = moment(currentDate).format("YYYY-MM-DD");
@@ -64,18 +58,14 @@ export const CalendarBranch = () => {
   useEffect(() => {
     if (assignmentsBranch.length) {
       const data = JSON.parse(JSON.stringify(assignmentsBranch)); //refleja la base de datos en el calendario
-      const calendar = data.map((oneGuard) => {
-        //Adaptación necesaria para recibir los datos                          // y que puedan ser renderizados por la librería
-        const dataGuard = {
+      const calendar = data.map((oneGuard) => {                   //Adaptación necesaria para recibir los datos   
+        const dataGuard = {                                       // y que puedan ser renderizados por la librería
           startDate: oneGuard.startTime,
           endDate: oneGuard.endTime,
           title: oneGuard.guardName,
           assignmentId: oneGuard.id,
-          date: moment(oneGuard.startTime).format("YYYY-MM-DD"), //además de dar la informacion requerida
-         
-          //obtener el id de la tarea en lo que resta del código
-        };
-        console.log("DATAGUARD",dataGuard)
+          date: moment(oneGuard.startTime).format("YYYY-MM-DD"),  //además de dar la informacion requerida
+        };                                                        //obtener el id de la tarea en lo que resta del código
         return dataGuard;
       });
       setBranchCalendar(calendar);
@@ -83,11 +73,9 @@ export const CalendarBranch = () => {
   }, [assignmentsBranch]);
 
   useEffect(()=>{
-    if (Array.isArray(guard.guards)) {
-      //filtrando los guardias que esten disponibles para esa sucursal
-      const guardsAvailables = //y modificandolos para que esten en el formato necesario para el
-        guard.guards.map((guard) => {
-          // Scheduler(libreria del calendario)
+    if (Array.isArray(guard.guards)) {  //filtrando los guardias que esten disponibles para esa sucursal
+      const guardsAvailables =          //y modificandolos para que esten en el formato necesario para el
+        guard.guards.map((guard) => {   // Scheduler(libreria del calendario)
           const guardAvalaible = {
             id: guard.id,
             text: `${guard.name} ${guard.lastName} - ${guard.hs} hs`,
@@ -99,10 +87,8 @@ export const CalendarBranch = () => {
     }
    else {
     if (Array.isArray(guard.guards)) {
-      const guardsAvailables = guard.guards.map((guard) => {
-        //para que igual se puedan ver los guardias disponibles
-        const guardAvalaible = {
-          //necesario por si no hay tareas
+      const guardsAvailables = guard.guards.map((guard) => {//para que igual se puedan ver los guardias disponibles
+        const guardAvalaible = {                            //necesario por si no hay tareas
           id: guard.id,
           text: guard.name + " " + guard.lastName,
           color: "purple",
@@ -111,13 +97,7 @@ export const CalendarBranch = () => {
       });
       setBranchGuardsAvailables(guardsAvailables);
     }
-
   }},[guard])
-
-
-
-
-
 
   const commitChanges = ({ added, changed, deleted }) => {
     if (added) {
@@ -165,7 +145,6 @@ export const CalendarBranch = () => {
     const { weekday } = options;
     return momentDate.format(weekday ? "dddd" : "D");
   };
-  const formatTimeScaleDate = (date) => moment(date).format("hh:mm:ss");
 
   const DayScaleCell = ({ formatDate, ...restProps }) => (
     <StyledWeekViewDayScaleCell
@@ -211,12 +190,9 @@ export const CalendarBranch = () => {
     return null;
   };
 
-  const layoutComponent = (props) => {
-    console.log("props",props)                     //Adaptación para poder obtener el id de
-    if (props.appointmentMeta !== undefined) {     //la tarea seleccionada en el calendario Scheduler
-      const id = props.appointmentMeta.data.assignmentId;
-      // const date = props.appointmentMeta.data.date;
-      // setCurrentDate(date);
+  const layoutComponent = (props) => {                    //Adaptación para poder obtener el id de
+    if (props.appointmentMeta !== undefined) {            //la tarea seleccionada en el calendario Scheduler
+      const id = props.appointmentMeta.data.assignmentId; // const date = props.appointmentMeta.data.date;// setCurrentDate(date);
       setCurrentAppoimentId(id);
       return <AppointmentTooltip.Layout {...props} />;
     }
@@ -231,13 +207,10 @@ const currentDateFun=async(value)=>{
 }
 
   const appointmentlayoutComponent=(props)=>{
-    console.log("LO NECESARIO PARA TRIUNFAR",props)
     setTimeout(currentDateFun(props.value),3000)
-    console.log("FECHAAAA",currentDate)
     return <AppointmentForm.DateEditor
     {...props}/>
   }
-
 
 
   const deleteOneAssignment=async()=>{
@@ -249,7 +222,6 @@ const currentDateFun=async(value)=>{
 
 
   const buttonComponent = (props) => {
-    console.log("PROPINA", props);
     if (props.title === "Delete") {
       setTimeout(deleteOneAssignment,1500) 
       return (
@@ -262,44 +234,11 @@ const currentDateFun=async(value)=>{
     }
   };
 
-
-  const commandButtonComponent = (props) => {
-    if (props.id === "saveButton")
-      return (
-        <Box sx={styleModalCalendarButton}>
-          <AppointmentForm.CommandButton {...props} />
-        </Box>
-      );
-    else if (props.id === "cancelButton")
-      return (
-        <Box sx={styleModalCalendarButtonCancel}>
-          <AppointmentForm.CommandButton {...props} />
-        </Box>
-      );
-  };
-
   const overlayProps=(props)=>{
     console.log(props)
     return <AppointmentForm.Overlay {...props}/>
   }
 
-
-
-
-
-
-
-  const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }) => {
-    return (
-      <Box sx={styleModalCalendar}>
-        <AppointmentForm.BasicLayout
-          appointmentData={appointmentData}
-          onFieldChange={onFieldChange}
-          {...restProps}
-        ></AppointmentForm.BasicLayout>
-      </Box>
-    );
-  };
 
   return (
     <Box sx={styleCalendar}>
@@ -332,7 +271,6 @@ const currentDateFun=async(value)=>{
           layoutComponent={layoutComponent}
         />
         <AppointmentForm
-          // commandButtonComponent={commandButtonComponent}
           dateEditorComponent={appointmentlayoutComponent}
           booleanEditorComponent={BoolEditor}
           labelComponent={LabelComponent}
@@ -340,7 +278,6 @@ const currentDateFun=async(value)=>{
           overlayComponent={overlayProps}
         />
         <Resources data={dataSouce} mainResourceName="guardId" />
-        <DragDropProvider />
       </Scheduler>
     </Box>
   );
