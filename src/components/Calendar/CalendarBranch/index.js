@@ -78,37 +78,46 @@ export const CalendarBranch = () => {
         console.log("DATAGUARD",dataGuard)
         return dataGuard;
       });
-      if (Array.isArray(guard.guards)) {
-        //filtrando los guardias que esten disponibles para esa sucursal
-        const guardsAvailables = //y modificandolos para que esten en el formato necesario para el
-          guard.guards.map((guard) => {
-            // Scheduler(libreria del calendario)
-            const guardAvalaible = {
-              id: guard.id,
-              text: `${guard.name} ${guard.lastName} - ${guard.hs} hs`,
-              color: "purple",
-            };
-            return guardAvalaible;
-          });
-        setBranchGuardsAvailables(guardsAvailables);
-      }
       setBranchCalendar(calendar);
-    } else {
-      if (Array.isArray(guard.guards)) {
-        const guardsAvailables = guard.guards.map((guard) => {
-          //para que igual se puedan ver los guardias disponibles
+    }
+  }, [assignmentsBranch]);
+
+  useEffect(()=>{
+    if (Array.isArray(guard.guards)) {
+      //filtrando los guardias que esten disponibles para esa sucursal
+      const guardsAvailables = //y modificandolos para que esten en el formato necesario para el
+        guard.guards.map((guard) => {
+          // Scheduler(libreria del calendario)
           const guardAvalaible = {
-            //necesario por si no hay tareas
             id: guard.id,
-            text: guard.name + " " + guard.lastName,
+            text: `${guard.name} ${guard.lastName} - ${guard.hs} hs`,
             color: "purple",
           };
           return guardAvalaible;
         });
-        setBranchGuardsAvailables(guardsAvailables);
-      }
+      setBranchGuardsAvailables(guardsAvailables);
     }
-  }, [assignmentsBranch, guard]);
+   else {
+    if (Array.isArray(guard.guards)) {
+      const guardsAvailables = guard.guards.map((guard) => {
+        //para que igual se puedan ver los guardias disponibles
+        const guardAvalaible = {
+          //necesario por si no hay tareas
+          id: guard.id,
+          text: guard.name + " " + guard.lastName,
+          color: "purple",
+        };
+        return guardAvalaible;
+      });
+      setBranchGuardsAvailables(guardsAvailables);
+    }
+
+  }},[guard])
+
+
+
+
+
 
   const commitChanges = ({ added, changed, deleted }) => {
     if (added) {
@@ -178,7 +187,7 @@ export const CalendarBranch = () => {
   const dataSouce = [
     {
       fieldName: "guardId",
-      title: "Guard",
+      title: "Vigilante",
       instances: branchGuardsAvailables,
     },
   ];
@@ -203,18 +212,20 @@ export const CalendarBranch = () => {
   };
 
   const layoutComponent = (props) => {
-    console.log("props",props)
-    //Adaptación para poder obtener el id de
-    if (props.appointmentMeta !== undefined) {
-      //la tarea seleccionada en el calendario Scheduler
+    console.log("props",props)                     //Adaptación para poder obtener el id de
+    if (props.appointmentMeta !== undefined) {     //la tarea seleccionada en el calendario Scheduler
       const id = props.appointmentMeta.data.assignmentId;
-      const date = props.appointmentMeta.data.date;
-      setCurrentDate(date);
+      // const date = props.appointmentMeta.data.date;
+      // setCurrentDate(date);
       setCurrentAppoimentId(id);
       return <AppointmentTooltip.Layout {...props} />;
     }
     return <AppointmentTooltip.Layout {...props} />;
   };
+
+
+
+
 
   const appointmentlayoutComponent=(props)=>{
     console.log("LO NECESARIO PARA TRIUNFAR",props)
@@ -228,8 +239,8 @@ export const CalendarBranch = () => {
 
 
   const deleteOneAssignment=async()=>{
-  try{ await Promise.all(dispatch(deleteAssignment(currentAppoimentId)),
-    dispatch(getAssignmentsBranch(params.branchId)))}catch(err){
+  try{ dispatch(deleteAssignment(currentAppoimentId))
+    dispatch(getAssignmentsBranch(params.branchId))}catch(err){
       console.log(err)
     }
 }
