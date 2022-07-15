@@ -6,6 +6,7 @@ import MarkerStyled from './MarkerStyled'
 const center = [-27.451471945967455, -58.977043230227004];
 
 const MapView = ({ places, selected, label }) => {
+    
   const [map, setMap] = useState(null);
 
   useEffect(() => {

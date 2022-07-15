@@ -23,8 +23,7 @@ const Dashboard = ({ headers, data, Card, Cells, label }) => {
     setSelected(data.find((element) => element.id === id));
   };
 
-  const isSelected = (id) =>
-    selected === data.find((element) => element.id === id);
+  const isSelected = (id) => selected === data.find((element) => element.id === id);
 
   return (
     <Box>

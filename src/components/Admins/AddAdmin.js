@@ -57,11 +57,10 @@ const AddGuard = () => {
 
   const {
     register,
+    reset,
     setError,
     handleSubmit,
     watch,
-    setValue,
-    getValues,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
 
@@ -69,16 +68,20 @@ const AddGuard = () => {
   const provinceAdmin = watch("province");
 
   useEffect(()=>{
-    error && dispatch(setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"}))
-    if (success && actionType==="add"){
-        dispatch(setAlert({severity:"success",message:"El admin ha sido registado con exito!"}))
-        dispatch(getAdmins())
-        setOpenDialog(false)
-    }
-  },[success,error])
+     reset()
+  },[openDialog])
 
-  const onSubmit = (data) => {
-    dispatch(addAdmin(data))
+  const onSubmit = async (data) => {
+    setLocationError(false)
+    try{
+      await dispatch(addAdmin(data)).unwrap()
+      dispatch(setAlert({severity:"success",message:"El admin ha sido registado con exito!"}))
+      dispatch(getAdmins())
+      setOpenDialog(false)
+    }catch(e){
+      (e.code===400) && setLocationError(true)
+      dispatch(setAlert({severity:"error",message:"El registro ha fallado. Intentelo mas tarde"}))
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{ useState } from "react";
 import { Snackbar,MuiAlert } from "../../styles/material"
 
 const AlertModals = () => {
@@ -11,7 +11,6 @@ const AlertModals = () => {
     }
     SetSnackbarMode(false)
   }
-
 
   return (
     <Snackbar open={snackbarMode} autoHideDuration={3000} onClose={handleClose}>

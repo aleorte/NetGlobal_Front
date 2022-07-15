@@ -1,11 +1,5 @@
 import React from "react";
-import { Avatar, Grid, Typography, Button, Box } from "../../styles/material";
-import StatsCard from "../../commons/StatsCard";
-import {
-  AssignmentInd,
-  Business,
-  VisibilityOutlined,
-} from "../../styles/materialIcons";
+import { Avatar, Grid, Typography, Box } from "../../styles/material";
 import EditAdmin from "./EditAdmin";
 
 const AdminCard = ({ selected }) => {
@@ -36,12 +30,9 @@ const AdminCard = ({ selected }) => {
           {selected.name[0]}
         </Avatar>
         <Typography mt={1} fontWeight={400} fontSize={25}>
-          {" "}
-          {selected.lastName + " " + selected.name}{" "}
+          {selected.lastName + " " + selected.name}
         </Typography>
       </Box>
-      
-      
     </Grid>
   );
 };

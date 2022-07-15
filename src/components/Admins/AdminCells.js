@@ -1,8 +1,13 @@
 import React from "react";
-import { MuiCell, Typography, MuiRow, Box, Avatar } from "../../styles/material";
+import {
+  MuiCell,
+  Typography,
+  MuiRow,
+  Box,
+  Avatar,
+} from "../../styles/material";
 
-const AdminCells = ({data,handleClick,isItemSelected}) => {
-
+const AdminCells = ({ data, handleClick, isItemSelected }) => {
   return (
     <MuiRow
       hover

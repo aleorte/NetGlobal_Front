@@ -105,8 +105,8 @@ export default function CompanyForm({type,selected={}}) {
     const initDateFormated = moment(newcontractStartDate).format("YYYY-MM-DD")
     const endDateFormated = moment(newcontractEndDate).format("YYYY-MM-DD")
     try{
-      type==="add" && await dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }));
-      type==="update" && await dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }}))
+      type==="add" && await dispatch(addCompany({ ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated })).unwrap()
+      type==="update" && await dispatch(updateCompany({companyId: id, companyData : { ...data, contractStartDate : initDateFormated, contractEndDate : endDateFormated }})).unwrap()
       dispatch(setAlert({severity:"success",message:`La compañia ha sido ${type==="add" ? "agregada" : "editada"} con exito!`}))
       dispatch(getCompanies())
       setOpenDialog(false)
