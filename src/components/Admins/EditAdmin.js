@@ -21,7 +21,7 @@ import {
   FormHelperText,
   LoadingButton,
 } from "../../styles/material";
-import { AddBoxOutlinedIcon, CloseIcon,EditIcon } from "../../styles/materialIcons";
+import { CloseIcon,EditIcon } from "../../styles/materialIcons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationGuard } from "../../utils/validations";
@@ -61,7 +61,6 @@ const EditAdmin = ({selected}) => {
     handleSubmit,
     watch,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationGuard), mode: "onSubmit" });
 
@@ -85,9 +84,16 @@ const EditAdmin = ({selected}) => {
     }
   },[success,error])
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!selected.id) return 
-    dispatch(updateAdmin({adminData:data,adminId:selected.id}))
+    try{
+      await dispatch(updateAdmin({adminData:data,adminId:selected.id})).unwrap()
+      dispatch(setAlert({severity:"success",message:"El admin ha sido editado con exito!"}))
+      dispatch(getAdmins())
+    }catch(e){
+      (e.code===400) && setLocationError(true)
+      dispatch(setAlert({severity:"error",message:"La edicion ha fallado. Intentelo mas tarde"}))
+    }
   };
 
   return (

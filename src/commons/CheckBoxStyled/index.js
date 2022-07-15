@@ -4,8 +4,8 @@ import { FormControlLabel,Checkbox } from '../../styles/material';
 const CheckBoxStyled = () => {
     return ( 
         <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Recordar contraseña"
+            control={<Checkbox value="remember" color="primary" />}
+            label="Recordar contraseña"
         />
      );
 }

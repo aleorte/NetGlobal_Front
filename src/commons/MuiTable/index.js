@@ -122,7 +122,6 @@ export default function EnhancedTable({
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.id);
-
                     return (
                       <Cells
                         key={row.id}

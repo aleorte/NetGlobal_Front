@@ -6,12 +6,22 @@ export const getAdmins = createAsyncThunk("GET_ADMINS", async () => {
   return admins.data
 })
 
-export const addAdmin = createAsyncThunk("ADD_ADMIN", async (admin) => {
-    return adminServices.addAdmin(admin);
-  })
+export const addAdmin = createAsyncThunk("ADD_ADMIN", async (admin,{ rejectWithValue }) => {
+    try{
+        const { data } = await adminServices.addAdmin(admin);
+        return data
+    }catch(e){
+        return rejectWithValue(e.response.data)
+    }
+})
   
-export const updateAdmin = createAsyncThunk("UPDATE_ADMIN", async ({adminId,adminData}) => {
-    return adminServices.updateAdmin(adminId,adminData);
+export const updateAdmin = createAsyncThunk("UPDATE_ADMIN", async ({adminId,adminData},{ rejectWithValue }) => {
+    try{
+        const { data } = await adminServices.updateAdmin(adminId,adminData);
+        return data
+    }catch(e){
+        return rejectWithValue(e.response.data)
+    }
 })
 
 const adminReducer = createReducer({loading:false,admins:[],error:null},{
