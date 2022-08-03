@@ -78,7 +78,7 @@ export const CalendarBranch = () => {
         guard.guards.map((guard) => {   // Scheduler(libreria del calendario)
           const guardAvalaible = {
             id: guard.id,
-            text: `${guard.name} ${guard.lastName} - ${guard.hs} hs`,
+            text: `${guard.name} ${guard.lastName} - ${guard.hs} hs asignadas`,
             color: "purple",
           };
           return guardAvalaible;
@@ -99,7 +99,7 @@ export const CalendarBranch = () => {
     }
   }},[guard])
 
-  const commitChanges = ({ added, changed, deleted }) => {
+  const commitChanges = ({ added, changed, deleted }) => {          //funcion que permite agregar una tarea y modificarla
     if (added) {
       dispatch(
         addAssignmentsGuard({
@@ -140,7 +140,7 @@ export const CalendarBranch = () => {
       textOverflow: "ellipsis",
     },
   });
-  const formatDayScaleDate = (date, options) => {
+  const formatDayScaleDate = (date, options) => {                           //funciones para dar formato a la forma en que se visualizan los nombres de los dias
     const momentDate = moment(date);
     const { weekday } = options;
     return momentDate.format(weekday ? "dddd" : "D");
@@ -153,7 +153,7 @@ export const CalendarBranch = () => {
       className={classes.dayScaleCell}
     />
   );
-  const LabelComponent = (props) => {
+  const LabelComponent = (props) => {                                             //personalizando el formulario para agregar una tarea
     if (props.text === "Details") {
       return <AppointmentForm.Label {...props} text="Asignar Vigilante" />;
     } else if (props.text === "More Information") {
@@ -163,15 +163,15 @@ export const CalendarBranch = () => {
     }
   };
 
-  const dataSouce = [
-    {
+  const dataSouce = [                                  //dando el formato requerido para que las tareas 
+    {                                                  //se vean reflejadas en el selected del formulario(appoimentForm)
       fieldName: "guardId",
       title: "Vigilante",
       instances: branchGuardsAvailables,
     },
   ];
 
-  const InputComponent = (props) => {
+  const InputComponent = (props) => {            //modificando el appoiment form
     if (props.placeholder === "Title") {
       return null;
     }
@@ -191,7 +191,7 @@ export const CalendarBranch = () => {
   };
 
   const layoutComponent = (props) => {                    //Adaptación para poder obtener el id de
-    if (props.appointmentMeta !== undefined) {            //la tarea seleccionada en el calendario Scheduler
+    if (props.appointmentMeta !== undefined) {            //la tarea seleccionada en el calendario Scheduler a la hora de editar
       const id = props.appointmentMeta.data.assignmentId; // const date = props.appointmentMeta.data.date;// setCurrentDate(date);
       setCurrentAppoimentId(id);
       return <AppointmentTooltip.Layout {...props} />;
@@ -206,8 +206,8 @@ const currentDateFun=async(value)=>{
     setCurrentDate(currentDay)
 }
 
-  const appointmentlayoutComponent=(props)=>{
-    setTimeout(currentDateFun(props.value),3000)
+  const appointmentlayoutComponent=(props)=>{                   //solución para que el calendario scheduler no se buguee
+    setTimeout(currentDateFun(props.value),3000)                // ya que hay que tener cuidado al editarlo, para no romperlo/bugearlo
     return <AppointmentForm.DateEditor
     {...props}/>
   }

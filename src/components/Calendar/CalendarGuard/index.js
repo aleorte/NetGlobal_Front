@@ -77,8 +77,10 @@ export const CalendarGuard = () => {
         };                                                           //obtener el id de la tarea en lo que resta del código
         return dataGuard;
       });
+      
       const calendar = guardAppoiments.concat(calendarInactive);
       setGuardCalendar(calendar);
+      console.log(calendar)
     }
   }, [assignmentsGuard, guard]);
 
@@ -106,6 +108,7 @@ export const CalendarGuard = () => {
     />
   );
   const appoimentComponent = ({ children, style, ...restProps }) => {
+    console.log("la teka",restProps.data.state)
     if (restProps.data.state === "COMPLETE") {
       return (
         <Appointments.Appointment
